@@ -193,6 +193,7 @@
                                                 <input type="number" v-model="detalle.cantidad"  class="form-control">
                                             </td>
                                               <td>
+                                                  <span style="color:red;" v-show="detalle.cantidad_blister>detalle.stockk">Stock:{{detalle.stockk}} </span>
                                                 <input type="number" v-model="detalle.cantidad_blister"  class="form-control">
                                             </td>
 
@@ -449,9 +450,9 @@
                 inventario: '',
                 precio: 0,
                 cantidad: 0,
-              
-              cantidad_blister: 0,
-                stock: 0
+               cantidad_blister: 0,
+               stock: 0,
+               stockk: 0
 
             }
         },
@@ -540,6 +541,7 @@
                          me.idinventario = me.arrayInventario[0]['precio'];
                         me.idinventario = me.arrayInventario[0]['id'];
                         me.stock = me.arrayInventario[0]['cantidad_tableta'];
+                         me.stockk= me.arrayInventario[0]['cantidad_blister'];
                     }
                     else{
                         me.inventario = 'No existen Medicamentos';
@@ -607,7 +609,8 @@
                         cantidad: me.cantidad,
                         cantidad_blister: me.cantidad_blister,
                         precio: me.precio,
-                        cantidad_tableta:me.stock
+                        cantidad_tableta:me.stock,
+                        cantidad_blister:me. stockk
                            });
 
                              me.nombre="";
@@ -617,6 +620,7 @@
                                 me.cantidad_blister=0;
                                 me.precio=0;
                            me.stock=0;
+                           me.stockk=0;
                           }
                     }
                 }
@@ -640,6 +644,7 @@
                         cantidad:1,
                         cantidad_blister:1, 
                         stock:data['cantidad_tableta'],
+                        stockk:data['cantidad_blister'],
                         precio:0 
                         });
                     }
@@ -684,7 +689,8 @@
                     me.fecha_salida='';
                     me.cantidad=0;
                     me.precio=0;
-                    me.stock=0;                
+                    me.stock=0; 
+                     me.stockk=0;                
               me.cantidad_blister=0;
                     me.arrayDetalle=[];
                     window.open('/venta/pdf/'+ response.data.id + ',' + '_blank');

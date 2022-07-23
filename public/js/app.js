@@ -48403,6 +48403,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_select___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_select__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select_dist_vue_select_css__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select_dist_vue_select_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_select_dist_vue_select_css__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
 //
 //
 //
@@ -48854,9 +48857,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             inventario: '',
             precio: 0,
             cantidad: 0,
-
             cantidad_blister: 0,
-            stock: 0
+            stock: 0,
+            stockk: 0
 
         };
     },
@@ -48943,6 +48946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     me.idinventario = me.arrayInventario[0]['precio'];
                     me.idinventario = me.arrayInventario[0]['id'];
                     me.stock = me.arrayInventario[0]['cantidad_tableta'];
+                    me.stockk = me.arrayInventario[0]['cantidad_blister'];
                 } else {
                     me.inventario = 'No existen Medicamentos';
                     me.idinventario = 0;
@@ -48994,7 +48998,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: 'No hay stock disponible !'
                         });
                     } else {
-                        me.arrayDetalle.push({
+                        me.arrayDetalle.push(_defineProperty({
                             idinventario: me.idinventario,
                             articulo: me.nombre, //para mostrar el noombre del articulo en busqueda por nombre
 
@@ -49002,7 +49006,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             cantidad_blister: me.cantidad_blister,
                             precio: me.precio,
                             cantidad_tableta: me.stock
-                        });
+                        }, 'cantidad_blister', me.stockk));
 
                         me.nombre = "";
                         me.idinventario = 0;
@@ -49011,6 +49015,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         me.cantidad_blister = 0;
                         me.precio = 0;
                         me.stock = 0;
+                        me.stockk = 0;
                     }
                 }
             }
@@ -49034,6 +49039,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     cantidad: 1,
                     cantidad_blister: 1,
                     stock: data['cantidad_tableta'],
+                    stockk: data['cantidad_blister'],
                     precio: 0
                 });
             }
@@ -49079,6 +49085,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.cantidad = 0;
                 me.precio = 0;
                 me.stock = 0;
+                me.stockk = 0;
                 me.cantidad_blister = 0;
                 me.arrayDetalle = [];
                 window.open('/venta/pdf/' + response.data.id + ',' + '_blank');
@@ -50037,6 +50044,31 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  detalle.cantidad_blister >
+                                                  detalle.stockk,
+                                                expression:
+                                                  "detalle.cantidad_blister>detalle.stockk"
+                                              }
+                                            ],
+                                            staticStyle: { color: "red" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "Stock:" +
+                                                _vm._s(detalle.stockk) +
+                                                " "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -54556,6 +54588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -55365,7 +55398,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("ID")]),
+        _c("th", [_vm._v("Opciones")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Id")]),
         _vm._v(" "),
         _c("th", [_vm._v("Producto")]),
         _vm._v(" "),
