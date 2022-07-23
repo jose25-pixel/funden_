@@ -16,8 +16,9 @@ class CreateDetalleInventariosTable extends Migration
         Schema::create('detalle_inventarios', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idinventarios')->unsigned();//fk
-            $table->integer('c_antiguo_blister');
-            $table->integer('c_antiguo_tableta');
+            $table->integer('antiguo_tableta');
+            $table->integer('antiguo_blister');
+           
             $table->timestamps();
 
 

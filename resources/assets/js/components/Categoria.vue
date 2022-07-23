@@ -19,7 +19,7 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
-                                      <option value="descripcion">Descripción</option>
+                                     
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarCategoria(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" class="btn btn-primary" @click="listarCategoria(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
@@ -237,7 +237,7 @@
         },
         desactivarCategoria(id){
             swal({
-            title: 'Esta seguro de desactivar esta categoria?',
+            title: 'Esta seguro de desactivar la casa farmaceutica?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'green',
@@ -283,7 +283,7 @@
 
         activarCategoria(id){
             swal({
-            title: 'Esta seguro de activar esta categoria?',
+            title: 'Esta seguro de activar la casa farmaceutica?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'green',
@@ -331,7 +331,7 @@
             this.errorCategoria=0,
             this.errorMostrarMsjCategoria =[];
 
-            if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la categoria no puede estar vacío");
+            if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
             if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
             return this.errorCategoria;
         },
@@ -339,7 +339,7 @@
             this.modal=0;
             this.tituloModal='';
             this.nombre='';
-            this.descripcion='';
+    
 
 
         },

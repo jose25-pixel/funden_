@@ -12,8 +12,8 @@ class DetalleVenta extends Model
         'idventa',
         'idarticulo',
         'cantidad',
-        'precio',
-        'descuento'
+        'cantidad_blister',
+        'precio'
         ];
 
         public $timestamps = false;

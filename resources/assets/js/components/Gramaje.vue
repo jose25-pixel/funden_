@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Gramajes
+                        <i class="fa fa-align-justify"></i> Medidas
                         <button type="button" @click="abrirModal('gramaje','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
@@ -18,7 +18,7 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="gramaje">Gramaje</option>
+                                      <option value="gramaje">Medida</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listargramaje(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" class="btn btn-primary" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
@@ -29,7 +29,7 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Gramaje</th>
+                                    <th>Medida</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
@@ -92,9 +92,9 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Gramaje</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Medida</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="gramaje" class="form-control" placeholder="ingresa el gramaje">
+                                        <input type="text" v-model="gramaje" class="form-control" placeholder="ingresa la medida">
                                     </div>
                                 </div>
 
@@ -330,7 +330,7 @@
             this.errorgramaje=0,
             this.errorMostrarMsjgramaje =[];
 
-            if (!this.gramaje) this.errorMostrarMsjgramaje.push("El nombre del gramaje no puede estar vacío");
+            if (!this.gramaje) this.errorMostrarMsjgramaje.push("El nombre de la medida no puede estar vacío");
             if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
             return this.errorgramaje;
         },

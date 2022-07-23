@@ -9,11 +9,7 @@ class Venta extends Model
   protected $fillable=[
     'dcliente',
     'idusuario',
-    'tipo_comprobante',
-    'serie_comprobante',
-    'num_comprobante',
-    'fecha_hora',
-    'impuesto',
+    'fecha_salida',
     'total',
     'estado'
     ];

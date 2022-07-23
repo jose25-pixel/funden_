@@ -159,11 +159,11 @@
                         <div class="form-group row border">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Artículo
-                                        <spam style="color:red;" >(*Seleccione)</spam>
+                                    <label>Medicamento
+                                        <spam style="color:red;" v-show="idinventario==0" >(*Seleccione)</spam>
                                     </label>
                                     <div class="form-inline">
-                                        <input type="text" class="form-control" v-model="nombre" @keyup.enter="buscarArticulo()" placeholder="Ingrese artículo">
+                                        <input type="text" class="form-control" v-model="nombre" @keyup.enter="buscarArticulo()" placeholder="Ingrese Medicamento">
                                         <button @click="abrirModal()" class="btn btn-primary">...</button>
                                         <input type="text" class="form-control" readonly v-model="inventario">
                                     </div>                                    
@@ -177,7 +177,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Cantidad<spam style="color:red;" v-show="cantidad==0">(*Ingrese)</spam> </label>
+                                    <label>Cantidad pastillas<spam style="color:red;" v-show="cantidad==0">(*Ingrese)</spam> </label>
                                     <input type="number" value="0" class="form-control" v-model="cantidad">
                                 </div>
                             </div>
@@ -193,13 +193,14 @@
                                 </div>
                             </div>
                         </div>
+                           <!--para mostrar el detalle de la compra en el ojo-->
                         <div class="form-group row border">
                             <div class="table-responsive col-md-12">
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>
                                         <tr>
                                             <th>Opciones</th>
-                                            <th>Artículo</th>
+                                            <th>Medicamento</th>
                                             <th>Precio</th>
                                             <th>Pastillas</th>
                                             <th>Blister</th>
@@ -238,7 +239,7 @@
                                     <tbody v-else>
                                         <tr>
                                             <td colspan="5">
-                                                No hay articulos agregados
+                                                No hay medicina agregada
                                             </td>
                                         </tr>
                                     </tbody>                                
@@ -315,12 +316,14 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="form-group row border">
                             <div class="table-responsive col-md-12">
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Artículo</th>
+                                            <th>Medicamento</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
                                             <th>Blister</th>
@@ -330,7 +333,7 @@
                                     <tbody v-if="arrayDetalle.length">
                                         <tr v-for="detalle in arrayDetalle" :key="detalle.id">
 
-                                            <td v-text="detalle.nombre">
+                                            <td v-text="detalle.articulo">
                                                
                                             </td>
                                             <td v-text="detalle.precio">
@@ -343,23 +346,16 @@
                                                 {{detalle.precio*detalle.cantidad}}
                                             </td>
                                         </tr>
+                                        
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Impuesto:</strong></td>
-                                            <td>$ {{totalImpuesto=((total*impuesto)).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Neto:</strong></td>
+                                            <td colspan="4" align="right"><strong>Total Neto:</strong></td>
                                             <td>$ {{total}}</td>
                                         </tr>
                                     </tbody>    
                                     <tbody v-else>
                                         <tr>
                                             <td colspan="5">
-                                                No hay articulos agregados
+                                                No hay medicina agregada
                                             </td>
                                         </tr>
                                     </tbody>                                
@@ -387,6 +383,9 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
+                          <!-- MODAL PARA MOSTRAR LOS PRODUCTOS AL LA HORA DE RELIZAR LA COMPRA -->
+         
+
                         <div class="modal-body">
                             
                         <div class="form-group row">
@@ -408,13 +407,14 @@
                                     <thead>
                                         <tr>
                                             <th>Opciones</th>
-                                            <th>Categoria</th>
-                                            <th>Gramaje</th>
-                                            <th>Nombre</th>
+                                            <th>Medicamento</th>
                                             <th>Concentracion</th>
+                                       
+                                             <th>C.Farmaceutica</th>
                                             <th>Administracion</th>
                                             <th>Presentacion</th>
-                                            <th>Items</th>
+                                            <th>stock pastillas</th>
+                                            <th>stock superior</th>
                                             <th>Estado</th>
                                         </tr>
                                     </thead>
@@ -425,13 +425,15 @@
                                                 <i class="icon-check"></i>
                                                 </button>
                                             </td>
-                                            <td v-text="inventario.nombre_categoria"> </td>
-                                            <td v-text="inventario.nombre_gramaje"></td>
                                             <td v-text="inventario.nombre"> </td>
-                                            <td v-text="inventario.concentracion"></td>
+                                            
+                                            <td v-text="inventario.concentracion + inventario.nombre_gramaje"></td>
+                                            <td v-text="inventario.nombre_categoria"> </td> 
                                             <td v-text="inventario.administracion"> </td>
                                             <td v-text="inventario.presentacion"> </td>
-                                            <td v-text="inventario.items"> </td>
+                                            <td v-text="inventario.cantidad_tableta"> </td>
+                                             <td v-text="inventario.cantidad_blister"> </td>
+                                            
                                             <td> 
                                                 <div v-if="inventario.condicion">
                                                 <span class="badge badge-success">Activo</span>
@@ -593,6 +595,7 @@
 
                     if (me.arrayInventario.length>0){
                         me.inventario = me.arrayInventario[0]['nombre'];
+                        
                         me.idinventario = me.arrayInventario[0]['id'];
                     }
                     else{
@@ -616,7 +619,7 @@
                 var sw=0;
 
                 for(var i=0;i<this.arrayDetalle.length; i++){
-                    if(this.arrayDetalle[i].idarticulo==id){
+                    if(this.arrayDetalle[i].idinventario==id){
                         sw=true;
                     }
                 }
@@ -630,7 +633,7 @@
             agregarDetalle(){
                 let me= this;
 
-                if(me.idinventario==0 || me.nombre==0 || me.cantidad==0 || me.cantidad_blister==0 || me.precio==0){
+                if(me.idinventario==0 || me.cantidad==0 || me.cantidad_blister==0 || me.precio==0){
 
                 }
                 else{
@@ -639,7 +642,7 @@
                         swal({
                             type:'error',
                             title: 'Error....',
-                            text: 'Ese artículo ya se encuentra agregado!'
+                            text: 'Ese Medicamento ya se encuentra agregado!'
                         })
                     }
                     else{
@@ -671,13 +674,13 @@
                         swal({
                             type:'error',
                             title: 'Error....',
-                            text: 'Ese artículo ya se encuentra agregado!'
+                            text: 'Ese Medicamento ya se encuentra agregado!'
                         })
                     }
                     else{
                         me.arrayDetalle.push({
                         idinventario: data['id'],
-                        inventario: data['nombre'],
+                        nombre: data['nombre'],
                         cantidad: 1,
                         cantidad_blister: 1,
                         precio: 1
@@ -706,20 +709,20 @@
                 
                 let me = this;
 
-                axios.post('/ingreso/registrar',{
+                 axios.post('/ingreso/registrar',{
                     'idproveedor': this.idproveedor,
                     'tipo_comprobante': this.tipo_comprobante,
-                    'serie_comprobante': this.serie_comprobante,
-                    'num_comprobante' : this.num_comprobantes,
+                    'serie_comprobante' : this.serie_comprobante,
+                    'num_comprobante' : this.num_comprobante,
                     'fecha_compra' : this.fecha_compra,
                     'fecha_vencimiento' : this.fecha_vencimiento,
-                    'lote' : this.lote,
-                    'total' : this.total,
+                    'lote': this.lote,
+                    'total': this.total,
                     'data' : this.arrayDetalle
 
                 }).then(function (response) {
-                    me.listado=1;
-                    me.listarIngreso(1,'','num_comprobante');
+                    me.listado=1
+                    me.listarIngreso (1,'','fecha_compra');
                     me.idproveedor=0;
                     me.tipo_comprobante='BOLETA';
                     me.serie_comprobante='';
@@ -729,10 +732,13 @@
                     me.lote='';
                     me.total=0.0;
                     me.idinventario=0;
+                    me.inventario='';
                     me.cantidad=0;
                     me.cantidad_blister=0;
                     me.precio=0;
                     me.arrayDetalle=[];
+
+
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -745,7 +751,7 @@
                 if (this.tipo_comprobante==0) this.errorMostrarMsjIngreso.push("Seleccione el comprobante.");
                 if (!this.num_comprobante) this.errorMostrarMsjIngreso.push("Ingrese el número de comprobante.");
                 if (!this.fecha_compra) this.errorMostrarMsjIngreso.push("Seleccione la fecha de compra.");
-                if (!this.fecha_vencimiento) this.errorMostrarMsjIngreso.push("Seleccione la fecha de vencimiento.");
+                if (!this.fecha_vencimiento) this.errorMostrarMsjIngreso.push("Seleccione la fecha de vencimiento del medicamento.");
                 if (!this.lote) this.errorMostrarMsjIngreso.push("Ingrese número de lote..");
                 if (this.arrayDetalle.length<=0) this.errorMostrarMsjIngreso.push("Ingrese detalles.");
 
@@ -757,6 +763,7 @@
             mostrarDetalle(){
                 let me =this;
                 this.listado=0;
+                 /*dejara las variables vacias cuando el usuario ingres una compra pero no la registra se actualiza*/
                     me.idproveedor=0;
                     me.tipo_comprobante='BOLETA';
                     me.serie_comprobante='';
@@ -766,6 +773,7 @@
                     me.lote='';
                     me.total=0.0;
                     me.idinventario=0;
+                    me.inventario='';
                     me.cantidad=0;
                     me.cantidad_blister=0;
                     me.precio=0;
@@ -820,9 +828,9 @@
                 this.tituloModal='';
             },
             abrirModal(){
-               this.arrayArticulo = [];
+               this.arrayInventario = [];
                 this.modal = 1;
-                this.tituloModal = 'Seleccione uno o varios artículos'; 
+                this.tituloModal = 'Seleccione uno o varios medicamentos'; 
 
             },
             desactivarIngreso(id){

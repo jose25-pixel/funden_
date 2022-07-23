@@ -84,17 +84,33 @@ Route::group(['middleware' => ['auth']], function(){
         
         //activar registros en la tabla
         Route::put('/articulo/activar', 'ArticuloController@activar');
+       //Ruta para el selec dinamico en la vista inventario
+        Route::get('/articulo/selectArticulo', 'ArticuloController@selectArticulo');
 
          //buscar articulo
-         Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
-         Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
+        // Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
+         //Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
          Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
 
-       ///Rutas del inventario
-
+       /*+++++++++++++++++++++++++++Rutas del inventario++++++++++++++++++++++++++++++++++++*/
+        //Rutas de listar medicamnetos desde el inventario para la compra
          Route::get('/inventario/buscarArticuloin', 'InventarioController@listarArticuloinventario');
          Route::get('/inventario/buscarArticuloInventario', 'InventarioController@buscarArticuloInventario');
+         //Rutas del inventario para venta de medicamento
+         Route::get('/inventario/buscarArticuloInventariov', 'InventarioController@buscarInventarioVenta');
+         Route::get('/inventario/buscarArticuloInventarioventa', 'InventarioController@listarArticuloinventarioV');
+         //rutas para mostrar datos e ingresar datos a inventario
+         Route::get('/inventario', 'InventarioController@index');
+         Route::post('/inventario/registrar', 'InventarioController@store');
 
+            //desactivar registros en la tabla
+        Route::put('/inventario/desactivar', 'InventarioController@desactivar');
+        
+        //activar registros en la tabla
+        Route::put('/inventario/activar', 'InventarioController@activar');
+
+
+        
         //rutas de proveedor
         Route::get('/proveedor', 'ProveedorController@index');
         
@@ -133,8 +149,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('/cliente/actualizar', 'ClienteController@update');
         Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
 
-        Route::get('/articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
-        Route::get('/articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
+        /*Route::get('/articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
+        Route::get('/articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');*/
+
+        
    
             //rutas de las ventas
         Route::get('/venta', 'VentaController@index');

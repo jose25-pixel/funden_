@@ -24,7 +24,7 @@
                                       <option value="nombre">Nombre</option>
                                       <option value="concentracion">Concentraciónn</option>
                                       <option value="presentacion">Presentación</option>
-                                      <option value="Items">Items</option>
+                                   
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarArticulo(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" class="btn btn-primary" @click="listarArticulo(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
@@ -35,10 +35,9 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
+                                <th>Medicamento</th>
                                 <th>Casa_Farmaceutica</th>
-                                <th>Concentración</th>
-                                 <th>Gramaje</th>
+                                <th>Concentración</th> 
                                 <th>Presentación</th>
                                 <th>Administración</th>
                                 <th>Items</th>
@@ -71,8 +70,8 @@
                                 </td>
                                 <td v-text="articulo.nombre"></td>
                                 <td v-text="articulo.nombre_categoria"></td>
-                                <td v-text="articulo.concentracion"></td>
-                                <td v-text="articulo.nombre_gramaje"></td>
+                                <td v-text="articulo.concentracion+articulo.nombre_gramaje"></td>
+                               
                                 <td v-text="articulo.presentacion"></td>
                                 <td v-text="articulo.administracion"></td>
                                 <td v-text="articulo.items"></td>
@@ -133,16 +132,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Gramaje</label>
-                                <div class="col-md-9">
-                                    <select class="form-control" v-model="idgramaje">
-                                        <option value="0" disabled>Seleccione</option>
-                                        <option v-for="gramaje in arraygramaje" :key="gramaje.id" :value="gramaje.id"
-                                            v-text="gramaje.gramaje"></option>
-                                    </select>
-                                </div>
-                            </div>
+                           
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                 <div class="col-md-9">
@@ -155,6 +145,16 @@
                                 <div class="col-md-9">
                                     <input type="text" v-model="concentracion" class="form-control"
                                         placeholder="ingresa la concentracion">
+                                </div>
+                            </div>
+                             <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Gramaje</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" v-model="idgramaje">
+                                        <option value="0" disabled>Seleccione</option>
+                                        <option v-for="gramaje in arraygramaje" :key="gramaje.id" :value="gramaje.id"
+                                            v-text="gramaje.gramaje"></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">

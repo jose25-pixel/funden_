@@ -20,9 +20,9 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="tipo_comprobante">Tipo Comprobante</option>
-                                      <option value="num_comprobante">Número Comprobante</option>
-                                      <option value="fecha_hora">Fecha-Hora</option>
+                                      <option value="fecha_salida">fecha_venta</option>
+                                      <option value="nombre">nombre_cliente</option>
+                                     
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarVenta(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" @click="listarVenta(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
@@ -36,12 +36,10 @@
                                         <th>Opciones</th>
                                         <th>Usuario</th>
                                         <th>Cliente</th>
-                                        <th>Tipo Comprobante</th>
-                                        <th>Serie Comprobante</th>
-                                        <th>Número Comprobante</th>
-                                        <th>Fecha Hora</th>
+                                        
+                                        <th>Fecha salida</th>
                                         <th>Total</th>
-                                        <th>Impuesto</th>
+                                        
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
@@ -64,17 +62,16 @@
                                         </td>
                                         <td v-text="venta.usuario"></td>
                                         <td v-text="venta.nombre"></td>
-                                        <td v-text="venta.tipo_comprobante"></td>
-                                        <td v-text="venta.serie_comprobante"></td>
-                                        <td v-text="venta.num_comprobante"></td>
-                                        <td v-text="venta.fecha_hora"></td>
+                                      
+                                        <td v-text="venta.fecha_salida"></td>
+                                        
                                         <td v-text="venta.total"></td>
-                                        <td v-text="venta.impuesto"></td>
                                         <td v-text="venta.estado"></td>
                                     </tr>                                
                                 </tbody>
                             </table>
                         </div>
+                                          <!--Paginacion-->
                         <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
@@ -95,7 +92,7 @@
                     <template v-else-if="listado==0">
                     <div class="card-body">
                         <div class="form-group row border">
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Cliente(*)</label>
                                     <v-select
@@ -109,33 +106,15 @@
                                     </v-select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <label for="">Impuesto(*)</label>
-                                <input type="text" class="form-control" v-model="impuesto">
+                          <div class="col-md-4">
+                                <label for="">Fecha Salida(*)</label>
+                                <input type="date" class="form-control" v-model="fecha_salida" placeholder="2020-7-12">
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Tipo Comprobante(*)</label>
-                                    <select class="form-control" v-model="tipo_comprobante">
-                                        <option value="0">Seleccione</option>
-                                        <option value="BOLETA">Boleta</option>
-                                        <option value="FACTURA">Factura</option>
-                                        <option value="TICKET">Ticket</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Serie Comprobante</label>
-                                    <input type="text" class="form-control" v-model="serie_comprobante" placeholder="000x">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Número Comprobante(*)</label>
-                                    <input type="text" class="form-control" v-model="num_comprobante" placeholder="000xx">
-                                </div>
-                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            
+                            
+                          
                         </div>
                         <div class="col-md-12">
                             <div v-show="errorVenta" class="form-group row div-error">
@@ -145,15 +124,15 @@
                             </div>
                         </div>
                         <div class="form-group row border">
-                            <div class="col-md-4">
+                           <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Artículo
-                                        <spam style="color:red;" v-show="idarticulo==0">(*Seleccione)</spam>
+                                    <label>Meidacamento
+                                        <spam style="color:red;" v-show="idinventario==0" >(*Seleccione)</spam>
                                     </label>
                                     <div class="form-inline">
-                                        <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Ingrese artículo">
+                                        <input type="text" class="form-control" v-model="nombre" @keyup.enter="buscarArticulo()" placeholder="Ingrese Medicamento">
                                         <button @click="abrirModal()" class="btn btn-primary">...</button>
-                                        <input type="text" class="form-control" readonly v-model="articulo">
+                                        <input type="text" class="form-control" readonly v-model="inventario">
                                     </div>                                    
                                 </div>
                             </div>
@@ -165,17 +144,18 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Cantidad<spam style="color:red;" v-show="cantidad==0">(*Ingrese)</spam> </label>
+                                    <label>Cantidad_pastillas<spam style="color:red;" v-show="cantidad==0">(*Ingrese)</spam> </label>
                                     <input type="number" value="0" class="form-control" v-model="cantidad">
                                 </div>
                             </div>
 
-                               <div class="col-md-2">
+              <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Descuento </label>
-                                    <input type="number" value="0" class="form-control" v-model="descuento">
+                                    <label>cantidad_blister <spam style="color:red;" v-show="cantidad_blister==0">(*Ingrese)</spam></label>
+                                    <input type="number" value="0" class="form-control" v-model="cantidad_blister">
                                 </div>
                             </div>
+                            
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>
@@ -188,10 +168,10 @@
                                     <thead>
                                         <tr>
                                             <th>Opciones</th>
-                                            <th>Artículo</th>
+                                            <th>Medicamento</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
-                                            <th>Descuento</th>
+                                            <th>Cantidad_blister</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -212,13 +192,13 @@
                                                 <span style="color:red;" v-show="detalle.cantidad>detalle.stock"> Stock:{{detalle.stock}} </span>
                                                 <input type="number" v-model="detalle.cantidad"  class="form-control">
                                             </td>
-
-                                            <td>
-                                                  <spam style="color:red;" v-show="detalle.descuento>(detalle.precio*detalle.cantidad)"> Descuento Superior</spam>
-                                                <input type="number" v-model="detalle.descuento"  class="form-control">
+                                              <td>
+                                                <input type="number" v-model="detalle.cantidad_blister"  class="form-control">
                                             </td>
+
+                                           
                                             <td>
-                                                {{detalle.precio*detalle.cantidad-detalle.descuento}}
+                                                {{detalle.precio*detalle.cantidad}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
@@ -237,7 +217,7 @@
                                     <tbody v-else>
                                         <tr>
                                             <td colspan="6">
-                                                No hay articulos agregados
+                                                No hay mediciana agregada
                                             </td>
                                         </tr>
                                     </tbody>                                
@@ -253,7 +233,7 @@
                     </div>
                     </template>
                     <!-- Fin Detalle-->
-                    <!-- Ver ingreso-->
+                    <!-- Ver el ingreso ya-->
                     <template v-else-if="listado==2">
                     <div class="card-body">
                         <div class="form-group row border">
@@ -264,47 +244,29 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="">Impuesto</label>
-                                <p v-text="impuesto"></p>
+                                <label for="">Usuario</label>
+                                <p v-text="usuario"></p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Tipo Comprobante</label>
-                                <p v-text="tipo_comprobante"></p>
+                                    <label>fecha_salida</label>
+                                <p v-text="fecha_salida"></p>
                                     
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Serie Comprobante</label>
-                                <p v-text="serie_comprobante"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Número Comprobante</label>
-                                <p v-text="num_comprobante"></p>
-                                    
-                                </div>
-                            </div>
+                          
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Descuento</label>
-                                <p v-text="descuento"></p>
-                                    
-                                </div>
-                            </div>
+                         
                         </div>
                         <div class="form-group row border">
                             <div class="table-responsive col-md-12">
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Artículo</th>
+                                            <th>Medicamento</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
-                                            <th>Descuento</th>
+                                            <th>Cantidad_blister</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -318,10 +280,10 @@
                                             </td>
                                             <td v-text="detalle.cantidad">
                                             </td>
-                                            <td v-text="detalle.descuento">
+                                            <td v-text="detalle.cantidad_blister">
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad-detalle.descuento}}
+                                                {{detalle.precio*detalle.cantidad}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
@@ -340,7 +302,7 @@
                                     <tbody v-else>
                                         <tr>
                                             <td colspan="5">
-                                                No hay articulos agregados
+                                                No hay Medicamento agregado
                                             </td>
                                         </tr>
                                     </tbody>                                
@@ -375,11 +337,11 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterioA">
                                       <option value="nombre">Nombre</option>
-                                      <option value="descripcion">Descripción</option>
-                                      <option value="codigo">Código</option>
+                                     <option value="concentracion">concentracion</option>
+                                      <option value="presentacion">Presentación</option>
                                     </select>
-                                    <input type="text" v-model="buscarA" @keyup.enter="listarArticulo(buscarA,criterioA)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary" @click="listarArticulo(buscarA,criterioA)"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscarA" @keyup.enter="listarArticuloinventario(buscarA,criterioA)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" class="btn btn-primary" @click="listarArticuloinventario(buscarA,criterioA)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -388,29 +350,36 @@
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Opciones</th>
-                                            <th>Código</th>
+                                          <th>Opciones</th>
                                             <th>Nombre</th>
-                                            <th>Categoría</th>
-                                            <th>Precio Venta</th>
-                                            <th>Stock</th>
+                                            <th>Concentracion</th>
+                                       
+                                             <th>C.Farmaceutica</th>
+                                            <th>Administracion</th>
+                                            <th>Presentacion</th>
+                                            <th>stock pastillas</th>
+                                            <th>stock superior</th>
                                             <th>Estado</th>
+            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="articulo in arrayArticulo" :key="articulo.id">
+                                         <tr v-for="inventario in arrayInventario" :key="inventario.idproducto">
                                             <td>
-                                                <button type="button" @click="agregarDetalleModal(articulo)" class="btn btn-success btn-sm">
+                                                <button type="button" @click="agregarDetalleModal(inventario)" class="btn btn-success btn-sm">
                                                 <i class="icon-check"></i>
                                                 </button>
                                             </td>
-                                            <td v-text="articulo.codigo"> </td>
-                                            <td v-text="articulo.nombre"></td>
-                                            <td v-text="articulo.nombre_categoria"> </td>
-                                            <td v-text="articulo.precio_venta"></td>
-                                            <td v-text="articulo.stock"> </td>
+                                            <td v-text="inventario.nombre"> </td>
+                                            
+                                            <td v-text="inventario.concentracion + inventario.nombre_gramaje"></td>
+                                            <td v-text="inventario.nombre_categoria"> </td> 
+                                            <td v-text="inventario.administracion"> </td>
+                                            <td v-text="inventario.presentacion"> </td>
+                                            <td v-text="inventario.cantidad_tableta"> </td>
+                                             <td v-text="inventario.cantidad_blister"> </td>
                                             <td> 
-                                                <div v-if="articulo.condicion">
+                                                <div v-if="inventario.condicion">
                                                 <span class="badge badge-success">Activo</span>
                                                 </div>
                                                 <div v-else><span class="badge badge-danger">Inactivo</span>
@@ -445,11 +414,8 @@
                 venta_id: 0,
                 idcliente:0,
                 cliente:'',
-                nombre : '',
-                tipo_comprobante : 'BOLETA',
-                serie_comprobante : '',
-                num_comprobante : '',
-                impuesto: 0.18,
+                fecha_salida: '',
+              usuario:'',
                 total:0.0,
                 totalImpuesto:0.0,
                 totalParcial:0.0,
@@ -470,19 +436,22 @@
                     'from' : 0,
                     'to' : 0,
                 },
-                offset : 3,
+                  offset : 3,
                 criterio : 'num_comprobante',
                 buscar : '',
                 criterioA : 'nombre',
                 buscarA : '',
                 arrayArticulo: [],
-                idarticulo: 0,
-                codigo: '',
-                articulo: '',
+                arrayInventario: [],
+                idinventario: 0,
+                nombre: '',
+                articulo:'',
+                inventario: '',
                 precio: 0,
                 cantidad: 0,
-                descuento: 0,
-                stock:0
+              
+              cantidad_blister: 0,
+                stock: 0
 
             }
         },
@@ -520,7 +489,7 @@
             calcularTotal: function(){
                 var resultado = 0.0;
                 for (var i = 0; i <this.arrayDetalle.length; i++) {
-                    resultado = resultado+(this.arrayDetalle[i].precio*this.arrayDetalle[i].cantidad-this.arrayDetalle[i].descuento)   
+                    resultado = resultado+(this.arrayDetalle[i].precio*this.arrayDetalle[i].cantidad)   
                 }
                 return resultado;
             }
@@ -558,24 +527,23 @@
                 me.loading = true;
                 me.idcliente = val1.id;
             },
-            buscarArticulo(){
+              buscarArticulo(){
                 let me= this;
-                var url= '/articulo/buscarArticuloVenta?filtro='+ me.codigo;
+                var url= '/inventario/buscarArticuloInventariov?filtro='+ me.nombre;
 
                 axios.get(url).then(function (response){
                     var respuesta = response.data;
-                    me.arrayArticulo = respuesta.articulos;
+                    me.arrayInventario = respuesta.inventarios;
 
-                    if (me.arrayArticulo.length>0){
-                        me.articulo = me.arrayArticulo[0]['nombre'];
-                        me.idarticulo = me.arrayArticulo[0]['id'];
-                        me.precio = me.arrayArticulo[0]['precio'];
-                        me.stock = me.arrayArticulo[0]['stock'];
-
+                    if (me.arrayInventario.length>0){
+                        me.inventario = me.arrayInventario[0]['nombre'];
+                         me.idinventario = me.arrayInventario[0]['precio'];
+                        me.idinventario = me.arrayInventario[0]['id'];
+                        me.stock = me.arrayInventario[0]['cantidad_tableta'];
                     }
                     else{
-                        me.articulo = 'No existen articulos';
-                        me.idarticulo = 0;
+                        me.inventario = 'No existen Medicamentos';
+                        me.idinventario= 0;
                     }
                 })
                 .catch(function(error){
@@ -597,7 +565,7 @@
                 var sw=0;
 
                 for(var i=0;i<this.arrayDetalle.length; i++){
-                    if(this.arrayDetalle[i].idarticulo==id){
+                    if(this.arrayDetalle[i].idinventario==id){
                         sw=true;
                     }
                 }
@@ -611,15 +579,15 @@
             agregarDetalle(){
                 let me= this;
 
-                if(me.idarticulo==0 || me.cantidad==0 || me.precio==0){
+                if(me.idinventario==0 || me.cantidad==0 || me.cantidad_blister==0 || me.precio==0){
                 }
                 else{
 
-                    if(me.encuentra(me.idarticulo)){
+                    if(me.encuentra(me.idinventario)){
                         swal({
                             type:'error',
                             title: 'Error....',
-                            text: 'Ese artículo ya se encuentra agregado!'
+                            text: 'Ese Medicamento ya se encuentra agregado!'
                         })
                     }
                     else{
@@ -633,21 +601,22 @@
                         }
                         else{
                           me.arrayDetalle.push({
-                            idarticulo: me.idarticulo,
-                            articulo: me.articulo,
-                            cantidad: me.cantidad,
-                            precio: me.precio,
-                            descuento: me.descuento,
-                            stock:me.stock
+                             idinventario: me.idinventario,
+                         articulo: me.nombre,//para mostrar el noombre del articulo en busqueda por nombre
+                      
+                        cantidad: me.cantidad,
+                        cantidad_blister: me.cantidad_blister,
+                        precio: me.precio,
+                        cantidad_tableta:me.stock
                            });
 
-                           me.codigo="";
-                           me.idarticulo=0,
-                           me.articulo="",
-                           me.cantidad=0;
-                           me.precio=0;
-                           me.descuento=0;
-                           me.stock=0
+                             me.nombre="";
+                                me.idinventario=0;
+                                me.inventario="";
+                                me.cantidad=0;
+                                me.cantidad_blister=0;
+                                me.precio=0;
+                           me.stock=0;
                           }
                     }
                 }
@@ -661,30 +630,29 @@
                         swal({
                             type:'error',
                             title: 'Error....',
-                            text: 'Ese artículo ya se encuentra agregado!'
+                            text: 'Ese Medicamento ya se encuentra agregado!'
                         })
                     }
                     else{
                         me.arrayDetalle.push({
-                        idarticulo: data['id'],
-                        articulo: data['nombre'],
-                        cantidad: 1,
-                        precio: data['precio_venta'],
-                        descuento:0,
-                        stock:data['stock']
+                        idinventario: data['id'],
+                         articulo: data['nombre'],
+                        cantidad:1,
+                        cantidad_blister:1, 
+                        stock:data['cantidad_tableta'],
+                        precio:0 
                         });
                     }
             },
             
             //listar articulo
-            listarArticulo(buscar, criterio){
-                
+              listarArticuloinventario(buscar, criterio){
                 let me=this;
-                var url = '/articulo/listarArticuloVenta?buscar='+ buscar + '&criterio='+ criterio;
+                var url = '/inventario/buscarArticuloInventarioventa?buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response){
                     var respuesta = response.data;
                     //handle sucess
-                    me.arrayArticulo = respuesta.articulos.data;
+                    me.arrayInventario = respuesta.inventarios.data;
                 })
                 .catch(function (error){
                     //handle error
@@ -701,9 +669,7 @@
                 axios.post('/venta/registrar',{
                     'idcliente': this.idcliente,
                     'tipo_comprobante': this.tipo_comprobante,
-                    'serie_comprobante': this.serie_comprobante,
-                    'num_comprobante' : this.num_comprobante,
-                    'impuesto' : this.impuesto,
+                     'fecha_salida': this.fecha_salida,
                     'total' : this.total,
                     'data' : this.arrayDetalle
 
@@ -711,17 +677,15 @@
                     me.listado=1;
                     me.listarVenta(1,'','num_comprobante');
                     me.idcliente=0;
-                    me.tipo_comprobante='BOLETA';
-                    me.serie_comprobante='';
-                    me.num_comprobante='';
-                    me.impuesto=0.18;
                     me.total=0.0;
-                    me.idarticulo=0;
+                    me.idinvetario=0;
+                    me.inventario='';
+                    me.articulo='';
+                    me.fecha_salida='';
                     me.cantidad=0;
                     me.precio=0;
-                    me.stock=0;
-                    me.codigo="";
-                    me.descuento=0,
+                    me.stock=0;                
+              me.cantidad_blister=0;
                     me.arrayDetalle=[];
                     window.open('/venta/pdf/'+ response.data.id + ',' + '_blank');
                 }).catch(function (error) {
@@ -736,15 +700,14 @@
 
                 me.arrayDetalle.map(function(x){
                     if(x.cantidad>x.stock){
-                        art=x.articulo + "Con stock insuficiente";
+                        art=x.articulo + x.stock + "Con stock insuficiente";
                         me.errorMostrarMsjVenta.push(art);
                     }
                 });
 
                 if (this.idcliente==0) this.errorMostrarMsjVenta.push("Seleccione un Cliente .");
-                if (this.tipo_comprobante==0) this.errorMostrarMsjVenta.push("Seleccione el comprobante.");
-                if (!this.num_comprobante) this.errorMostrarMsjVenta.push("Ingrese el número de comprobante.");
-                if (!this.impuesto) this.errorMostrarMsjVenta.push("Ingrese el impuesto de compra.");
+                if (this.fecha_salida==0) this.errorMostrarMsjVenta.push("Seleccione el fecha.");
+               
                 if (this.arrayDetalle.length<=0) this.errorMostrarMsjVenta.push("Ingrese detalles.");
 
 
@@ -780,10 +743,8 @@
                     arrayVentaT = respuesta.venta;
 
                     me.cliente = arrayVentaT[0]['nombre'];
-                    me.tipo_comprobante = arrayVentaT[0]['tipo_comprobante'];
-                    me.serie_comprobante = arrayVentaT[0]['serie_comprobante'];
-                    me.num_comprobante = arrayVentaT[0]['num_comprobante'];
-                    me.impuesto = arrayVentaT[0]['impuesto'];
+                
+                    me.fecha_salida = arrayVentaT[0]['fecha_salida'];
                     me.total = arrayVentaT[0]['total'];
 
                 })
@@ -813,9 +774,9 @@
                 this.tituloModal='';
             },
             abrirModal(){
-               this.arrayArticulo = [];
+               this.arrayInventario= [];
                 this.modal = 1;
-                this.tituloModal = 'Seleccione uno o varios artículos'; 
+                this.tituloModal = 'Seleccione uno o varios Medicamnetos'; 
 
             },
             desactivarVenta(id){
