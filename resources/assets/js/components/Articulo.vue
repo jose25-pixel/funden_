@@ -204,6 +204,7 @@
                             @click="actualizarArticulo()">Actualizar</button>
                     </div>
                 </div>
+                
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->

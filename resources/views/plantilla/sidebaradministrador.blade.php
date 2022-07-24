@@ -17,7 +17,7 @@
                                 <a class="nav-link" href="#"><i class="fa fa-ambulance" aria-hidden="true"></i> Gramaje</a>
                             </li>
                             <li @click='menu=3' class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-sitemap" aria-hidden="true"></i> Artículos</a>
+                                <a class="nav-link" href="#"><i class="fa fa-sitemap" aria-hidden="true"></i>Medicamentos</a>
                             </li>
                             
                         </ul>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Articulo;
+use App\Inventario;
 
 class ArticuloController extends Controller
 {
@@ -113,7 +114,22 @@ class ArticuloController extends Controller
         $articulo->condicion = '1'; //activo
         //guardar el objeto en la tabla
         $articulo->save();
+       // return $articulo->id;
+
+
+
+        $inventarios = new Inventario();
+        $inventarios->idproducto = $articulo->id;
+        $inventarios->cantidad_tableta ='0'; //$request->cantidad_tableta;
+        $inventarios->cantidad_blister = '0';//$request->cantidad_blister;
+        $inventarios->condicion = '1';
+        $inventarios->save();
+
+
+
+
     }
+
 
 
     public function update(Request $request)

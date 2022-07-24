@@ -58,7 +58,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="img/avatars/lili.jpeg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                    <img src="img/logo.png" class="img-avatar" alt="admin@bootstrapmaster.com">
                     <span class="d-md-down-none">{{Auth::user()->usuario}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -96,8 +96,8 @@
     
 
     <footer class="app-footer">
-        <span>ULS | Ciclo 1-2022</span>
-        <span class="ml-auto">Curso de especialización (Computación)</span>
+        <span>FUNDEL |ZZFZD </span>
+        <span class="ml-auto">Fundacio para el Desarrollo Latinomericano()</span>
     </footer>
 
     <!-- Bootstrap and necessary plugins -->

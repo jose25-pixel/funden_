@@ -9,9 +9,9 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Inventario Actual
-                    <button type="button" @click="abrirModal('inventarios', 'registrar')" class="btn btn-secondary">
+                <!--      <button type="button" @click="abrirModal('inventarios', 'registrar')" class="btn btn-secondary">
                         <i class="icon-plus"></i>&nbsp;Nuevo
-                    </button>
+                    </button>-->
                     <button type="button" @click="cargarPdf()" class="btn btn-info">
                         <i class="icon-doc"></i>&nbsp;Reporte
                     </button>
@@ -105,7 +105,8 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
-        <!--Inicio del modal agregar/actualizar-->
+        <!--
+      
         <div class="modal fade" tabindex="-1" :class="{ 'mostrar': modal }" role="dialog" aria-labelledby="myModalLabel"
             style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -148,14 +149,14 @@
                             @click="actualizarInventario()">Actualizar</button>
                     </div>
                 </div>
-                <!-- /.modal-content -->
+            
             </div>
-            <!-- /.modal-dialog -->
-        </div>
+          
+        </div> Final-->
         <!--Fin del modal-->
     </main>
 </template>
-
+  
 <script>
 import VueBarcode from 'vue-barcode';
 export default {
