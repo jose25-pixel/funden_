@@ -55160,7 +55160,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Stock Blister")]),
         _vm._v(" "),
-        _c("th", [_vm._v("condicio")])
+        _c("th", [_vm._v("condicion")])
       ])
     ])
   }

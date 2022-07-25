@@ -40,7 +40,7 @@
                                 <th>Producto</th>
                                 <th>Stock Tableta</th>
                                 <th>Stock Blister</th>
-                                <th>condicio</th>
+                                <th>condicion</th>
                             </tr>
                         </thead>
                         <tbody>
