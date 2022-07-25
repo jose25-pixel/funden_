@@ -54943,66 +54943,26 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.arrayInventario, function(inventarios) {
                   return _c("tr", { key: inventarios.id }, [
-                    _c(
-                      "td",
-                      [
-                        inventarios.condicion
-                          ? [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.desactivarInventario(
-                                        inventarios.id
-                                      )
-                                    }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-trash" })]
-                              )
-                            ]
-                          : [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.activarInventario(
-                                        inventarios.id
-                                      )
-                                    }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-check" })]
-                              )
-                            ],
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.activarArticulo(_vm.articulo.id)
-                              }
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-info btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.activarArticulo(_vm.articulo.id)
                             }
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "fa fa-file-pdf-o",
-                              attrs: { "aria-hidden": "true" }
-                            })
-                          ]
-                        )
-                      ],
-                      2
-                    ),
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-file-pdf-o",
+                            attrs: { "aria-hidden": "true" }
+                          })
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td", {
                       domProps: { textContent: _vm._s(inventarios.id) }

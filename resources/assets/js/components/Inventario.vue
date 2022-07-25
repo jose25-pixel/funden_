@@ -46,7 +46,7 @@
                         <tbody>
                             <tr v-for="inventarios in arrayInventario" :key="inventarios.id">
                               <td>
-                               <template v-if="inventarios.condicion">
+                              <!--  <template v-if="inventarios.condicion">
                                         <button type="button" class="btn btn-danger btn-sm"
                                             @click="desactivarInventario(inventarios.id)">
                                             <i class="icon-trash"></i>
@@ -57,7 +57,7 @@
                                             @click="activarInventario(inventarios.id)">
                                             <i class="icon-check"></i>
                                         </button>
-                                    </template>
+                                    </template> -->
 
                                      <button type="button" class="btn btn-info btn-sm"
                                         @click="activarArticulo(articulo.id)">
