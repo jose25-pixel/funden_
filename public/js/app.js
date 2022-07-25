@@ -36997,10 +36997,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40040,26 +40036,7 @@ var render = function() {
                                 },
                                 [_c("i", { staticClass: "icon-check" })]
                               )
-                            ],
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-danger btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.activarArticulo(articulo.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "fa fa-file-pdf-o",
-                              attrs: { "aria-hidden": "true" }
-                            })
-                          ]
-                        )
+                            ]
                       ],
                       2
                     ),
@@ -54588,9 +54565,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -54972,8 +54946,6 @@ var render = function() {
                     _c(
                       "td",
                       [
-                        _vm._m(2, true),
-                        _vm._v("  \n                           "),
                         inventarios.condicion
                           ? [
                               _c(
@@ -55013,11 +54985,11 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-danger btn-sm",
+                            staticClass: "btn btn-info btn-sm",
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.desactivarInventario(inventarios.id)
+                                return _vm.activarArticulo(_vm.articulo.id)
                               }
                             }
                           },
@@ -55191,16 +55163,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("condicio")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "icon-pencil" })]
-    )
   }
 ]
 render._withStripped = true

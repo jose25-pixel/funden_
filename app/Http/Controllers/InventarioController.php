@@ -164,7 +164,7 @@ class InventarioController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
         //buscar la categoria por el $id del request
-        $inventarios=  Inventarios::findOrfail($request->id);
+        $inventarios=  Inventario::findOrfail($request->id);
 
         //cambiar la condicion a 0
         $inventarios->condicion = '0'; //desactivo
@@ -177,7 +177,7 @@ class InventarioController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
         //buscar la categoria por el $id del request
-        $articulo =  Inventarios::findOrfail($request->id);
+        $articulo =  Inventario::findOrfail($request->id);
 
         //cambiar la condicion a 1
         $articulo->condicion = '1'; //activo

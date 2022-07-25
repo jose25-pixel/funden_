@@ -63,10 +63,6 @@
                                             <i class="icon-check"></i>
                                         </button>
                                     </template>
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                        @click="activarArticulo(articulo.id)">
-                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                    </button>
                                 </td>
                                 <td v-text="articulo.nombre"></td>
                                 <td v-text="articulo.nombre_categoria"></td>
