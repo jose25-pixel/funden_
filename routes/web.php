@@ -86,11 +86,16 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('/articulo/activar', 'ArticuloController@activar');
        //Ruta para el selec dinamico en la vista inventario
         Route::get('/articulo/selectArticulo', 'ArticuloController@selectArticulo');
+        Route::get('/articulo/obtenerProducto', 'ArticuloController@obtenerProducto');
+        Route::get('/articulo/Ingresos', 'ArticuloController@Ingresos');
+        Route::get('/articulo/obtenerIngresos', 'ArticuloController@obtenerIngresos');
+        Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pfd');
 
          //buscar articulo
         // Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
          //Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
          Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
+         Route::get('/articulo/prueva', 'ArticuloController@indexprueva');
 
        /*+++++++++++++++++++++++++++Rutas del inventario++++++++++++++++++++++++++++++++++++*/
         //Rutas de listar medicamnetos desde el inventario para la compra

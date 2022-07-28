@@ -782,16 +782,12 @@
             verIngreso(id){
                 let me=this;
                 this.listado=2;
-
                 //Obtener los datos del ingreso++++
                 var arrayIngresoT=[];
-
                 var url= '/ingreso/obtenerCabecera?id=' + id;
-
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     arrayIngresoT = respuesta.ingreso;
-
                     me.proveedor = arrayIngresoT[0]['nombre'];
                     me.tipo_comprobante = arrayIngresoT[0]['tipo_comprobante'];
                     me.serie_comprobante = arrayIngresoT[0]['serie_comprobante'];
@@ -800,26 +796,21 @@
                     me.fecha_vencimiento = arrayIngresoT[0]['fecha_vencimiento'];
                     me.lote = arrayIngresoT[0]['lote'];
                     me.total = arrayIngresoT[0]['total'];
-
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
                 //Obtener los datos del detalle++++
-
                 var url= '/ingreso/obtenerDetalles?id=' + id;
-
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayDetalle = respuesta.detalles;
-
-
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-
             },
+
             ocultarDetalle(){
                 this.listado=1;
             },

@@ -16,6 +16,7 @@
                         <i class="icon-doc"></i>&nbsp;Reporte
                     </button>
                 </div>
+                <template v-if="listado==1">
                 <div class="card-body">
                         <div class="form-group row">
                             <div class="col-md-6">
@@ -47,10 +48,19 @@
                         <tbody>
                             <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                 <td>
+                                     <button type="button" @click="pdfArticulo(articulo.id)" class="btn btn-secondary btn-sm">
+                                            <i class="icon-doc"></i>
+                                    </button> &nbsp;
+
+                                    <button type="button" @click="verKardex(articulo.id)" class="btn btn-success btn-sm">
+                                            <i class="icon-eye"></i>
+                                    </button> &nbsp;
+
                                     <button type="button" @click="abrirModal('articulo', 'actualizar', articulo)"
                                         class="btn btn-warning btn-sm">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
+
                                     <template v-if="articulo.condicion">
                                         <button type="button" class="btn btn-danger btn-sm"
                                             @click="desactivarArticulo(articulo.id)">
@@ -63,10 +73,6 @@
                                             <i class="icon-check"></i>
                                         </button>
                                     </template>
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                        @click="activarArticulo(articulo.id)">
-                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                    </button>
                                 </td>
                                 <td v-text="articulo.nombre"></td>
                                 <td v-text="articulo.nombre_categoria"></td>
@@ -105,9 +111,79 @@
                         </ul>
                     </nav>
                 </div>
+                </template>
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+        
+
+          <template v-if="listado==2">
+                    <div class="card-body">
+                        <div class="form-group row border">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Proveedor</label>
+                                    <p v-text="proveedor"></p>
+                                </div>
+                            </div>
+                            
+                           
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Tipo Comprobante</label>
+                                <p v-text="tipo_comprobante"></p>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Serie Comprobante</label>
+                                <p v-text="serie_comprobante"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Número Comprobante</label>
+                                <p v-text="num_comprobante"></p>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha_Compra</label>
+                                     <p v-text="fecha_compra"></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha_vencimiento</label>
+                                     <p v-text="fecha_vencimiento"></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Lote</label>
+                                    <p v-text="lote"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Total</label>
+                                     <p v-text="total"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+        </template>
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" :class="{ 'mostrar': modal }" role="dialog" aria-labelledby="myModalLabel"
             style="display: none;" aria-hidden="true">
@@ -228,6 +304,10 @@ export default {
             presentacion: '',
             items: '',
             arrayArticulo: [],
+            arrayIngresoT:[],
+            arrayArticuloT: [],
+            arrayDetalle: [],
+            listado:1,
             modal: 0,
             tituloModal: '',
             tipoAccion: 0,
@@ -281,6 +361,10 @@ export default {
         }
     },
     methods: {
+          pdfArticulo(id){
+                window.open('/articulo/pdf/'+ id ,'_blank');
+            },
+
         listarArticulo(page, buscar, criterio) {
             let me = this;
             var url = '/articulo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -519,7 +603,45 @@ export default {
             }
             this.selectCategoria();
             this.selectGramaje();
-        }
+        },
+         verKardex(id){
+                let me=this;
+                this.listado=2;
+                //Obtener los datos del ingreso++++
+                var arrayIngresoT=[];
+                var url= '/articulo/Ingresos?id=' + id;
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    arrayArticuloT = respuesta.articulo;
+                    me.tipo_comprobante = arrayIngresoT[0]['tipo_comprobante'];
+                    me.serie_comprobante = arrayIngresoT[0]['serie_comprobante'];
+                    me.num_comprobante = arrayIngresoT[0]['num_comprobante'];
+                    me.fecha_compra = arrayIngresoT[0]['fecha_compra'];
+                    me.fecha_vencimiento = arrayIngresoT[0]['fecha_vencimiento'];
+                    me.lote = arrayIngresoT[0]['lote'];
+                    me.total = arrayIngresoT[0]['total'];
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                //Obtener los datos del detalle++++
+                var url= '/articulo/obtenerIngresos?id=' + id;
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayDetalle = respuesta.detalles;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+              ocultarDetalle(){
+                this.listado=1;
+            },
+            cerrarModal(){
+                this.modal=0;
+                this.tituloModal='';
+            },
+
     },
     mounted() {
         this.listarArticulo(1, this.buscar, this.criterio);

@@ -5,9 +5,62 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Articulo;
 use App\Inventario;
+use App\DetalleInventario;
+use App\Ingreso;
+use App\DetalleIngreso;
 
 class ArticuloController extends Controller
 {
+
+  public function indexprueva(Request $request)
+    {
+      //  if (!$request->ajax()) return redirect('/');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+           // $articulo =  Articulo::findOrfail($request->id);
+            //tomar los datos de request
+            $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+                ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+                ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
+                ->select(
+                    'articulos.id',
+                    'articulos.idcategoria',
+                    'articulos.idgramaje',
+                    'articulos.nombre',
+                    'gramajes.gramaje as nombre_gramaje',
+                    'categorias.nombre as nombre_categoria',
+                    'articulos.concentracion',
+                    'articulos.administracion',
+                    'articulos.presentacion',
+                    'articulos.items',
+                    'articulos.condicion',
+                    'inventarios.cantidad_tableta'
+                )->orderBy('articulos.id', 'desc')->paginate(8);
+        } else {
+            $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id',)
+                ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+                ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
+                ->select(
+                    'articulos.id',
+                    'articulos.idcategoria',
+                    'articulos.idgramaje',
+                    'articulos.nombre',
+                    'gramajes.gramaje as nombre_gramaje',
+                    'categorias.nombre as nombre_categoria',
+                    'articulos.concentracion',
+                    'articulos.administracion',
+                    'articulos.presentacion',
+                    'articulos.items',
+                    'articulos.condicion'
+                )->where('articulos.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
+        }
+
+        return [ 'articulos' => $articulos];
+    }
+
 
     public function index(Request $request)
     {
@@ -176,9 +229,7 @@ class ArticuloController extends Controller
         $articulo->save();
     }
 /*function para selecionar medicamentos para el select de la vista de nventario para ingresar el producto*/
-    public function selectArticulo(Request $request)
-
-    {
+    public function selectArticulo(Request $request){
 
         if (!$request->ajax()) return redirect('/'); 
 
@@ -191,6 +242,91 @@ class ArticuloController extends Controller
         return ['articulos' => $articulos];
 
     }
+
+    public function pdf(Request $request, $id){
+        $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+            ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+            ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
+            ->select('articulos.id','articulos.idcategoria','articulos.idgramaje','articulos.nombre',
+            'gramajes.gramaje as nombre_gramaje','categorias.nombre as nombre_categoria',
+            'articulos.concentracion','articulos.administracion','articulos.presentacion',
+            'articulos.items','articulos.condicion')
+            ->where('articulos.id', '=', $id)
+            ->orderBy('articulos.id', 'desc')->take(1)->get();
+
+        $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id')
+        ->select('inventarios.cantidad_tableta','inventarios.cantidad_blister')
+        ->where('inventarios.id', '=', $id)
+        ->orderBy('inventarios.id', 'desc')->get();
+
+        $detalles = DetalleInventario::join('inventarios', 'detalle_inventarios.idinventarios', '=', 'inventarios.id')
+        ->select('detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
+        ->where('detalle_inventarios.idinventarios', '=', $id)
+        ->orderBy('detalle_inventarios.id', 'asc')->get();
+
+        $detalle_ingresos = DetalleIngreso::join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
+        ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
+        ->join('personas','ingresos.idproveedor','=','personas.id')
+        ->select('ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
+        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'personas.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister')
+        ->where('detalle_ingresos.idinventario', '=',$id)
+        ->orderBy('detalle_ingresos.id', 'asc')->get();
+
+      
+
+
+
+      /*  $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
+        ->select('ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
+        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'personas.nombre as proveedor')
+        ->where('ingresos.id', '=',$id)
+        ->orderBy('ingresos.id', 'asc')->get();*/
+
+
+        $numarticulo=Articulo::select('id')->where('id',$id)->get();
+        $pdf = \PDF::loadView('pdf.articulo_kardexpdf',['articulos'=>$articulos,'inventarios'=>$inventarios,'detalles'=>$detalles,
+                                                        'detalle_ingresos'=>$detalle_ingresos]);
+        return $pdf->download('articulos-'.$numarticulo[0]->id.'.pdf');
+    }
+    public function obtenerProducto(Request $request) {
+        if (!$request->ajax()) return redirect('/');
+        $id = $request->id;
+        $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+        ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+        ->select('articulos.id','articulos.idcategoria','articulos.idgramaje','articulos.nombre',
+        'gramajes.gramaje as nombre_gramaje','categorias.nombre as nombre_categoria',
+        'articulos.concentracion','articulos.administracion','articulos.presentacion',
+        'articulos.items','articulos.condicion')
+        ->where('articulos.id', '=', $id)
+        ->orderBy('articulos.id', 'desc')->take(1)->get();
+        return ['articulos' => $articulos];
+    }
+
+    public function Ingresos(Request $request) {
+        if (!$request->ajax()) return redirect('/');
+        $id = $request->id;
+        $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
+        ->join('users','ingresos.idusuario','=','users.id')
+        ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
+        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'personas.nombre','users.usuario')
+        ->where('ingresos.id', '=',$id)
+        ->orderBy('ingresos.id', 'desc')->take(1)->get();
+    return ['ingreso' => $ingresos];
+    }
+    public function obtenerIngresos(Request $request) {
+        if (!$request->ajax()) return redirect('/');
+        $id = $request->id;
+            $detalles =DetalleIngreso::select('detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister',
+            'detalle_ingresos.precio')
+            ->where('detalle_ingresos.idingreso', '=',$id)
+            ->orderBy('detalle_ingresos.id', 'desc')->get();
+        return ['detalles' => $detalles];
+    }
+    
+
 
 /*
 
