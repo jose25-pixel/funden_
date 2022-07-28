@@ -60,6 +60,10 @@
                                                     <i class="icon-trash"></i>
                                                 </button>
                                             </template>
+                                             <button type="button" class="btn btn-light btn-sm"
+                                        @click="activarArticulo(articulo.id)">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </button>
                                         </td>
                                         <td v-text="ingreso.usuario"></td>
                                         <td v-text="ingreso.nombre"></td>

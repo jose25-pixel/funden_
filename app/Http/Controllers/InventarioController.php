@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DetalleVenta;
 use Illuminate\Http\Request;
 use App\Inventario;
-
+use App\Venta;
 
 class InventarioController extends Controller
 {
@@ -134,6 +135,32 @@ class InventarioController extends Controller
 
        
     }
+
+    public function pdf(Request $request, $id){
+        $venta = Venta::join('personas','ventas.idcliente','=','personas.id')
+        ->join('users','ventas.idusuario','=','users.id')
+        ->select('ventas.id','ventas.created_at',
+        'ventas.total','ventas.estado','ventas.fecha_salida','personas.nombre','personas.tipo_documento','personas.num_documento',
+        'personas.direccion','personas.email','personas.telefono',
+        'users.usuario')
+        ->where('ventas.id', '=', $id)
+        ->orderBy('ventas.id', 'desc')->take(1)->get();
+
+        $detalles = DetalleVenta::join('inventarios','detalle_ventas.idinventario','=','inventarios.id')
+        ->join('articulos','inventarios.idproducto','=','articulos.id')
+        ->select('detalle_ventas.cantidad','detalle_ventas.precio',
+        'articulos.nombre as articulo')
+        ->where('detalle_ventas.idventa', '=', $id)
+        ->orderBy('detalle_ventas.id', 'desc')->get();
+
+        $numventa=Venta::select('fecha_salida')->where('id',$id)->get();
+
+        $pdf = \PDF::loadView('pdf.detalle',['venta'=>$venta, 'detalles'=>$detalles]);
+        return  $pdf->download('detalle-'.$numventa[0]->fecha_salida.'.pdf');
+    }
+
+/*funcion para obtener la vista*/
+   
 /*funcion para actualizar inventario*/
     public function update(Request $request)
     {

@@ -109,6 +109,12 @@ Route::group(['middleware' => ['auth']], function(){
         //activar registros en la tabla
         Route::put('/inventario/activar', 'InventarioController@activar');
 
+        Route::get('/inventario/pdf/{id}', 'InventarioController@pdf')->name('detalle_pdf');
+
+        
+
+        /* Route::get('/inventario/pdf/{id}', 'InventarioController@pdf')->name('inventario_pdf'); */
+
 
         
         //rutas de proveedor
