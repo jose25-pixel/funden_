@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Proveedores
-                        <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('proveedor','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -22,9 +22,11 @@
                                       <option value="num_documento">Documento</option>
                                       <option value="email">Email</option>
                                       <option value="telefono">Teléfono</option>
+                                      <option value="contacto">contacto</option>
+                                      <option value="telefono_contacto">Teléfono_Contacto</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary" @click="listarPersona(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarProveedor(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" class="btn btn-primary" @click="listarProveedor(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -33,28 +35,48 @@
                                 <tr>
                                     <th>Opciones</th>
                                     <th>Nombre</th>
-                                    <th>Tipo Documento</th>
+                                    <th>Documento</th>
                                     <th>Número</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>email</th>
                                     <th>Contacto</th>
+                                    <th>Tel:Contacto</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="persona in arrayPersona" :key="persona.id">
+                                <tr v-for="proveedor in arrayProveedor" :key="proveedor.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('persona','actualizar', persona)" class="btn btn-warning btn-sm">
+                                        <button type="button" @click="abrirModal('proveedor','actualizar', proveedor)" class="btn btn-warning btn-sm">
                                         <i class="icon-pencil"></i>
-                                        </button>
+                                        </button> &nbsp;
+                                        <template v-if="proveedor.condicion">
+                                         <button type="button" class="btn btn-danger btn-sm" @click="desactivarProveedor(proveedor.id)">
+                                          <i class="icon-trash"></i>
+                                        </button>  
+                                        </template> 
+                                        <template v-else>
+                                         <button type="button" class="btn btn-info btn-sm" @click="activarProveedor(proveedor.id)">
+                                          <i class="icon-check"></i>
+                                        </button> 
+                                        </template> 
                                     </td>
-                                    <td v-text="persona.nombre"> </td>
-                                    <td v-text="persona.tipo_documento"> </td>
-                                    <td v-text="persona.num_documento"> </td>
-                                    <td v-text="persona.direccion"> </td>
-                                    <td v-text="persona.telefono"> </td>
-                                    <td v-text="persona.email"> </td>
-                                    <td v-text="persona.contacto"> </td>
+                                    <td v-text="proveedor.nombre"> </td>
+                                    <td v-text="proveedor.tipo_documento"> </td>
+                                    <td v-text="proveedor.num_documento"> </td>
+                                    <td v-text="proveedor.direccion"> </td>
+                                    <td v-text="proveedor.telefono"> </td>
+                                    <td v-text="proveedor.email"> </td>
+                                    <td v-text="proveedor.contacto"> </td>
+                                    <td v-text="proveedor.telefono_contacto"> </td>
+                                     <td> 
+                                        <div v-if="proveedor.condicion">
+                                        <span class="badge badge-success">Activo</span>
+                                        </div>
+                                        <div v-else><span class="badge badge-danger">Inactivo</span>
+                                        </div>
+                                    </td>
                                </tr>
                             </tbody>
                         </table>
@@ -70,7 +92,6 @@
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page  + 1,buscar,criterio)">Sig</a>
                                 </li>
                             </ul>
-                          
                         </nav>
                     </div>
                 </div>
@@ -140,20 +161,18 @@
                                         <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Telefono del Contacto">
                                     </div>
                                 </div>
-                                <div v-show="errorPersona" class="form-group row div-error">
+                                <div v-show="errorProveedor" class="form-group row div-error">
                                  <div class="text-center text-error">
-                                 <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
+                                 <div v-for="error in errorMostrarMsjProveedor" :key="error" v-text="error">
                                  </div>
                                  </div>
                                 </div>
-
-
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarPersona()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarPersona()">Actualizar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProveedor()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProveedor()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -172,7 +191,7 @@
     export default {
         data(){
             return{
-                persona_id: 0,
+                proveedor_id: 0,
                 nombre: '',
                 tipo_documento: '',
                 num_documento: '',
@@ -181,12 +200,12 @@
                 email: '',
                 contacto : '',
                 telefono_contacto : '',
-                arrayPersona:[],
+                arrayProveedor:[],
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
-                errorPersona: 0,
-                errorMostrarMsjPersona: [],
+                errorProveedor: 0,
+                errorMostrarMsjProveedor: [],
                 pagination : {
                     'total' : 0,
                     'current_page': 0,
@@ -227,14 +246,14 @@
 
         methods: {
             //listar clientes
-            listarPersona(page, buscar, criterio){
+            listarProveedor(page, buscar, criterio){
                 
                 let me=this;
                 var url = '/proveedor?page=' + page + '&buscar=' + buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response){
                     var respuesta = response.data;
                     //handle sucess
-                    me.arrayPersona = respuesta.personas.data;
+                    me.arrayProveedor = respuesta.proveedores.data;
                     me.pagination = respuesta.pagination;
                 })
                 .catch(function (error){
@@ -244,17 +263,14 @@
             },
             cambiarPagina(page, buscar, criterio){
                 let me = this;
-
                 me.pagination.current_page = page;
-                me.listarPersona(page, buscar, criterio);
+                me.listarProveedor(page, buscar, criterio);
             },
-            registrarPersona(){
-                if (this.validarPersona()){
+            registrarProveedor(){
+                if (this.validarProveedor()){
                     return;
-
                 }
                 let me = this;
-
                 axios.post('/proveedor/registrar',{
                   'nombre': this.nombre,
                   'tipo_documento': this.tipo_documento,
@@ -266,19 +282,16 @@
                   'telefono_contacto': this.telefono_contacto
                 }).then(function(response){
                     me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
+                    me.listarProveedor(1,'','nombre');
                 }).catch(function(error){
                     console.log(error);
                 });
-
         },
-        actualizarPersona(){
-            if (this.validarPersona()){
+        actualizarProveedor(){
+            if (this.validarProveedor()){
                     return;
-
                 }
                 let me = this;
-
                 axios.put('/proveedor/actualizar',{
                   'nombre': this.nombre,
                   'tipo_documento': this.tipo_documento,
@@ -288,22 +301,21 @@
                   'email': this.email,
                   'contacto': this.contacto,
                   'telefono_contacto': this.telefono_contacto,
-                  'id': this.persona_id
+                  'id': this.proveedor_id
                 }).then(function(response){
                     me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
+                    me.listarProveedor(1,'','nombre');
                 }).catch(function(error){
                     console.log(error);
                 });
-
         },
-        validarPersona(){
-            this.errorPersona=0,
-            this.errorMostrarMsjPersona =[];
+        validarProveedor(){
+            this.errorProveedor=0,
+            this.errorMostrarMsjProveedor =[];
 
-            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío");
-            if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-            return this.errorPersona;
+            if (!this.nombre) this.errorMostrarMsjProveedor.push("El nombre de la persona no puede estar vacío");
+            if (this.errorMostrarMsjProveedor.length) this.errorProveedor = 1;
+            return this.errorProveedor;
         },
         cerrarModal(){
             this.modal=0;
@@ -316,13 +328,11 @@
             this.email='';
             this.contacto='';
             this.telefono_contacto='';
-            this.errorPersona=0;
-
-
+            this.errorProveedor=0;
         },
         abrirModal(modelo, accion, data = []){
             switch (modelo){
-                case "persona":
+                case "proveedor":
                 {
                     switch(accion){
                         case 'registrar':
@@ -339,7 +349,6 @@
                             this.telefono_contacto='';
                             this.tipoAccion = 1;
                             break;
-                            
                         }
                         case 'actualizar':
                         {
@@ -347,7 +356,7 @@
                             this.modal=1;
                             this.tituloModal='Actualizar Proveedor';
                             this.tipoAccion=2;
-                            this.persona_id=data['id'];
+                            this.proveedor_id=data['id'];
                             this.nombre = data['nombre'];
                             this.tipo_documento = data['tipo_documento'];
                             this.num_documento = data['num_documento'];
@@ -357,17 +366,88 @@
                             this.contacto = data['contacto'];
                             this.telefono_contacto = data['telefono_contacto'];
                             break;
-
                         }
                     }
                 }
             }
-        }
-
+        },
+         desactivarProveedor(id){
+               swal({
+                title: 'Esta seguro de desactivar este proveedor?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+                    axios.put('/proveedor/desactivar',{
+                        'id': id
+                    }).then(function (response) {
+                        me.listarProveedor(1,'','nombre');
+                        swal(
+                        'Desactivado!',
+                        'El registro ha sido desactivado con éxito.',
+                        'success'
+                        )
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                }
+                }) 
+            },
+            activarProveedor(id){
+               swal({
+                title: 'Esta seguro de activar este proveedor?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+                    axios.put('/proveedor/activar',{
+                        'id': id
+                    }).then(function (response) {
+                        me.listarProveedor(1,'','nombre');
+                        swal(
+                        'Activado!',
+                        'El registro ha sido activado con éxito.',
+                        'success'
+                        )
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    
+                    
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                    
+                }
+                }) 
+            },
+        
     },
-
         mounted() {
-            this.listarPersona(1,this.buscar, this.criterio);
+            this.listarProveedor(1,this.buscar, this.criterio);
         }
     }
 </script>

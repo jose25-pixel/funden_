@@ -1,124 +1,112 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use App\Proveedor;
-use App\Persona;
-
 
 class ProveedorController extends Controller
 {
+    //Función para moostrar los proveedores.
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        
         if ($buscar==''){
-            $personas = Proveedor::join('personas','proveedores.id','=','personas.id')
-            ->select('personas.id','personas.nombre','personas.tipo_documento',
-            'personas.num_documento','personas.direccion','personas.telefono',
-            'personas.email','proveedores.contacto','proveedores.telefono_contacto')
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
+            'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
+            'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')
+            ->orderBy('proveedores.id', 'desc')->paginate(3);
         }
         else{
-            $personas = Proveedor::join('personas','proveedores.id','=','personas.id')
-            ->select('personas.id','personas.nombre','personas.tipo_documento',
-            'personas.num_documento','personas.direccion','personas.telefono',
-            'personas.email','proveedores.contacto','proveedores.telefono_contacto')            
-            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
+            'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
+            'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')            
+            ->where('proveedores.'.$criterio, 'like', '%'. $buscar . '%')
+            ->orderBy('proveedores.id', 'desc')->paginate(3);
         }
-        
-
         return [
             'pagination' => [
-                'total'        => $personas->total(),
-                'current_page' => $personas->currentPage(),
-                'per_page'     => $personas->perPage(),
-                'last_page'    => $personas->lastPage(),
-                'from'         => $personas->firstItem(),
-                'to'           => $personas->lastItem(),
+                'total'        => $proveedores->total(),
+                'current_page' => $proveedores->currentPage(),
+                'per_page'     => $proveedores->perPage(),
+                'last_page'    => $proveedores->lastPage(),
+                'from'         => $proveedores->firstItem(),
+                'to'           => $proveedores->lastItem(),
             ],
-            'personas' => $personas
+            'proveedores' => $proveedores
         ];
     }
 
+    //Función para listar el prveedor en el ingreso
     public function selectProveedor(Request $request){
         //if (!$request->ajax()) return redirect('/');
 
         $filtro = $request->filtro;
-        $proveedores = Proveedor::join('personas','proveedores.id','=','personas.id')
-        ->where('personas.nombre', 'like', '%'. $filtro . '%')
-        ->orWhere('personas.num_documento', 'like', '%'. $filtro . '%')
-        ->select('personas.id','personas.nombre','personas.num_documento')
-        ->orderBy('personas.nombre', 'asc')->get();
-
+        $proveedores = Proveedor::where('proveedores.nombre', 'like', '%'. $filtro . '%')
+        ->orWhere('proveedores.num_documento', 'like', '%'. $filtro . '%')
+        ->select('proveedores.id','proveedores.nombre','proveedores.num_documento')
+        ->orderBy('proveedores.nombre', 'asc')->get();
         return ['proveedores' => $proveedores];
     }
 
+    //Función para guardar datos en la base de datos
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        
-        try{
-            DB::beginTransaction();
-            $persona = new Persona();
-            $persona->nombre = $request->nombre;
-            $persona->tipo_documento = $request->tipo_documento;
-            $persona->num_documento = $request->num_documento;
-            $persona->direccion = $request->direccion;
-            $persona->telefono = $request->telefono;
-            $persona->email = $request->email;
-            $persona->save();
-
             $proveedor = new Proveedor();
+            $proveedor->nombre = $request->nombre;
+            $proveedor->tipo_documento = $request->tipo_documento;
+            $proveedor->num_documento = $request->num_documento;
+            $proveedor->direccion = $request->direccion;
+            $proveedor->telefono = $request->telefono;
+            $proveedor->email = $request->email;
             $proveedor->contacto = $request->contacto;
             $proveedor->telefono_contacto = $request->telefono_contacto;
-            $proveedor->id = $persona->id;
+            $proveedor->condicion = 1; //activo
             $proveedor->save();
-
-            DB::commit();
-
-        } catch (Exception $e){
-            DB::rollBack();
-        } 
     }
 
+    //Función para actualizar el dato de proveedor
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        
-        try{
-            DB::beginTransaction();
-
             //Buscar primero el proveedor a modificar
             $proveedor = Proveedor::findOrFail($request->id);
-
-            $persona = Persona::findOrFail($proveedor->id);
-
-            $persona->nombre = $request->nombre;
-            $persona->tipo_documento = $request->tipo_documento;
-            $persona->num_documento = $request->num_documento;
-            $persona->direccion = $request->direccion;
-            $persona->telefono = $request->telefono;
-            $persona->email = $request->email;
-            $persona->save();
-
-            
+            $proveedor->nombre = $request->nombre;
+            $proveedor->tipo_documento = $request->tipo_documento;
+            $proveedor->num_documento = $request->num_documento;
+            $proveedor->direccion = $request->direccion;
+            $proveedor->telefono = $request->telefono;
+            $proveedor->email = $request->email;
             $proveedor->contacto = $request->contacto;
             $proveedor->telefono_contacto = $request->telefono_contacto;
+            $proveedor->condicion = 1; //desactivo
             $proveedor->save();
 
-            DB::commit();
+    }
 
-        } catch (Exception $e){
-            DB::rollBack();
-        }
+    //Función para desactivar el proveedor
+    public function desactivar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $proveedor =  Proveedor::findOrfail($request->id);
+        //cambiar la condicion a 0
+        $proveedor->condicion = 0; //desactivo
+        //guardar el objeto en la tabla
+        $proveedor->save();
+    }
 
+    //Función para actvar el registro de proveedor
+    public function activar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+          $proveedor =  Proveedor::findOrfail($request->id);
+          //cambiar la condicion a 1
+          $proveedor->condicion = 1; //activo
+          //guardar el objeto en la tabla
+          $proveedor->save();
     }
 }

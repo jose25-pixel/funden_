@@ -20,7 +20,6 @@ class CreateVentasTable extends Migration
             $table->integer('idusuario')->unsigned();
             $table->foreign('idusuario')->references('id')->on('users');
             $table->date('fecha_salida');
-            //$table->decimal('impuesto', 4,2);
             $table->decimal('total', 11,2);
             $table->string('estado', 20);
             $table->timestamps();

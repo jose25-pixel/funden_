@@ -735,7 +735,7 @@
                     me.precio=0;
                     me.arrayDetalle=[];
             },
-            verVenta(id){
+           verVenta(id){
                 let me=this;
                 this.listado=2;
 

@@ -15,6 +15,7 @@
         margin-top: 1%;
         margin-left: 2%;
         margin-right: 2%;
+        border-radius: 150px;
         }
  
         #imagen{
@@ -67,7 +68,7 @@
  
         #facliente thead{
         padding: 20px;
-        background: #2183E3;
+        background: #795300;
         text-align: left;
         border-bottom: 1px solid #FFFFFF;  
         }
@@ -76,12 +77,13 @@
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
+        text-align: center;
         margin-bottom: 15px;
         }
  
         #facvendedor thead{
         padding: 20px;
-        background: #2183E3;
+        background: #795300;
         text-align: center;
         border-bottom: 1px solid #FFFFFF;  
         }
@@ -93,9 +95,13 @@
         margin-bottom: 15px;
         }
  
+       /*  Aqui te dejo la ruta */
+
+        /* /inventario/pdf/{id} */
+
         #facarticulo thead{
         padding: 20px;
-        background: #2183E3;
+        background: #795300;
         text-align: center;
         border-bottom: 1px solid #FFFFFF;  
         }
@@ -108,11 +114,11 @@
         @foreach ($venta as $v)
         <header>
             <div id="logo">
-                <img src="img/logobotellas.jpeg"  id="imagen">
+                <img src="img/fundel.jpg"  id="imagen">
             </div>
             <div id="datos">
                 <p id="encabezado">
-                    <b>IncanatoIT</b><br>Jose Galvez 1368,chongoyape -Chiclayo,Perù<br>Telefono:(+51)931742904<br>Email: Jcarlos.ad7@gmail.com
+                    <b>Fundel</b><br>Karla fundel, Santa Tecla,El Salvador<br>Telefono:(+503)734475859<br>Email: fundel123@gmail.com
                 </p>
             </div>
             <div id="fact">
@@ -154,8 +160,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{$v->usuario}}</td>
-                            <td>{{$v->created_at}}</td>
+                            <td class="text-center">{{$v->usuario}}</td>
+                            <td class="text-center">{{$v->created_at}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -167,21 +173,26 @@
                 <table id="facarticulo">
                     <thead>
                         <tr id="fa">
-                            <th>CANT</th>
-                            <th>DESCRIPCION</th>
-                            <th>PRECIO UNIT</th>
-                            <th>DESC.</th>
-                            <th>PRECIO TOTAL</th>
+                            <th>PROVEEDOR</th>
+                            <th>COMPROBANTE</th>
+                            <th>SERIE COMPROBANTE</th>
+                            <th># COMPROBANTE</th>
+                            <th>FECHA</th>
+                            <th>FECHA V</th>
+                            <th>LOTE</th>
+                            <th>TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($detalles as $det)
                         <tr>
-                            <td>{{$det->cantidad}}</td>
-                            <td>{{$det->articulo}}</td>
-                            <td>{{$det->precio}}</td>
-                            <td>{{$det->descuento}}</td>
-                            <td>{{$det->cantidad*$det->precio-$det->descuento}}</td>
+                            <td>{{$det->usuario}}</td>
+                            <td></td>
+                            <td>hola</td>
+                            <td>hola</td>
+                            <td>hola</td>
+                            <td>hola</td>
+                            <td>hola total</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -217,7 +228,7 @@
         <br>
         <footer>
             <div id="gracias">
-                <p><b>Gracias por su compra vuelva pronto!</b></p>
+                <p><b>GRACIAS POR SU PREFERENCIA DE PARTE DE FUNDEL</b></p>
             </div>
         </footer>
     </body>

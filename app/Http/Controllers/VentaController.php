@@ -62,15 +62,12 @@ class VentaController extends Controller
             'users.usuario')
             ->where('ventas.id', '=', $id)
             ->orderBy('ventas.id', 'desc')->take(1)->get();
-        
-
         return ['venta' => $venta ];
     }
 
     public function obtenerDetalles(Request $request){
 
         if (!$request->ajax()) return redirect('/');
-
         $id = $request->id;
             $detalles = DetalleVenta::join('inventarios','detalle_ventas.idinventario','=','inventarios.id')
             ->join('articulos','inventarios.idproducto','=','articulos.id')
@@ -78,11 +75,6 @@ class VentaController extends Controller
             'articulos.nombre as articulo')
             ->where('detalle_ventas.idventa', '=', $id)
             ->orderBy('detalle_ventas.id', 'desc')->get();
-
-    
-        
-        
-
         return ['detalles' => $detalles ];
     }
     
@@ -108,6 +100,7 @@ class VentaController extends Controller
         $pdf = \PDF::loadView('pdf.venta',['venta'=>$venta, 'detalles'=>$detalles]);
         return  $pdf->download('venta-'.$numventa[0]->fecha_salida.'.pdf');
     }
+
 
     public function store(Request $request)
     {

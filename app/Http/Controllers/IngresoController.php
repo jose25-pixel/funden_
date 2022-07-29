@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\DetalleIngreso;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -19,20 +18,20 @@ class IngresoController extends Controller
         $criterio = $request->criterio;
         
         if ($buscar==''){
-            $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
+            $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
             'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento',
-            'ingresos.total','ingresos.lote','ingresos.estado','personas.nombre',
+            'ingresos.total','ingresos.lote','ingresos.estado','proveedores.nombre',
             'users.usuario')
             ->orderBy('ingresos.id', 'desc')->paginate(3);
         }
         else{
-            $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
+            $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
             'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento',
-            'ingresos.total','ingresos.lote','ingresos.estado','personas.nombre',
+            'ingresos.total','ingresos.lote','ingresos.estado','proveedores.nombre',
             'users.usuario')           
             ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')
             ->orderBy('ingresos.id', 'desc')->paginate(3);
@@ -57,11 +56,11 @@ class IngresoController extends Controller
         if (!$request->ajax()) return redirect('/');
 
         $id = $request->id;
-            $ingreso = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
+            $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
             'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
-            'ingresos.total','personas.nombre','users.usuario')
+            'ingresos.total','proveedores.nombre','users.usuario')
             ->where('ingresos.id', '=', $id)
             ->orderBy('ingresos.id', 'desc')->take(1)->get();
         return ['ingreso' => $ingreso ];
@@ -74,8 +73,6 @@ class IngresoController extends Controller
             ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','detalle_ingresos.cantidad_blister','articulos.nombre as articulo')
             ->where('detalle_ingresos.idingreso', '=', $id)
             ->orderBy('detalle_ingresos.id', 'desc')->get();
-        
-
         return ['detalles' => $detalles ];
     }
 

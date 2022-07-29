@@ -2,126 +2,86 @@
 
 namespace App\Http\Controllers;
 use App\User;
-use App\Persona;
 use Exception;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    //Función para visualizar los usuarios.
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        
         if ($buscar==''){
-            $personas = User::join('personas','users.id','=','personas.id')
-            ->join('roles','users.idrol','=','roles.id')
-            ->select('personas.id','personas.nombre','personas.tipo_documento',
-            'personas.num_documento','personas.direccion','personas.telefono',
-            'personas.email','users.usuario','users.password',
+            $users = User::join('roles','users.idrol','=','roles.id')
+            ->select('users.id','users.nombre','users.tipo_documento',
+            'users.num_documento','users.direccion','users.telefono',
+            'users.email','users.usuario','users.password',
             'users.condicion','users.idrol','roles.nombre as rol')
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            ->orderBy('users.id', 'desc')->paginate(5);
         }
         else{
-            $personas = User::join('personas','users.id','=','personas.id')
-            ->join('roles','users.idrol','=','roles.id')
-            ->select('personas.id','personas.nombre','personas.tipo_documento',
-            'personas.num_documento','personas.direccion','personas.telefono',
-            'personas.email','users.usuario','users.password',
+            $users = User::join('roles','users.idrol','=','roles.id')
+            ->select('users.id','users.nombre','users.tipo_documento',
+            'users.num_documento','users.direccion','users.telefono',
+            'users.email','users.usuario','users.password',
             'users.condicion','users.idrol','roles.nombre as rol')            
-            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            ->where('users.'.$criterio, 'like', '%'. $buscar . '%')
+            ->orderBy('users.id', 'desc')->paginate(5);
         }
-        
-
         return [
             'pagination' => [
-                'total'        => $personas->total(),
-                'current_page' => $personas->currentPage(),
-                'per_page'     => $personas->perPage(),
-                'last_page'    => $personas->lastPage(),
-                'from'         => $personas->firstItem(),
-                'to'           => $personas->lastItem(),
+                'total'        => $users->total(),
+                'current_page' => $users->currentPage(),
+                'per_page'     => $users->perPage(),
+                'last_page'    => $users->lastPage(),
+                'from'         => $users->firstItem(),
+                'to'           => $users->lastItem(),
             ],
-            'personas' => $personas
+            'users' => $users
         ];
     }
 
+    //Función para guardar datos en la base de datos
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        
-        try{
-            DB::beginTransaction();
-            $persona = new Persona();
-            $persona->nombre = $request->nombre;
-            $persona->tipo_documento = $request->tipo_documento;
-            $persona->num_documento = $request->num_documento;
-            $persona->direccion = $request->direccion;
-            $persona->telefono = $request->telefono;
-            $persona->email = $request->email;
-            $persona->save();
-
-            $user = new User();
+            $user= new User();
+            $user->nombre = $request->nombre;
+            $user->tipo_documento = $request->tipo_documento;
+            $user->num_documento = $request->num_documento;
+            $user->direccion = $request->direccion;
+            $user->telefono = $request->telefono;
+            $user->email = $request->email;
             $user->usuario = $request->usuario;
             $user->password = bcrypt( $request->password);
             $user->condicion = '1';
-            $user->idrol = $request->idrol;          
-
-            $user->id = $persona->id;
-
+            $user->idrol = $request->idrol; 
             $user->save();
-
-            DB::commit();
-
-        } catch (Exception $e){
-            DB::rollBack();
-        }
-
-        
-        
     }
-
+   
+    //Función para actualizar usuarios en la base de datos
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        
-        try{
-            DB::beginTransaction();
-
-            //Buscar primero el proveedor a modificar
+            //Buscar primero el usuario a modificar
             $user = User::findOrFail($request->id);
-
-            $persona = Persona::findOrFail($user->id);
-
-            $persona->nombre = $request->nombre;
-            $persona->tipo_documento = $request->tipo_documento;
-            $persona->num_documento = $request->num_documento;
-            $persona->direccion = $request->direccion;
-            $persona->telefono = $request->telefono;
-            $persona->email = $request->email;
-            $persona->save();
-
-            
+            $user->nombre = $request->nombre;
+            $user->tipo_documento = $request->tipo_documento;
+            $user->num_documento = $request->num_documento;
+            $user->direccion = $request->direccion;
+            $user->telefono = $request->telefono;
+            $user->email = $request->email;
             $user->usuario = $request->usuario;
             $user->password = bcrypt( $request->password);
             $user->condicion = '1';
             $user->idrol = $request->idrol;
             $user->save();
-
-
-            DB::commit();
-
-        } catch (Exception $e){
-            DB::rollBack();
-        }
-
     }
 
+    //Función para desactivar el usuario
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -130,6 +90,7 @@ class UserController extends Controller
         $user->save();
     }
 
+    //Función para activar el usuario
     public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -137,6 +98,4 @@ class UserController extends Controller
         $user->condicion = '1';
         $user->save();
     }
-
-
 }

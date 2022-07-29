@@ -25,7 +25,6 @@ class CreateIngresosTable extends Migration
             $table->date('fecha_compra');
             $table->date('fecha_vencimiento');
             $table->string('lote', 20);
-            //$table->decimal('impuesto', 4, 2);
             $table->decimal('total', 11, 2);
             $table->string('estado', 20);
             $table->timestamps();

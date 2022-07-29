@@ -107,10 +107,8 @@ Route::group(['middleware' => ['auth']], function(){
          //rutas para mostrar datos e ingresar datos a inventario
          Route::get('/inventario', 'InventarioController@index');
          Route::post('/inventario/registrar', 'InventarioController@store');
-
             //desactivar registros en la tabla
         Route::put('/inventario/desactivar', 'InventarioController@desactivar');
-        
         //activar registros en la tabla
         Route::put('/inventario/activar', 'InventarioController@activar');
 
@@ -118,15 +116,17 @@ Route::group(['middleware' => ['auth']], function(){
         
         //rutas de proveedor
         Route::get('/proveedor', 'ProveedorController@index');
-        
         //insertar registros en la tabla
         Route::post('/proveedor/registrar', 'ProveedorController@store');
-        
         //insertar registros en la tabla
         Route::put('/proveedor/actualizar', 'ProveedorController@update');
-        
         //seleccionar proveedor
         Route::get('/proveedor/selectProveedor', 'ProveedorController@selectProveedor');
+         //Activar el proveedor
+         Route::put('/proveedor/activar', 'ProveedorController@activar');
+         //Desactivar el proveedor
+         Route::put('/proveedor/desactivar', 'ProveedorController@desactivar');
+ 
 
 
         //rutas de los ingresos
@@ -256,8 +256,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/venta/obtenerCabecera', 'VentaController@obtenerCabecera');
         Route::get('/venta/obtenerDetalles', 'VentaController@obtenerDetalles');
         Route::get('/venta/pdf/{id}', 'VentaController@pdf')->name('venta_pdf');
-
-
    });
     
    

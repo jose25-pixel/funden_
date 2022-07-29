@@ -42439,11 +42439,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            persona_id: 0,
+            proveedor_id: 0,
             nombre: '',
             tipo_documento: '',
             num_documento: '',
@@ -42452,12 +42471,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             email: '',
             contacto: '',
             telefono_contacto: '',
-            arrayPersona: [],
+            arrayProveedor: [],
             modal: 0,
             tituloModal: '',
             tipoAccion: 0,
-            errorPersona: 0,
-            errorMostrarMsjPersona: [],
+            errorProveedor: 0,
+            errorMostrarMsjProveedor: [],
             pagination: {
                 'total': 0,
                 'current_page': 0,
@@ -42499,14 +42518,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         //listar clientes
-        listarPersona: function listarPersona(page, buscar, criterio) {
+        listarProveedor: function listarProveedor(page, buscar, criterio) {
 
             var me = this;
             var url = '/proveedor?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 //handle sucess
-                me.arrayPersona = respuesta.personas.data;
+                me.arrayProveedor = respuesta.proveedores.data;
                 me.pagination = respuesta.pagination;
             }).catch(function (error) {
                 //handle error
@@ -42515,16 +42534,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cambiarPagina: function cambiarPagina(page, buscar, criterio) {
             var me = this;
-
             me.pagination.current_page = page;
-            me.listarPersona(page, buscar, criterio);
+            me.listarProveedor(page, buscar, criterio);
         },
-        registrarPersona: function registrarPersona() {
-            if (this.validarPersona()) {
+        registrarProveedor: function registrarProveedor() {
+            if (this.validarProveedor()) {
                 return;
             }
             var me = this;
-
             axios.post('/proveedor/registrar', {
                 'nombre': this.nombre,
                 'tipo_documento': this.tipo_documento,
@@ -42536,17 +42553,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'telefono_contacto': this.telefono_contacto
             }).then(function (response) {
                 me.cerrarModal();
-                me.listarPersona(1, '', 'nombre');
+                me.listarProveedor(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        actualizarPersona: function actualizarPersona() {
-            if (this.validarPersona()) {
+        actualizarProveedor: function actualizarProveedor() {
+            if (this.validarProveedor()) {
                 return;
             }
             var me = this;
-
             axios.put('/proveedor/actualizar', {
                 'nombre': this.nombre,
                 'tipo_documento': this.tipo_documento,
@@ -42556,20 +42572,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'email': this.email,
                 'contacto': this.contacto,
                 'telefono_contacto': this.telefono_contacto,
-                'id': this.persona_id
+                'id': this.proveedor_id
             }).then(function (response) {
                 me.cerrarModal();
-                me.listarPersona(1, '', 'nombre');
+                me.listarProveedor(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        validarPersona: function validarPersona() {
-            this.errorPersona = 0, this.errorMostrarMsjPersona = [];
+        validarProveedor: function validarProveedor() {
+            this.errorProveedor = 0, this.errorMostrarMsjProveedor = [];
 
-            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío");
-            if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-            return this.errorPersona;
+            if (!this.nombre) this.errorMostrarMsjProveedor.push("El nombre de la persona no puede estar vacío");
+            if (this.errorMostrarMsjProveedor.length) this.errorProveedor = 1;
+            return this.errorProveedor;
         },
         cerrarModal: function cerrarModal() {
             this.modal = 0;
@@ -42582,13 +42598,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.email = '';
             this.contacto = '';
             this.telefono_contacto = '';
-            this.errorPersona = 0;
+            this.errorProveedor = 0;
         },
         abrirModal: function abrirModal(modelo, accion) {
             var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
             switch (modelo) {
-                case "persona":
+                case "proveedor":
                     {
                         switch (accion) {
                             case 'registrar':
@@ -42612,7 +42628,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     this.modal = 1;
                                     this.tituloModal = 'Actualizar Proveedor';
                                     this.tipoAccion = 2;
-                                    this.persona_id = data['id'];
+                                    this.proveedor_id = data['id'];
                                     this.nombre = data['nombre'];
                                     this.tipo_documento = data['tipo_documento'];
                                     this.num_documento = data['num_documento'];
@@ -42626,11 +42642,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         }
                     }
             }
+        },
+        desactivarProveedor: function desactivarProveedor(id) {
+            var _this = this;
+
+            swal({
+                title: 'Esta seguro de desactivar este proveedor?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+            }).then(function (result) {
+                if (result.value) {
+                    var me = _this;
+                    axios.put('/proveedor/desactivar', {
+                        'id': id
+                    }).then(function (response) {
+                        me.listarProveedor(1, '', 'nombre');
+                        swal('Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (
+                // Read more about handling dismissals
+                result.dismiss === swal.DismissReason.cancel) {}
+            });
+        },
+        activarProveedor: function activarProveedor(id) {
+            var _this2 = this;
+
+            swal({
+                title: 'Esta seguro de activar este proveedor?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+            }).then(function (result) {
+                if (result.value) {
+                    var me = _this2;
+                    axios.put('/proveedor/activar', {
+                        'id': id
+                    }).then(function (response) {
+                        me.listarProveedor(1, '', 'nombre');
+                        swal('Activado!', 'El registro ha sido activado con éxito.', 'success');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (
+                // Read more about handling dismissals
+                result.dismiss === swal.DismissReason.cancel) {}
+            });
         }
     },
-
     mounted: function mounted() {
-        this.listarPersona(1, this.buscar, this.criterio);
+        this.listarProveedor(1, this.buscar, this.criterio);
     }
 });
 
@@ -42657,7 +42734,7 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  return _vm.abrirModal("persona", "registrar")
+                  return _vm.abrirModal("proveedor", "registrar")
                 }
               }
             },
@@ -42715,6 +42792,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("option", { attrs: { value: "telefono" } }, [
                       _vm._v("Teléfono")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "contacto" } }, [
+                      _vm._v("contacto")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "telefono_contacto" } }, [
+                      _vm._v("Teléfono_Contacto")
                     ])
                   ]
                 ),
@@ -42739,7 +42824,7 @@ var render = function() {
                       ) {
                         return null
                       }
-                      return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                      return _vm.listarProveedor(1, _vm.buscar, _vm.criterio)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -42757,7 +42842,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                        return _vm.listarProveedor(1, _vm.buscar, _vm.criterio)
                       }
                     }
                   },
@@ -42775,55 +42860,115 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.arrayPersona, function(persona) {
-                  return _c("tr", { key: persona.id }, [
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.abrirModal(
-                                "persona",
-                                "actualizar",
-                                persona
-                              )
+                _vm._l(_vm.arrayProveedor, function(proveedor) {
+                  return _c("tr", { key: proveedor.id }, [
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.abrirModal(
+                                  "proveedor",
+                                  "actualizar",
+                                  proveedor
+                                )
+                              }
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "icon-pencil" })]
-                      )
-                    ]),
+                          },
+                          [_c("i", { staticClass: "icon-pencil" })]
+                        ),
+                        _vm._v("  \n                                   "),
+                        proveedor.condicion
+                          ? [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.desactivarProveedor(
+                                        proveedor.id
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "icon-trash" })]
+                              )
+                            ]
+                          : [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.activarProveedor(proveedor.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "icon-check" })]
+                              )
+                            ]
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.nombre) }
+                      domProps: { textContent: _vm._s(proveedor.nombre) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.tipo_documento) }
+                      domProps: {
+                        textContent: _vm._s(proveedor.tipo_documento)
+                      }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.num_documento) }
+                      domProps: { textContent: _vm._s(proveedor.num_documento) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.direccion) }
+                      domProps: { textContent: _vm._s(proveedor.direccion) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.telefono) }
+                      domProps: { textContent: _vm._s(proveedor.telefono) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.email) }
+                      domProps: { textContent: _vm._s(proveedor.email) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.contacto) }
-                    })
+                      domProps: { textContent: _vm._s(proveedor.contacto) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: {
+                        textContent: _vm._s(proveedor.telefono_contacto)
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      proveedor.condicion
+                        ? _c("div", [
+                            _c("span", { staticClass: "badge badge-success" }, [
+                              _vm._v("Activo")
+                            ])
+                          ])
+                        : _c("div", [
+                            _c("span", { staticClass: "badge badge-danger" }, [
+                              _vm._v("Inactivo")
+                            ])
+                          ])
+                    ])
                   ])
                 }),
                 0
@@ -43296,8 +43441,8 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errorPersona,
-                            expression: "errorPersona"
+                            value: _vm.errorProveedor,
+                            expression: "errorProveedor"
                           }
                         ],
                         staticClass: "form-group row div-error"
@@ -43306,7 +43451,7 @@ var render = function() {
                         _c(
                           "div",
                           { staticClass: "text-center text-error" },
-                          _vm._l(_vm.errorMostrarMsjPersona, function(error) {
+                          _vm._l(_vm.errorMostrarMsjProveedor, function(error) {
                             return _c("div", {
                               key: error,
                               domProps: { textContent: _vm._s(error) }
@@ -43343,7 +43488,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.registrarPersona()
+                            return _vm.registrarProveedor()
                           }
                         }
                       },
@@ -43359,7 +43504,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.actualizarPersona()
+                            return _vm.actualizarProveedor()
                           }
                         }
                       },
@@ -43395,7 +43540,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Tipo Documento")]),
+        _c("th", [_vm._v("Documento")]),
         _vm._v(" "),
         _c("th", [_vm._v("Número")]),
         _vm._v(" "),
@@ -43405,7 +43550,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Contacto")])
+        _c("th", [_vm._v("Contacto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tel:Contacto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Estado")])
       ])
     ])
   }
@@ -44230,11 +44379,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            persona_id: 0,
+            usuario_id: 0,
             nombre: '',
             tipo_documento: 'DNI',
             num_documento: '',
@@ -44244,13 +44399,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             usuario: '',
             password: '',
             idrol: 0,
-            arrayPersona: [],
+            arrayUsuario: [],
             arrayRol: [],
             modal: 0,
             tituloModal: '',
             tipoAccion: 0,
-            errorPersona: 0,
-            errorMostrarMsjPersona: [],
+            errorUsuario: 0,
+            errorMostrarMsjUsuario: [],
             pagination: {
                 'total': 0,
                 'current_page': 0,
@@ -44294,12 +44449,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        listarPersona: function listarPersona(page, buscar, criterio) {
+        listarUsuario: function listarUsuario(page, buscar, criterio) {
             var me = this;
             var url = '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
-                me.arrayPersona = respuesta.personas.data;
+                me.arrayUsuario = respuesta.users.data;
                 me.pagination = respuesta.pagination;
             }).catch(function (error) {
                 console.log(error);
@@ -44320,15 +44475,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Actualiza la página actual
             me.pagination.current_page = page;
             //Envia la petición para visualizar la data de esa página
-            me.listarPersona(page, buscar, criterio);
+            me.listarUsuario(page, buscar, criterio);
         },
-        registrarPersona: function registrarPersona() {
-            if (this.validarPersona()) {
+        registrarUsuario: function registrarUsuario() {
+            if (this.validarUsuario()) {
                 return;
             }
-
             var me = this;
-
             axios.post('/user/registrar', {
                 'nombre': this.nombre,
                 'tipo_documento': this.tipo_documento,
@@ -44339,21 +44492,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'usuario': this.usuario,
                 'password': this.password,
                 'idrol': this.idrol
-
             }).then(function (response) {
                 me.cerrarModal();
-                me.listarPersona(1, '', 'nombre');
+                me.listarUsuario(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        actualizarPersona: function actualizarPersona() {
-            if (this.validarPersona()) {
+        actualizarUsuario: function actualizarUsuario() {
+            if (this.validarUsuario()) {
                 return;
             }
-
             var me = this;
-
             axios.put('/user/actualizar', {
                 'nombre': this.nombre,
                 'tipo_documento': this.tipo_documento,
@@ -44364,26 +44514,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'usuario': this.usuario,
                 'password': this.password,
                 'idrol': this.idrol,
-                'id': this.persona_id
+                'id': this.usuario_id
             }).then(function (response) {
                 me.cerrarModal();
-                me.listarPersona(1, '', 'nombre');
+                me.listarUsuario(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        validarPersona: function validarPersona() {
-            this.errorPersona = 0;
-            this.errorMostrarMsjPersona = [];
+        validarUsuario: function validarUsuario() {
+            this.errorUsuario = 0;
+            this.errorMostrarMsjUsuario = [];
 
-            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-            if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-            if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-            if (this.idrol == 0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-
-            if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-
-            return this.errorPersona;
+            if (!this.nombre) this.errorMostrarMsjUsuario.push("El nombre de la persona no puede estar vacío.");
+            if (!this.usuario) this.errorMostrarMsjUsuario.push("El nombre de usuario no puede estar vacío.");
+            if (!this.password) this.errorMostrarMsjUsuario.push("El password no puede estar vacío.");
+            if (this.idrol == 0) this.errorMostrarMsjUsuario.push("Debes seleccionar un rol para el usuario.");
+            if (this.errorMostrarMsjUsuario.length) this.errorUsuario = 1;
+            return this.errorUsuario;
         },
         cerrarModal: function cerrarModal() {
             this.modal = 0;
@@ -44397,14 +44545,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.usuario = '';
             this.password = '';
             this.idrol = 0;
-            this.errorPersona = 0;
+            this.errorUsuario = 0;
         },
         abrirModal: function abrirModal(modelo, accion) {
             var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
             this.selectRol();
             switch (modelo) {
-                case "persona":
+                case "users":
                     {
                         switch (accion) {
                             case 'registrar':
@@ -44429,7 +44577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     this.modal = 1;
                                     this.tituloModal = 'Actualizar Usuario';
                                     this.tipoAccion = 2;
-                                    this.persona_id = data['id'];
+                                    this.usuario_id = data['id'];
                                     this.nombre = data['nombre'];
                                     this.tipo_documento = data['tipo_documento'];
                                     this.num_documento = data['num_documento'];
@@ -44463,11 +44611,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (result) {
                 if (result.value) {
                     var me = _this;
-
                     axios.put('/user/desactivar', {
                         'id': id
                     }).then(function (response) {
-                        me.listarPersona(1, '', 'nombre');
+                        me.listarUsuario(1, '', 'nombre');
                         swal('Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
                     }).catch(function (error) {
                         console.log(error);
@@ -44499,7 +44646,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     axios.put('/user/activar', {
                         'id': id
                     }).then(function (response) {
-                        me.listarPersona(1, '', 'nombre');
+                        me.listarUsuario(1, '', 'nombre');
                         swal('Activado!', 'El registro ha sido activado con éxito.', 'success');
                     }).catch(function (error) {
                         console.log(error);
@@ -44511,7 +44658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        this.listarPersona(1, this.buscar, this.criterio);
+        this.listarUsuario(1, this.buscar, this.criterio);
     }
 });
 
@@ -44538,7 +44685,7 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  return _vm.abrirModal("persona", "registrar")
+                  return _vm.abrirModal("users", "registrar")
                 }
               }
             },
@@ -44620,7 +44767,7 @@ var render = function() {
                       ) {
                         return null
                       }
-                      return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                      return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -44638,7 +44785,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                        return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
                       }
                     }
                   },
@@ -44656,8 +44803,8 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.arrayPersona, function(persona) {
-                  return _c("tr", { key: persona.id }, [
+                _vm._l(_vm.arrayUsuario, function(users) {
+                  return _c("tr", { key: users.id }, [
                     _c(
                       "td",
                       [
@@ -44669,9 +44816,9 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 return _vm.abrirModal(
-                                  "persona",
+                                  "users",
                                   "actualizar",
-                                  persona
+                                  users
                                 )
                               }
                             }
@@ -44679,7 +44826,7 @@ var render = function() {
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
                         _vm._v(" \n                                "),
-                        persona.condicion
+                        users.condicion
                           ? [
                               _c(
                                 "button",
@@ -44688,7 +44835,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.desactivarUsuario(persona.id)
+                                      return _vm.desactivarUsuario(users.id)
                                     }
                                   }
                                 },
@@ -44703,7 +44850,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.activarUsuario(persona.id)
+                                      return _vm.activarUsuario(users.id)
                                     }
                                   }
                                 },
@@ -44715,34 +44862,34 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.nombre) }
+                      domProps: { textContent: _vm._s(users.nombre) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.tipo_documento) }
+                      domProps: { textContent: _vm._s(users.tipo_documento) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.num_documento) }
+                      domProps: { textContent: _vm._s(users.num_documento) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.direccion) }
+                      domProps: { textContent: _vm._s(users.direccion) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.telefono) }
+                      domProps: { textContent: _vm._s(users.telefono) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.email) }
+                      domProps: { textContent: _vm._s(users.email) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(persona.usuario) }
+                      domProps: { textContent: _vm._s(users.usuario) }
                     }),
                     _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(persona.rol) } })
+                    _c("td", { domProps: { textContent: _vm._s(users.rol) } })
                   ])
                 }),
                 0
@@ -44896,14 +45043,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre (*)")]
-                      ),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45028,14 +45168,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Dirección")]
-                      ),
+                      _vm._m(3),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45063,14 +45196,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Teléfono")]
-                      ),
+                      _vm._m(4),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45098,14 +45224,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Email")]
-                      ),
+                      _vm._m(5),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45133,14 +45252,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Rol (*)")]
-                      ),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c(
@@ -45192,14 +45304,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Usuario (*)")]
-                      ),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45230,14 +45335,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Password (*)")]
-                      ),
+                      _vm._m(8),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
@@ -45274,8 +45372,8 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errorPersona,
-                            expression: "errorPersona"
+                            value: _vm.errorUsuario,
+                            expression: "errorUsuario"
                           }
                         ],
                         staticClass: "form-group row div-error"
@@ -45284,7 +45382,7 @@ var render = function() {
                         _c(
                           "div",
                           { staticClass: "text-center text-error" },
-                          _vm._l(_vm.errorMostrarMsjPersona, function(error) {
+                          _vm._l(_vm.errorMostrarMsjUsuario, function(error) {
                             return _c("div", {
                               key: error,
                               domProps: { textContent: _vm._s(error) }
@@ -45321,7 +45419,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.registrarPersona()
+                            return _vm.registrarUsuario()
                           }
                         }
                       },
@@ -45337,7 +45435,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.actualizarPersona()
+                            return _vm.actualizarUsuario()
                           }
                         }
                       },
@@ -45388,6 +45486,118 @@ var staticRenderFns = [
         _c("th", [_vm._v("Rol")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "text-input" }
+      },
+      [
+        _vm._v("Nombre\n                                "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Dirección\n                                "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Teléfono\n                                "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Email\n                                "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Rol\n                                "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Usuario\n                                 "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-3 form-control-label",
+        attrs: { for: "email-input" }
+      },
+      [
+        _vm._v("Password\n                                 "),
+        _c("span", { staticStyle: { color: "red" } }, [_vm._v("(*Ingrese)")])
+      ]
+    )
   }
 ]
 render._withStripped = true
