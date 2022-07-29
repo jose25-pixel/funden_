@@ -52,9 +52,7 @@
                                             <i class="icon-doc"></i>
                                     </button> &nbsp;
 
-                                    <button type="button" @click="verKardex(articulo.id)" class="btn btn-success btn-sm">
-                                            <i class="icon-eye"></i>
-                                    </button> &nbsp;
+                                   
 
                                     <button type="button" @click="abrirModal('articulo', 'actualizar', articulo)"
                                         class="btn btn-warning btn-sm">

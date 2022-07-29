@@ -109,6 +109,7 @@ class IngresoController extends Controller
                 $detalle->cantidad_blister = $det['cantidad_blister'];
                 $detalle->precio = $det['precio'];
                 $detalle->save();
+                
 
             }
 

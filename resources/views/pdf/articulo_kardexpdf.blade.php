@@ -193,6 +193,8 @@
                         <td>{{$ing->cantidad.'/'.$ing->cantidad_blister}}</td>
                         <td>{{$ing->antiguo_tableta}}</td>
                        
+                        <td>{{$ing->pastillas}}</td>
+                       
                                        
                     </tr>
                     @endforeach

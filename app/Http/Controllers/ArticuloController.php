@@ -268,7 +268,7 @@ class ArticuloController extends Controller
         ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
         ->join('personas','ingresos.idproveedor','=','personas.id')
         ->select('ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
-        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote','ingresos.pastillas',
         'personas.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister')
         ->where('detalle_ingresos.idinventario', '=',$id)
         ->orderBy('detalle_ingresos.id', 'asc')->get();

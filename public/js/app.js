@@ -37077,8 +37077,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40161,23 +40159,7 @@ var render = function() {
                                     [_c("i", { staticClass: "icon-doc" })]
                                   ),
                                   _vm._v(
-                                    "  \n\n                                "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.verKardex(articulo.id)
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "icon-eye" })]
-                                  ),
-                                  _vm._v(
-                                    "  \n\n                                "
+                                    "  \n\n                               \n\n                                "
                                   ),
                                   _c(
                                     "button",
