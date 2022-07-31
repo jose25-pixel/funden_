@@ -18,14 +18,14 @@ class ProveedorController extends Controller
             $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
             'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
             'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')
-            ->orderBy('proveedores.id', 'desc')->paginate(3);
+            ->orderBy('proveedores.id', 'desc')->paginate(7);
         }
         else{
             $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
             'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
             'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')            
             ->where('proveedores.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('proveedores.id', 'desc')->paginate(3);
+            ->orderBy('proveedores.id', 'desc')->paginate(7);
         }
         return [
             'pagination' => [
@@ -46,6 +46,7 @@ class ProveedorController extends Controller
 
         $filtro = $request->filtro;
         $proveedores = Proveedor::where('proveedores.nombre', 'like', '%'. $filtro . '%')
+        ->where('proveedores.condicion', '=','1')
         ->orWhere('proveedores.num_documento', 'like', '%'. $filtro . '%')
         ->select('proveedores.id','proveedores.nombre','proveedores.num_documento')
         ->orderBy('proveedores.nombre', 'asc')->get();

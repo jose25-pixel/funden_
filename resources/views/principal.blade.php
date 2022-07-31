@@ -8,9 +8,9 @@
     <meta name="description" content="Sistema Ventas Laravel Vue Js">
     <meta name="keyword" content="Sistema ventas Laravel Vue Js, Sistema compras Laravel Vue Js">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="img/fundel.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js">
-    <title>Sistema Ventas</title>
+    <title>Sistema De Inventario Fundel</title>
     <!-- Icons -->
    
     <!-- Main styles for this application -->
@@ -97,7 +97,7 @@
 
     <footer class="app-footer">
         <span>FUNDEL |ZZFZD </span>
-        <span class="ml-auto">Fundacio para el Desarrollo Latinomericano()</span>
+        <span class="ml-auto">Fundación para el Desarrollo Latinomericano()</span>
     </footer>
 
     <!-- Bootstrap and necessary plugins -->

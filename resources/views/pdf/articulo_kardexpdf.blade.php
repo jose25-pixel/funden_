@@ -177,12 +177,18 @@
                         <th>N_Comprob</th>
                         <th>Fecha_Venci</th>
                         <th>Entradas</th>
+
+                        <th>saldo</th>
+                        
                        
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($detalles as $det)
                     @foreach ($detalle_ingresos as $ing)
+                   
                     <tr>
+                        
                         <td>{{$ing->fecha_compra}}</td>
                         <td>{{$ing->proveedor}}</td>   
                         <td>{{$ing->lote}}</td> 
@@ -191,12 +197,21 @@
                         <td>{{$ing->num_comprobante}}</td>
                         <td>{{$ing->fecha_vencimiento}}</td>
                         <td>{{$ing->cantidad.'/'.$ing->cantidad_blister}}</td>
-                        <td>{{$ing->antiguo_tableta}}</td>
+                      
+                        <td> 
+                         
+                            
+                                {{$det->antiguo_tableta.'/'.$det->antiguo_blister}}
+                               
+                            
+                          
+                           </td>
                        
-                        <td>{{$ing->pastillas}}</td>
+                       
                        
                                        
                     </tr>
+                    @endforeach
                     @endforeach
                 </tbody>
             </table>

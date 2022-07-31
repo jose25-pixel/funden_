@@ -55,6 +55,9 @@
                                             <button type="button" @click="verIngreso(ingreso.id)" class="btn btn-success btn-sm">
                                             <i class="icon-eye"></i>
                                             </button> &nbsp;
+                                             <button type="button" @click="pdfIngreso(ingreso.id)" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa fa-file-pdf-o" ></i>
+                                            </button> &nbsp;
                                             <template v-if="ingreso.estado=='Registrado'">
                                                 <button type="button" class="btn btn-danger btn-sm" @click="desactivarIngreso(ingreso.id)">
                                                     <i class="icon-trash"></i>
@@ -265,13 +268,10 @@
                                     <p v-text="proveedor"></p>
                                 </div>
                             </div>
-                            
-                           
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Tipo Comprobante</label>
-                                <p v-text="tipo_comprobante"></p>
-                                    
+                                <p v-text="tipo_comprobante"></p>  
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -283,32 +283,27 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Número Comprobante</label>
-                                <p v-text="num_comprobante"></p>
-                                    
+                                <p v-text="num_comprobante"></p>            
                                 </div>
                             </div>
-                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Fecha_Compra</label>
                                      <p v-text="fecha_compra"></p>
                                 </div>
                             </div>
-
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Fecha_vencimiento</label>
                                      <p v-text="fecha_vencimiento"></p>
                                 </div>
                             </div>
-
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Lote</label>
                                     <p v-text="lote"></p>
                                 </div>
                             </div>
-                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
@@ -316,8 +311,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group row border">
                             <div class="table-responsive col-md-12">
                                 <table class="table table-bordered table-striped table-sm">
@@ -345,8 +338,7 @@
                                             <td>
                                                 {{detalle.precio*detalle.cantidad}}
                                             </td>
-                                        </tr>
-                                        
+                                        </tr>          
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
                                             <td>$ {{total}}</td>
@@ -387,13 +379,12 @@
          
 
                         <div class="modal-body">
-                            
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterioA">
                                       <option value="nombre">Nombre</option>
-                                      <option value="concentracion">concentracion</option>
+                                      <option value="concentracion">Concentracion</option>
                                       <option value="presentacion">Presentación</option>
                                     </select>
                                     <input type="text" v-model="buscarA" @keyup.enter="listarArticuloinventario(buscarA,criterioA)" class="form-control" placeholder="Texto a buscar">
@@ -402,14 +393,12 @@
                             </div>
                         </div>
                             <div class="table-responsive">
-                                
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>
                                         <tr>
                                             <th>Opciones</th>
                                             <th>Medicamento</th>
                                             <th>Concentracion</th>
-                                       
                                              <th>C.Farmaceutica</th>
                                             <th>Administracion</th>
                                             <th>Presentacion</th>
@@ -810,7 +799,9 @@
                     console.log(error);
                 });
             },
-
+            pdfIngreso(id){
+                window.open('/ingreso/pdf/'+ id + ',' + '_blank');
+             },
             ocultarDetalle(){
                 this.listado=1;
             },

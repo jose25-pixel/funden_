@@ -46163,17 +46163,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -46502,6 +46491,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        pdfIngreso: function pdfIngreso(id) {
+            window.open('/ingreso/pdf/' + id + ',' + '_blank');
         },
         ocultarDetalle: function ocultarDetalle() {
             this.listado = 1;
@@ -47218,6 +47210,27 @@ var render = function() {
                                       }
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
+                                  ),
+                                  _vm._v(
+                                    "  \n                                     "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-danger btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.pdfIngreso(ingreso.id)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-file-pdf-o"
+                                      })
+                                    ]
                                   ),
                                   _vm._v(
                                     "  \n                                    "
@@ -48417,7 +48430,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "concentracion" } }, [
-                            _vm._v("concentracion")
+                            _vm._v("Concentracion")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "presentacion" } }, [
@@ -55069,23 +55082,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -55464,68 +55460,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.arrayInventario, function(inventarios) {
                   return _c("tr", { key: inventarios.id }, [
-                    _c(
-                      "td",
-                      [
-                        _vm._m(2, true),
-                        _vm._v("  \n                           "),
-                        inventarios.condicion
-                          ? [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.desactivarInventario(
-                                        inventarios.id
-                                      )
-                                    }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-trash" })]
-                              )
-                            ]
-                          : [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.activarInventario(
-                                        inventarios.id
-                                      )
-                                    }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-check" })]
-                              )
-                            ],
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-danger btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.desactivarInventario(inventarios.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "fa fa-file-pdf-o",
-                              attrs: { "aria-hidden": "true" }
-                            })
-                          ]
-                        )
-                      ],
-                      2
-                    ),
+                    _vm._m(2, true),
                     _vm._v(" "),
                     _c("td", {
                       domProps: { textContent: _vm._s(inventarios.id) }
@@ -55691,11 +55626,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "icon-pencil" })]
-    )
+    return _c("td", [
+      _c(
+        "button",
+        { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "icon-pencil" })]
+      ),
+      _vm._v("  \n                            ")
+    ])
   }
 ]
 render._withStripped = true

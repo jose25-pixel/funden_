@@ -75,6 +75,31 @@ class IngresoController extends Controller
             ->orderBy('detalle_ingresos.id', 'desc')->get();
         return ['detalles' => $detalles ];
     }
+    public function pdfIngreso(Request $request, $id)
+    {
+        $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
+        ->join('users','ingresos.idusuario','=','users.id')
+        ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
+        'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'ingresos.total','ingresos.created_at','proveedores.nombre','proveedores.tipo_documento',
+        'proveedores.num_documento','proveedores.direccion','proveedores.email',
+        'proveedores.telefono','users.usuario')
+        ->where('ingresos.id', '=', $id)
+        ->orderBy('ingresos.id', 'desc')->take(1)->get();
+
+        $detalles = DetalleIngreso::join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
+            ->join('articulos','inventarios.idproducto','=','articulos.id')
+            ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','detalle_ingresos.cantidad_blister',
+            'articulos.nombre as articulo')
+            ->where('detalle_ingresos.idingreso', '=', $id)
+            ->orderBy('detalle_ingresos.id', 'desc')->get();
+        
+            $feingreso=Ingreso::select('fecha_compra')->where('id',$id)->get();
+
+            $pdf = \PDF::loadView('pdf.ingreso',['ingreso'=>$ingreso,'detalles'=>$detalles]);
+            return $pdf->download('ingreso-'.$feingreso[0]->fecha_compra.'.pdf');
+
+    }
 
     public function store(Request $request)
     {

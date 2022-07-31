@@ -248,6 +248,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('/ingreso/desactivar', 'IngresoController@desactivar');
         Route::get('/ingreso/obtenerCabecera', 'IngresoController@obtenerCabecera');
         Route::get('/ingreso/obtenerDetalles', 'IngresoController@obtenerDetalles');
+        Route::get('/ingreso/pdf/{id}', 'IngresoController@pdfIngreso')->name('ingreso_pdf');
+
 
          //rutas de las ventas
         Route::get('/venta', 'VentaController@index');

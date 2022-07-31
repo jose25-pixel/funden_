@@ -54,7 +54,6 @@ class InventarioController extends Controller
     public function listarArticuloinventario(Request $request)
     {
          //if (!$request->ajax()) return redirect('/');
-
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
@@ -63,51 +62,62 @@ class InventarioController extends Controller
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
-            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
-            'articulos.administracion','articulos.presentacion','inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion'
-            )->orderBy('articulos.id','desc')->paginate(10);
+            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  
+            'articulos.concentracion','articulos.administracion','articulos.presentacion',
+            'inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion')
+            ->where('articulos.condicion','=','1')
+            ->orderBy('articulos.id','desc')->paginate(7);
         }
         else{
             $inventarios = Inventario::join('articulos','inventarios.idproducto', '=', 'articulos.id')
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
-            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
-            'articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion'
-            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(10);
+            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje', 
+            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta',
+            'inventarios.cantidad_blister',  'articulos.condicion'
+            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')
+            ->where('articulos.condicion','=','1')
+            ->orderBy('articulos.id','desc')->paginate(7);
         }
         return['inventarios' => $inventarios]; 
     }
-/*funcion para listar medicamentos del inventario para vender con stock mayor a cero */
+
+    /*funcion para listar medicamentos del inventario para vender con stock mayor a cero */
     public function listarArticuloinventarioV(Request $request)
     {
          //if (!$request->ajax()) return redirect('/');
-
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
         if($buscar==''){
             $inventarios = Inventario::join('articulos','inventarios.idproducto', '=', 'articulos.id')
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
-            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
-            'articulos.administracion','articulos.presentacion','inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion'
-            ) ->where('cantidad_tableta', '>', '0')->orderBy('articulos.id','desc')->paginate(10);
+            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  
+            'articulos.concentracion','articulos.administracion','articulos.presentacion','inventarios.cantidad_tableta',
+            'inventarios.cantidad_blister','articulos.condicion') 
+            ->where('cantidad_tableta', '>', '0')
+            ->where('articulos.condicion', '=', '1')
+            ->orderBy('articulos.id','desc')->paginate(7);
         }
         else{
             $inventarios = Inventario::join('articulos','inventarios.idproducto', '=', 'articulos.id')
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
-            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
-            'articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion'
+            'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',
+            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta',
+            'inventarios.cantidad_blister','articulos.condicion'
             ) ->where('cantidad_tableta', '>', '0')
-            ->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(10);
+            ->where('articulos.'.$criterio,'like','%'.$buscar.'%')
+            ->where('articulos.condicion', '=', '1')
+            ->orderBy('articulos.id','desc')->paginate(7);
         }
         return['inventarios' => $inventarios]; 
     }
-/*funcion para buscar medicamentos en invetarios */
+    
+    /*funcion para buscar medicamentos en invetarios */
 
     public function buscarArticuloInventario(Request $request){
         $filtro = $request->filtro;
@@ -130,6 +140,7 @@ class InventarioController extends Controller
         ->where('articulos.nombre', '=', $filtro)
         ->select('inventarios.id','articulos.nombre','inventarios.cantidad_tableta')
         ->where('cantidad_tableta', '>', '0')->take(1)->get();
+        
         return ['inventarios' => $inventarios];  
 
        
