@@ -243,7 +243,8 @@ class ArticuloController extends Controller
 
     }
 
-    public function pdf(Request $request, $id){
+    public function pdf(Request $request, $id)
+    {
         $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
@@ -263,14 +264,20 @@ class ArticuloController extends Controller
         ->select('detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
         ->where('detalle_inventarios.idinventarios', '=', $id)
         ->orderBy('detalle_inventarios.id', 'asc')->get();
-
+      //tiene modificacion con el orwhere
         $detalle_ingresos = DetalleIngreso::join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
         ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
-        ->join('personas','ingresos.idproveedor','=','personas.id')
+        ->join('proveedores','ingresos.idproveedor','=','proveedores.id')
+        
         ->select('ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
-        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote','ingresos.pastillas',
-        'personas.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister')
-        ->where('detalle_ingresos.idinventario', '=',$id)
+        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'proveedores.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister')
+      
+        //->where('detalle_inventarios.idinventarios', '=',$id)
+        ->where('detalle_ingresos.idinventario','=',$id)
+        
+        
+      
         ->orderBy('detalle_ingresos.id', 'asc')->get();
 
       
@@ -345,7 +352,7 @@ class ArticuloController extends Controller
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
             'articulos.administracion','articulos.presentacion','articulos.items','articulos.condicion'
-            )->orderBy('articulos.id','desc')->paginate(10);
+            )->orderBy('articulos.id','desc')->paginate(7);
         }
         else{
             $articulos = Articulo::join('categorias','articulos.idcategoria', '=', 'categorias.id')
@@ -353,7 +360,7 @@ class ArticuloController extends Controller
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  'articulos.concentracion',
             'articulos.administracion', 'articulos.presentacion','articulos.items','articulos.condicion'
-            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(10);
+            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(7);
         }
     }
 
