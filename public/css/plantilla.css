@@ -182,6 +182,22 @@ a:not([href]):not([tabindex]) {
   a:not([href]):not([tabindex]):focus {
     outline: 0; }
 
+.negro{
+  background-color: #000!important; 
+   color:white!important;
+}
+.cafe{
+  background-color:#af9d5fee!important; 
+  color:white!important;
+}
+.borde-b{
+border-bottom: 1px solid rgba(0, 0, 0, 0.1)!important;
+}
+.borde-t{
+border-top: 1px solid rgba(0, 0, 0, 0.1)!important;
+}
+
+
 pre,
 code,
 kbd,
@@ -3410,7 +3426,7 @@ button.close {
       flex-direction: column;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #bfbe8f;
   outline: 0; }
 
 .modal-backdrop {
@@ -3434,7 +3450,7 @@ button.close {
   -ms-flex-pack: justify;
       justify-content: space-between;
   padding: 15px;
-  border-bottom: 1px solid #c2cfd6; }
+  border-bottom: 1px solid #bfbe8f; }
 
 .modal-title {
   margin-bottom: 0;
@@ -3454,7 +3470,7 @@ button.close {
   -ms-flex-pack: end;
       justify-content: flex-end;
   padding: 15px;
-  border-top: 1px solid #c2cfd6; }
+  border-top: 1px solid #84713f; }
   .modal-footer > :not(:first-child) {
     margin-left: .25rem; }
   .modal-footer > :not(:last-child) {
@@ -7557,7 +7573,10 @@ base-chart.chart {
   background: #20a8d8; }
 
 .modal-primary .modal-content {
-  border-color: #20a8d8; }
+  border-color: #bcad7f; }
+
+  .modal-cafe .modal-header {
+    color: #bcad7f; }
 
 .modal-primary .modal-header {
   color: #fff;

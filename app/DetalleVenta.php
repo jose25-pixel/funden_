@@ -13,7 +13,9 @@ class DetalleVenta extends Model
         'idarticulo',
         'cantidad',
         'cantidad_blister',
-        'precio'
+        'precio',
+        'fecha_vencimiento',
+        'lote'
         ];
 
         public $timestamps = false;

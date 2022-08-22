@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\DetalleIngreso;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\DetalleInventario;
 use App\Ingreso;
+use App\Kardex;
 use Carbon\Carbon;
 use Exception;
 
@@ -21,8 +23,9 @@ class IngresoController extends Controller
             $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
-            'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento',
-            'ingresos.total','ingresos.lote','ingresos.estado','proveedores.nombre',
+            'ingresos.num_comprobante','ingresos.fecha_compra',
+            'ingresos.total','ingresos.estado',
+            'proveedores.nombre',
             'users.usuario')
             ->orderBy('ingresos.id', 'desc')->paginate(3);
         }
@@ -30,8 +33,8 @@ class IngresoController extends Controller
             $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
-            'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento',
-            'ingresos.total','ingresos.lote','ingresos.estado','proveedores.nombre',
+            'ingresos.num_comprobante','ingresos.fecha_compra',
+            'ingresos.total','ingresos.estado','proveedores.nombre',
             'users.usuario')           
             ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')
             ->orderBy('ingresos.id', 'desc')->paginate(3);
@@ -59,7 +62,7 @@ class IngresoController extends Controller
             $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
-            'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+            'ingresos.num_comprobante','ingresos.fecha_compra',
             'ingresos.total','proveedores.nombre','users.usuario')
             ->where('ingresos.id', '=', $id)
             ->orderBy('ingresos.id', 'desc')->take(1)->get();
@@ -70,7 +73,8 @@ class IngresoController extends Controller
         $id = $request->id;
             $detalles = DetalleIngreso::join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
             ->join('articulos','inventarios.idproducto','=','articulos.id')
-            ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','detalle_ingresos.cantidad_blister','articulos.nombre as articulo')
+            ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','detalle_ingresos.cantidad_blister',
+            'articulos.nombre as articulo','detalle_ingresos.fecha_vencimiento','detalle_ingresos.lote')
             ->where('detalle_ingresos.idingreso', '=', $id)
             ->orderBy('detalle_ingresos.id', 'desc')->get();
         return ['detalles' => $detalles ];
@@ -80,7 +84,7 @@ class IngresoController extends Controller
         $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
         ->join('users','ingresos.idusuario','=','users.id')
         ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
-        'ingresos.num_comprobante','ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
+        'ingresos.num_comprobante','ingresos.fecha_compra',
         'ingresos.total','ingresos.created_at','proveedores.nombre','proveedores.tipo_documento',
         'proveedores.num_documento','proveedores.direccion','proveedores.email',
         'proveedores.telefono','users.usuario')
@@ -90,6 +94,7 @@ class IngresoController extends Controller
         $detalles = DetalleIngreso::join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
             ->join('articulos','inventarios.idproducto','=','articulos.id')
             ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','detalle_ingresos.cantidad_blister',
+            'detalle_ingresos.fecha_vencimiento','detalle_ingresos.lote',
             'articulos.nombre as articulo')
             ->where('detalle_ingresos.idingreso', '=', $id)
             ->orderBy('detalle_ingresos.id', 'desc')->get();
@@ -114,8 +119,6 @@ class IngresoController extends Controller
             $ingreso->serie_comprobante = $request->serie_comprobante;
             $ingreso->num_comprobante = $request->num_comprobante;
             $ingreso->fecha_compra = $request->fecha_compra;
-            $ingreso->fecha_vencimiento = $request->fecha_vencimiento;
-            $ingreso->lote = $request->lote;
             $ingreso->total = $request->total;
             $ingreso->estado = 'Registrado';
             $ingreso->save();
@@ -130,19 +133,22 @@ class IngresoController extends Controller
                 $detalle->cantidad = $det['cantidad'];
                 $detalle->cantidad_blister = $det['cantidad_blister'];
                 $detalle->precio = $det['precio'];
+                $detalle->fecha_vencimiento = $det['fecha_vencimiento'];
+                $detalle->lote = $det['lote'];
                 $detalle->save();
                 
-
+          $data = DetalleInventario::latest('id')->first();
+                
+        $kardes = new Kardex();
+        $kardes->iddetalleingreso = $detalle->id;
+        $kardes->iddetalleinventario = $data->id; //$request->id detalle_inventario;
+        $kardes->acciones = 'compra';
+        $kardes->save();
             }
-
             DB::commit();
-
         } catch (Exception $e){
             DB::rollBack();
         }
-
-        
-        
     }
 
     public function desactivar(Request $request)

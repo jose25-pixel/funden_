@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reporte de productos</title>
     <style>
-
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             font-size: 0.875rem;
             font-weight: normal;
             line-height: 1.5;
-            color: #151b1e;           
+            color: #151b1e;
         }
+
         .table {
             display: table;
             width: 100%;
@@ -23,75 +24,93 @@
             background-color: transparent;
             border-collapse: collapse;
         }
+
         .table-bordered {
             border: 1px solid #c2cfd6;
         }
+
         thead {
             display: table-header-group;
             vertical-align: middle;
             border-color: inherit;
         }
+
         tr {
             display: table-row;
             vertical-align: inherit;
             border-color: inherit;
         }
-        .table th, .table td {
+
+        .table th,
+        .table td {
             padding: 0.75rem;
             vertical-align: top;
             border-top: 1px solid #c2cfd6;
         }
+
         .table thead th {
             vertical-align: bottom;
             border-bottom: 2px solid #c2cfd6;
         }
-        .table-bordered thead th, .table-bordered thead td {
+
+        .table-bordered thead th,
+        .table-bordered thead td {
             border-bottom-width: 2px;
         }
-        .table-bordered th, .table-bordered td {
+
+        .table-bordered th,
+        .table-bordered td {
             border: 1px solid #c2cfd6;
         }
-        th, td {
+
+        th,
+        td {
             display: table-cell;
             vertical-align: inherit;
         }
+
         th {
             font-weight: bold;
             text-align: -internal-center;
             text-align: left;
         }
+
         tbody {
             display: table-row-group;
             vertical-align: middle;
             border-color: inherit;
         }
+
         tr {
             display: table-row;
             vertical-align: inherit;
             border-color: inherit;
         }
+
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        .izquierda{
-            float:left;
-        }
-        .derecha{
-            float:right;
+
+        .izquierda {
+            float: left;
         }
 
+        .derecha {
+            float: right;
+        }
     </style>
 </head>
+
 <body>
     <div>
-        <h3>Lista de los  productos <span class="derecha">{{now()}}</span></h3>
+        <h3>Lista de los productos <span class="derecha">{{ now() }}</span></h3>
     </div>
     <div>
-        
+
         <table class="table table-responsive table-borderless table-sm">
             <thead>
                 <tr>
-                   
+
                     <th scope="col">Nombre</th>
                     <th scope="col">Concentracion</th>
                     <th scope="col">Casa Farmaceutica</th>
@@ -102,18 +121,18 @@
             </thead>
             <tbody>
                 @foreach ($articulos as $a)
-                    <tr>
-                        <td>{{$a->nombre}}</td>
-                        <td>{{$a->concentracion.$a->nombre_gramaje}}</td>
-                        <td>{{$a->nombre_categoria}}</td>
-                        <td>{{$a->presentacion}}</td>
-                        <td>{{$a->administracion}}</td>
-                        <td>{{$a->items}}</td>
-                        <td>{{$a->cantidad_tableta}}</td>
-                        <td>{{$a->cantidad_blister}}</td>
-                        <td>{{$a->antiguo_tableta}}</td>
-                        <td>{{$a->antiguo_blister}}</td>
-                    </tr>
+                <tr>
+                    <td>{{ $a->nombre }}</td>
+                    <td>{{ $a->concentracion . $a->nombre_gramaje }}</td>
+                    <td>{{ $a->nombre_categoria }}</td>
+                    <td>{{ $a->presentacion }}</td>
+                    <td>{{ $a->administracion }}</td>
+                    <td>{{ $a->items }}</td>
+                    <td>{{ $a->cantidad_tableta }}</td>
+                    <td>{{ $a->cantidad_blister }}</td>
+                    <td>{{ $a->antiguo_tableta }}</td>
+                    <td>{{ $a->antiguo_blister }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -132,8 +151,8 @@
                 <tbody>
                     @foreach ($inventarios as $in)
                     <tr>
-                        <td>{{$in->cantidad_tableta}}</td>
-                        <td>{{$in->cantidad_blister}}</td>
+                        <td>{{ $in->cantidad_tableta }}</td>
+                        <td>{{ $in->cantidad_blister }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -155,9 +174,9 @@
                 <tbody>
                     @foreach ($detalles as $det)
                     <tr>
-                        <td>{{$det->antiguo_tableta}}</td>
-                        <td>{{$det->antiguo_blister}}</td>
-                        <td>{{$det->proveedor}}</td>
+                        <td>{{ $det->antiguo_tableta }}</td>
+                        <td>{{ $det->antiguo_blister }}</td>
+                        <td>{{ $det->proveedor }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -171,51 +190,83 @@
                     <tr>
                         <th>Fecha_Compra</th>
                         <th>Proveedor</th>
-                        <th>Lote</th>
+                       
                         <th>Comprob</th>
                         <th>S_Comprob</th>
                         <th>N_Comprob</th>
+                        <th>Lote</th>
                         <th>Fecha_Venci</th>
                         <th>Entradas</th>
 
                         <th>saldo</th>
-                        
-                       
+
+
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($detalles as $det)
+  
                     @foreach ($detalle_ingresos as $ing)
-                   
                     <tr>
-                        
-                        <td>{{$ing->fecha_compra}}</td>
-                        <td>{{$ing->proveedor}}</td>   
-                        <td>{{$ing->lote}}</td> 
-                        <td>{{$ing->tipo_comprobante}}</td>
-                        <td>{{$ing->serie_comprobante}}</td>
-                        <td>{{$ing->num_comprobante}}</td>
-                        <td>{{$ing->fecha_vencimiento}}</td>
-                        <td>{{$ing->cantidad.'/'.$ing->cantidad_blister}}</td>
-                      
-                        <td> 
-                         
-                            
-                                {{$det->antiguo_tableta.'/'.$det->antiguo_blister}}
-                               
-                            
-                          
-                           </td>
-                       
-                       
-                       
-                                       
+
+                        <td>{{ $ing->fecha_compra }}</td>
+                        <td>{{ $ing->proveedor }}</td>
+                     
+                        <td>{{ $ing->tipo_comprobante }}</td>
+                        <td>{{ $ing->serie_comprobante }}</td>
+                        <td>{{ $ing->num_comprobante }}</td>
+                        <td>{{ $ing->lote }}</td>
+                        <td>{{ $ing->fecha_vencimiento }}</td>
+                        <td>{{ $ing->cantidad . '/' . $ing->cantidad_blister }}</td>
+
+                        <td>
+                            {{ $ing->antiguo_tableta . '/' . $ing->antiguo_blister }}
+                        </td>
                     </tr>
                     @endforeach
+
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>F.Salida</th>
+                        <th>Descripción</th>
+                        <th>Cliente</th>
+                        <th>Tip-Comprobante</th>
+                        <th>Num_Comprobante</th>
+                        <th>Lote</th>
+                        <th>F.Vencimiento</th>
+                        <th>Salidas</th>
+                        <th>saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($detalle_ventas as $sal)
+                    <tr>
+                        <td>{{ $sal->fecha_salida }}</td>
+                        <td>{{ $sal->descripcion }}</td>
+                        <td>{{ $sal->cliente }}</td>
+                        <td>{{ $sal->tipo_comprobante }}</td>
+                        <td>{{ $sal->num_comprobante }}</td>
+                        <td>{{ $sal->lote }}</td>
+                        <td>{{ $sal->fecha_vencimiento }}</td>
+                    
+                        <td>{{ $sal->cantidad . '/' . $sal->cantidad_blister }}</td>
+                        <td>{{ $sal->antiguo_tableta . '/' . $sal->antiguo_blister }} </td>
+                    </tr>
                     @endforeach
+
+
                 </tbody>
             </table>
         </div>
     </section>
 </body>
+
 </html>

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Articulo;
 use App\Inventario;
 use App\DetalleInventario;
 use App\Ingreso;
+use App\Kardex;
 use App\DetalleIngreso;
 
 class ArticuloController extends Controller
@@ -243,8 +245,15 @@ class ArticuloController extends Controller
 
     }
 
+
+
+
+
     public function pdf(Request $request, $id)
     {
+        //if (!$request->ajax()) return redirect('/'); 
+        //$buscar = $request->desde;
+        //$criterio = $request->hasta;
         $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
@@ -265,7 +274,50 @@ class ArticuloController extends Controller
         ->where('detalle_inventarios.idinventarios', '=', $id)
         ->orderBy('detalle_inventarios.id', 'asc')->get();
       //tiene modificacion con el orwhere
-        $detalle_ingresos = DetalleIngreso::join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
+
+      $detalle_ingresos= Kardex::join('detalle_ingresos','kardex.iddetalleingreso','=','detalle_ingresos.id')
+      ->join('detalle_inventarios','kardex.iddetalleinventario','=','detalle_inventarios.id')
+      ->join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
+      ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
+     
+        ->join('proveedores','ingresos.idproveedor','=','proveedores.id')
+        ->select('kardex.acciones','ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
+        'ingresos.fecha_compra','proveedores.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister',
+        'detalle_ingresos.fecha_vencimiento','detalle_ingresos.lote',
+        'detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
+       // ->whereBetween('ingresos.fecha_compra', [$buscar,$criterio])
+         // ->whereBetween('ingresos.fecha_compra', [request()->$buscar,request()->$criterio], '=',$id)
+        ->orwhere('detalle_inventarios.idinventarios', '=',$id)
+         ->where('detalle_ingresos.idinventario','=',$id)
+        // $users = DB::table('users')
+        // ->whereBetween('votes', array(1, 100))->get();
+         
+         ->orderBy('detalle_ingresos.id', 'asc')->get();
+
+         $detalle_ventas= DB::table('kardexventas')
+         ->join('detalle_ventas','kardexventas.iddetalleventa','=','detalle_ventas.id')
+         ->join('detalle_inventarios','kardexventas.iddetalleinventariov','=','detalle_inventarios.id')
+         ->join('ventas','detalle_ventas.idventa','=','ventas.id')
+         ->join('inventarios','detalle_ventas.idinventario','=','inventarios.id')
+         //->join('detalle_ingresos','detalle_ingresos.idinventario','=','detalle_ingresos.id')
+        // ->join('ingresos','ingresos.id','=','ingresos.id')
+         ->join('personas','ventas.idcliente','=','personas.id')
+           ->select('ventas.tipo_comprobante','ventas.num_comprobante','ventas.fecha_salida','ventas.descripcion',
+           'personas.nombre as cliente', 'detalle_ventas.cantidad','detalle_ventas.cantidad_blister','detalle_ventas.fecha_vencimiento',
+           'detalle_ventas.lote',
+           'detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
+           ->orwhere('detalle_inventarios.idinventarios', '=',$id)
+           ->where('detalle_ventas.idinventario','=',$id)
+            //->where('detalle_ingresos.idingreso','=',$id)
+            ->orderBy('detalle_ventas.id', 'asc')->get();
+     // $users = DB::table('users')->get();
+ 
+      //return view('user.index', ['users' => $users]);
+
+
+
+
+       /* $detalle_ingresos = DetalleIngreso::join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
         ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
         ->join('proveedores','ingresos.idproveedor','=','proveedores.id')
         
@@ -278,7 +330,7 @@ class ArticuloController extends Controller
         
         
       
-        ->orderBy('detalle_ingresos.id', 'asc')->get();
+        ->orderBy('detalle_ingresos.id', 'asc')->get();*/
 
       
 
@@ -294,7 +346,7 @@ class ArticuloController extends Controller
 
         $numarticulo=Articulo::select('id')->where('id',$id)->get();
         $pdf = \PDF::loadView('pdf.articulo_kardexpdf',['articulos'=>$articulos,'inventarios'=>$inventarios,'detalles'=>$detalles,
-                                                        'detalle_ingresos'=>$detalle_ingresos]);
+                                                        'detalle_ingresos'=>$detalle_ingresos,'detalle_ventas'=>$detalle_ventas]);
         return $pdf->download('articulos-'.$numarticulo[0]->id.'.pdf');
     }
     public function obtenerProducto(Request $request) {

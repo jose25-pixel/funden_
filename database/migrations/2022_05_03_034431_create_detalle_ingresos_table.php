@@ -22,6 +22,8 @@ class CreateDetalleIngresosTable extends Migration
             $table->integer('cantidad');
             $table->integer('cantidad_blister');
             $table->decimal('precio', 11, 2);
+            $table->date('fecha_vencimiento');
+            $table->string('lote', 20);
         });
     }
 

@@ -23,8 +23,6 @@ class CreateIngresosTable extends Migration
             $table->string('serie_comprobante', 7)->nullable();
             $table->string('num_comprobante', 10);
             $table->date('fecha_compra');
-            $table->date('fecha_vencimiento');
-            $table->string('lote', 20);
             $table->decimal('total', 11, 2);
             $table->string('estado', 20);
             $table->timestamps();

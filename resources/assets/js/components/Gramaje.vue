@@ -92,9 +92,9 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Medida</label>
+                                    <label class="col-md-3 form-control-label" for="text-input"><spam style="color:red">Medida(*)</spam></label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="gramaje" class="form-control" placeholder="ingresa la medida">
+                                        <input type="text" v-model="gramaje" class="form-control" placeholder="Ingrese la medida de un gramaje">
                                     </div>
                                 </div>
 

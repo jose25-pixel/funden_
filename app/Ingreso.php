@@ -13,8 +13,6 @@ class Ingreso extends Model
         'serie_comprobante',
         'num_comprobante',
         'fecha_compra',
-        'fecha_vencimiento',
-        'lote',
         'total',
         'estado'
     ];

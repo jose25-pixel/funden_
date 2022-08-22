@@ -35777,7 +35777,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content {\n  width: 100% !important;\n  position: absolute !important;\n}\n.mostrar {\n  display: list-item !important;\n  opacity: 1 !important;\n  position: absolute !important;\n  background-color: #3c29297a !important;\n}\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.text-error {\n  color: red !important;\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -35950,225 +35950,316 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            categoria_id: 0,
-            nombre: '',
-            arrayCategoria: [],
-            modal: 0,
-            tituloModal: '',
-            tipoAccion: 0,
-            errorCategoria: 0,
-            errorMostrarMsjCategoria: [],
-            pagination: {
-                'total': 0,
-                'current_page': 0,
-                'per_page': 0,
-                'last_page': 0,
-                'from': 0,
-                'to': 0
-            },
-            offset: 3,
-            criterio: 'nombre',
-            buscar: ''
-        };
+  data: function data() {
+    return {
+      categoria_id: 0,
+      nombre: "",
+      arrayCategoria: [],
+      modal: 0,
+      tituloModal: "",
+      tipoAccion: 0,
+      errorCategoria: 0,
+      errorMostrarMsjCategoria: [],
+      pagination: {
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0
+      },
+      offset: 3,
+      criterio: "nombre",
+      buscar: ""
+    };
+  },
+
+  computed: {
+    isActived: function isActived() {
+      return this.pagination.current_page;
     },
-
-    computed: {
-        isActived: function isActived() {
-            return this.pagination.current_page;
-        },
-        pagesNumber: function pagesNumber() {
-            if (!this.pagination.to) {
-                return [];
-            }
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-            var to = from + this.offset * 2;
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        }
-    },
-
-    methods: {
-        //listar categorias
-        listarCategoria: function listarCategoria(page, buscar, criterio) {
-
-            var me = this;
-            var url = '/categoria?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                //handle sucess
-                me.arrayCategoria = respuesta.categorias.data;
-                me.pagination = respuesta.pagination;
-            }).catch(function (error) {
-                //handle error
-                console.log(error);
-            });
-        },
-        cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-            var me = this;
-
-            me.pagination.current_page = page;
-            me.listarCategoria(page, buscar, criterio);
-        },
-        registrarCategoria: function registrarCategoria() {
-            if (this.validarCategoria()) {
-                return;
-            }
-            var me = this;
-
-            axios.post('/categoria/registrar', {
-                'nombre': this.nombre
-            }).then(function (response) {
-                me.cerrarModal();
-                me.listarCategoria(1, '', 'nombre');
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        actualizarCategoria: function actualizarCategoria() {
-            if (this.validarCategoria()) {
-                return;
-            }
-            var me = this;
-
-            axios.put('/categoria/actualizar', {
-                'nombre': this.nombre,
-                'id': this.categoria_id
-            }).then(function (response) {
-                me.cerrarModal();
-                me.listarCategoria(1, '', 'nombre');
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        desactivarCategoria: function desactivarCategoria(id) {
-            var _this = this;
-
-            swal({
-                title: 'Esta seguro de desactivar la casa farmaceutica?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: 'green',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then(function (result) {
-                if (result.value) {
-                    var me = _this;
-
-                    axios.put('/categoria/desactivar', {
-                        'id': id
-                    }).then(function (response) {
-                        me.listarCategoria(1, '', 'nombre');
-                        swal('Desactivado!', 'El registro ha sido Desactivado con éxito.', 'success');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel) {
-                    swal('Cancelled', 'Your imaginary file is safe :)', 'error');
-                }
-            });
-        },
-        activarCategoria: function activarCategoria(id) {
-            var _this2 = this;
-
-            swal({
-                title: 'Esta seguro de activar la casa farmaceutica?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: 'green',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then(function (result) {
-                if (result.value) {
-                    var me = _this2;
-
-                    axios.put('/categoria/activar', {
-                        'id': id
-                    }).then(function (response) {
-                        me.listarCategoria(1, '', 'nombre');
-                        swal('Activado!', 'El registro ha sido activado con éxito.', 'success');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel) {
-                    swal('Cancelled', 'Your imaginary file is safe :)', 'error');
-                }
-            });
-        },
-        validarCategoria: function validarCategoria() {
-            this.errorCategoria = 0, this.errorMostrarMsjCategoria = [];
-
-            if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
-            if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
-            return this.errorCategoria;
-        },
-        cerrarModal: function cerrarModal() {
-            this.modal = 0;
-            this.tituloModal = '';
-            this.nombre = '';
-        },
-        abrirModal: function abrirModal(modelo, accion) {
-            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-            switch (modelo) {
-                case "categoria":
-                    {
-                        switch (accion) {
-                            case 'registrar':
-                                {
-                                    this.modal = 1;
-                                    this.tituloModal = 'Registrar Casa Farmaceutica';
-                                    this.nombre = '';
-                                    this.descripcion = '';
-                                    this.tipoAccion = 1;
-                                    break;
-                                }
-                            case 'actualizar':
-                                {
-                                    //console.log(data);
-                                    this.modal = 1;
-                                    this.tituloModal = 'Actualizar Casa Farmaceutica';
-                                    this.tipoAccion = 2;
-                                    this.categoria_id = data['id'];
-                                    this.nombre = data['nombre'];
-                                    break;
-                                }
-                        }
-                    }
-            }
-        }
-    },
-
-    mounted: function mounted() {
-        this.listarCategoria(1, this.buscar, this.criterio);
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
     }
+  },
+
+  methods: {
+    //listar categorias
+    listarCategoria: function listarCategoria(page, buscar, criterio) {
+      var me = this;
+      var url = "/categoria?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        //handle sucess
+        me.arrayCategoria = respuesta.categorias.data;
+        me.pagination = respuesta.pagination;
+      }).catch(function (error) {
+        //handle error
+        console.log(error);
+      });
+    },
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this;
+
+      me.pagination.current_page = page;
+      me.listarCategoria(page, buscar, criterio);
+    },
+    registrarCategoria: function registrarCategoria() {
+      if (this.validarCategoria()) {
+        return;
+      }
+      var me = this;
+
+      axios.post("/categoria/registrar", {
+        nombre: this.nombre
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listarCategoria(1, "", "nombre");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    actualizarCategoria: function actualizarCategoria() {
+      if (this.validarCategoria()) {
+        return;
+      }
+      var me = this;
+
+      axios.put("/categoria/actualizar", {
+        nombre: this.nombre,
+        id: this.categoria_id
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listarCategoria(1, "", "nombre");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    desactivarCategoria: function desactivarCategoria(id) {
+      var _this = this;
+
+      swal({
+        title: "Esta seguro de desactivar la casa farmaceutica?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar!",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          var me = _this;
+
+          axios.put("/categoria/desactivar", {
+            id: id
+          }).then(function (response) {
+            me.listarCategoria(1, "", "nombre");
+            swal("Desactivado!", "El registro ha sido Desactivado con éxito.", "success");
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          swal("Cancelled", "Your imaginary file is safe :)", "error");
+        }
+      });
+    },
+    activarCategoria: function activarCategoria(id) {
+      var _this2 = this;
+
+      swal({
+        title: "Esta seguro de activar la casa farmaceutica?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar!",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          var me = _this2;
+
+          axios.put("/categoria/activar", {
+            id: id
+          }).then(function (response) {
+            me.listarCategoria(1, "", "nombre");
+            swal("Activado!", "El registro ha sido activado con éxito.", "success");
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          swal("Cancelled", "Your imaginary file is safe :)", "error");
+        }
+      });
+    },
+    validarCategoria: function validarCategoria() {
+      this.errorCategoria = 0, this.errorMostrarMsjCategoria = [];
+
+      if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
+      if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
+      return this.errorCategoria;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.tituloModal = "";
+      this.nombre = "";
+    },
+    abrirModal: function abrirModal(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "categoria":
+          {
+            switch (accion) {
+              case "registrar":
+                {
+                  this.modal = 1;
+                  this.tituloModal = "Registrar Casa Farmaceutica";
+                  this.nombre = "";
+                  this.descripcion = "";
+                  this.tipoAccion = 1;
+                  break;
+                }
+              case "actualizar":
+                {
+                  //console.log(data);
+                  this.modal = 1;
+                  this.tituloModal = "Actualizar Casa Farmaceutica";
+                  this.tipoAccion = 2;
+                  this.categoria_id = data["id"];
+                  this.nombre = data["nombre"];
+                  break;
+                }
+            }
+          }
+      }
+    }
+  },
+
+  mounted: function mounted() {
+    this.listarCategoria(1, this.buscar, this.criterio);
+  }
 });
 
 /***/ }),
@@ -36186,7 +36277,7 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("i", { staticClass: "fa fa-align-justify" }),
-          _vm._v(" Casa Farmaceutica\n                   "),
+          _vm._v(" Casa Farmaceutica\n        "),
           _c(
             "button",
             {
@@ -36198,10 +36289,7 @@ var render = function() {
                 }
               }
             },
-            [
-              _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                   ")
-            ]
+            [_c("i", { staticClass: "icon-plus" }), _vm._v(" Nuevo\n        ")]
           )
         ]),
         _vm._v(" "),
@@ -36286,7 +36374,10 @@ var render = function() {
                       }
                     }
                   },
-                  [_c("i", { staticClass: "fa fa-search" }), _vm._v(" Buscar")]
+                  [
+                    _c("i", { staticClass: "fa fa-search" }),
+                    _vm._v(" Buscar\n              ")
+                  ]
                 )
               ])
             ])
@@ -36322,7 +36413,7 @@ var render = function() {
                           },
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
-                        _vm._v("  \n                                   "),
+                        _vm._v("\n                 \n                "),
                         categoria.condicion
                           ? [
                               _c(
@@ -36492,7 +36583,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
+              _c("div", { staticClass: "modal-header cafe" }, [
                 _c("h4", {
                   staticClass: "modal-title",
                   domProps: { textContent: _vm._s(_vm.tituloModal) }
@@ -36536,7 +36627,12 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("C.Farmaceutica")]
+                        [
+                          _c("spam", { staticStyle: { color: "red" } }, [
+                            _vm._v("Casa Farmaceutica (*)")
+                          ])
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -36602,7 +36698,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-secondary",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
@@ -36610,14 +36706,14 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Cerrar")]
+                  [_vm._v("\n            Cerrar\n          ")]
                 ),
                 _vm._v(" "),
                 _vm.tipoAccion == 1
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn cafe",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -36625,7 +36721,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Guardar")]
+                      [_vm._v("\n            Guardar\n          ")]
                     )
                   : _vm._e(),
                 _vm._v(" "),
@@ -36633,7 +36729,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn verde",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -36641,7 +36737,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Actualizar")]
+                      [_vm._v("\n            Actualizar\n          ")]
                     )
                   : _vm._e()
               ])
@@ -36773,7 +36869,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content {\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar {\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error {\n    display: flex;\n    justify-content: center;\n}\n.text-error {\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content {\n  width: 100% !important;\n  position: absolute !important;\n}\n.mostrar {\n  display: list-item !important;\n  opacity: 1 !important;\n  position: absolute !important;\n  background-color: #3c29297a !important;\n}\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.text-error {\n  color: red !important;\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -37077,343 +37173,604 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            articulo_id: 0,
-            idcategoria: 0,
-            idgramaje: 0,
-            nombre_categoria: '',
-            nombre: '',
-            concentracion: '',
-            administracion: 0,
-            presentacion: '',
-            items: '',
-            arrayArticulo: [],
-            arrayIngresoT: [],
-            arrayArticuloT: [],
-            arrayDetalle: [],
-            listado: 1,
-            modal: 0,
-            tituloModal: '',
-            tipoAccion: 0,
-            errorArticulo: 0,
-            errorMostrarMsjArticulo: [],
-            pagination: {
-                'total': 0,
-                'current_page': 0,
-                'per_page': 0,
-                'last_page': 0,
-                'from': 0,
-                'to': 0
-            },
-            offset: 3,
-            criterio: 'nombre',
-            buscar: '',
-            arrayCategoria: [],
-            arraygramaje: []
-        };
+  data: function data() {
+    return {
+      articulo_id: 0,
+      idcategoria: 0,
+      idgramaje: 0,
+      nombre_categoria: "",
+      nombre: "",
+      concentracion: "",
+      administracion: 0,
+      presentacion: "",
+      items: "",
+      arrayArticulo: [],
+      arrayIngresoT: [],
+      arrayArticuloT: [],
+      arrayDetalle: [],
+      listado: 1,
+      modal: 0,
+      tituloModal: "",
+      tipoAccion: 0,
+      errorArticulo: 0,
+      errorMostrarMsjArticulo: [],
+      pagination: {
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0
+      },
+      offset: 3,
+      criterio: "nombre",
+      desde: "",
+      hasta: "",
+      buscar: "",
+      arrayCategoria: [],
+      arraygramaje: []
+    };
+  },
+
+  components: {
+    barcode: __WEBPACK_IMPORTED_MODULE_0_vue_barcode___default.a
+  },
+  computed: {
+    isActived: function isActived() {
+      return this.pagination.current_page;
     },
+    //Calcula los elementos de la paginación
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
 
-    components: {
-        'barcode': __WEBPACK_IMPORTED_MODULE_0_vue_barcode___default.a
-    },
-    computed: {
-        isActived: function isActived() {
-            return this.pagination.current_page;
-        },
-        //Calcula los elementos de la paginación
-        pagesNumber: function pagesNumber() {
-            if (!this.pagination.to) {
-                return [];
-            }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
 
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
 
-            var to = from + this.offset * 2;
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        }
-    },
-    methods: _defineProperty({
-        pdfArticulo: function pdfArticulo(id) {
-            window.open('/articulo/pdf/' + id, '_blank');
-        },
-        listarArticulo: function listarArticulo(page, buscar, criterio) {
-            var me = this;
-            var url = '/articulo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.arrayArticulo = respuesta.articulos.data;
-                me.pagination = respuesta.pagination;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        cargarPdf: function cargarPdf() {
-            window.open('articulo/listarPdf', '_blank');
-        },
-        selectCategoria: function selectCategoria() {
-            var me = this;
-            var url = '/categoria/selectCategoria';
-            axios.get(url).then(function (response) {
-                //console.log(response);
-                var respuesta = response.data;
-                me.arrayCategoria = respuesta.categorias;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        selectGramaje: function selectGramaje() {
-            var me = this;
-            var url = '/gramaje/selectGramaje';
-            axios.get(url).then(function (response) {
-                //console.log(response);
-                var respuesta = response.data;
-                me.arraygramaje = respuesta.gramajes;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-            var me = this;
-            //Actualiza la página actual
-            me.pagination.current_page = page;
-            //Envia la petición para visualizar la data de esa página
-            me.listarArticulo(page, buscar, criterio);
-        },
-        registrarArticulo: function registrarArticulo() {
-            if (this.validarArticulo()) {
-                return;
-            }
-
-            var me = this;
-
-            axios.post('/articulo/registrar', {
-                'idcategoria': this.idcategoria,
-                'idgramaje': this.idgramaje,
-                'nombre': this.nombre,
-                'presentacion': this.presentacion,
-                'administracion': this.administracion,
-                'concentracion': this.concentracion,
-                'items': this.items
-            }).then(function (response) {
-                me.cerrarModal();
-                me.listarArticulo(1, '', 'nombre');
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        actualizarArticulo: function actualizarArticulo() {
-            if (this.validarArticulo()) {
-                return;
-            }
-
-            var me = this;
-
-            axios.put('/articulo/actualizar', {
-                'idcategoria': this.idcategoria,
-                'idgramaje': this.idgramaje,
-                'nombre': this.nombre,
-                'presentacion': this.presentacion,
-                'administracion': this.administracion,
-                'concentracion': this.concentracion,
-                'items': this.items,
-                'id': this.articulo_id
-            }).then(function (response) {
-                me.cerrarModal();
-                me.listarArticulo(1, '', 'nombre');
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        desactivarArticulo: function desactivarArticulo(id) {
-            var _this = this;
-
-            swal({
-                title: 'Esta seguro de desactivar este artículo?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then(function (result) {
-                if (result.value) {
-                    var me = _this;
-
-                    axios.put('/articulo/desactivar', {
-                        'id': id
-                    }).then(function (response) {
-                        me.listarArticulo(1, '', 'nombre');
-                        swal('Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else if (
-                // Read more about handling dismissals
-                result.dismiss === swal.DismissReason.cancel) {}
-            });
-        },
-        activarArticulo: function activarArticulo(id) {
-            var _this2 = this;
-
-            swal({
-                title: 'Esta seguro de activar este artículo?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then(function (result) {
-                if (result.value) {
-                    var me = _this2;
-
-                    axios.put('/articulo/activar', {
-                        'id': id
-                    }).then(function (response) {
-                        me.listarArticulo(1, '', 'nombre');
-                        swal('Activado!', 'El registro ha sido activado con éxito.', 'success');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else if (
-                // Read more about handling dismissals
-                result.dismiss === swal.DismissReason.cancel) {}
-            });
-        },
-        validarArticulo: function validarArticulo() {
-            this.errorArticulo = 0;
-            this.errorMostrarMsjArticulo = [];
-
-            if (this.idcategoria == 0) this.errorMostrarMsjArticulo.push("Seleccione una categoría.");
-            if (this.idgramaje == 0) this.errorMostrarMsjArticulo.push("Seleccione un gramaje.");
-            if (!this.nombre) this.errorMostrarMsjArticulo.push("El nombre del artículo no puede estar vacío.");
-            if (!this.presentacion) this.errorMostrarMsjArticulo.push("El campo presentacion no puede quedar vacio.");
-            if (!this.administracion) this.errorMostrarMsjArticulo.push("El campo de via de administracion no puede quedar vacio.");
-            if (!this.concentracion) this.errorMostrarMsjArticulo.push("El campo concentracion no puede quedar vacio");
-
-            if (this.errorMostrarMsjArticulo.length) this.errorArticulo = 1;
-
-            return this.errorArticulo;
-        },
-        cerrarModal: function cerrarModal() {
-            this.modal = 0;
-            this.tituloModal = '';
-            this.idcategoria = 0;
-            this.idgramaje = 0;
-            this.nombre_categoria = '';
-            this.nombre = '';
-            this.concentracion = '';
-            this.administracion = 0;
-            this.presentacion = '';
-            this.items = '';
-            this.errorArticulo = 0;
-        },
-        abrirModal: function abrirModal(modelo, accion) {
-            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-            switch (modelo) {
-                case "articulo":
-                    {
-                        switch (accion) {
-                            case 'registrar':
-                                {
-                                    this.modal = 1;
-                                    this.tituloModal = 'Registrar Artículo';
-                                    this.idcategoria = 0;
-                                    this.idgramaje = 0;
-                                    this.nombre_categoria = '';
-                                    this.nombre = '';
-                                    this.concentracion = '';
-                                    this.administracion = 0;
-                                    this.presentacion = '';
-                                    this.items = '';
-                                    this.tipoAccion = 1;
-                                    break;
-                                }
-                            case 'actualizar':
-                                {
-                                    //console.log(data);
-                                    this.modal = 1;
-                                    this.tituloModal = 'Actualizar Artículo';
-                                    this.tipoAccion = 2;
-                                    this.articulo_id = data['id'];
-                                    this.idcategoria = data['idcategoria'];
-                                    this.idgramaje = data['idgramaje'];
-                                    this.nombre = data['nombre'];
-                                    this.concentracion = data['concentracion'];
-                                    this.administracion = data['administracion'];
-                                    this.presentacion = data['presentacion'];
-                                    this.items = data['items'];
-                                    break;
-                                }
-                        }
-                    }
-            }
-            this.selectCategoria();
-            this.selectGramaje();
-        },
-        verKardex: function verKardex(id) {
-            var me = this;
-            this.listado = 2;
-            //Obtener los datos del ingreso++++
-            var arrayIngresoT = [];
-            var url = '/articulo/Ingresos?id=' + id;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                arrayArticuloT = respuesta.articulo;
-                me.tipo_comprobante = arrayIngresoT[0]['tipo_comprobante'];
-                me.serie_comprobante = arrayIngresoT[0]['serie_comprobante'];
-                me.num_comprobante = arrayIngresoT[0]['num_comprobante'];
-                me.fecha_compra = arrayIngresoT[0]['fecha_compra'];
-                me.fecha_vencimiento = arrayIngresoT[0]['fecha_vencimiento'];
-                me.lote = arrayIngresoT[0]['lote'];
-                me.total = arrayIngresoT[0]['total'];
-            }).catch(function (error) {
-                console.log(error);
-            });
-            //Obtener los datos del detalle++++
-            var url = '/articulo/obtenerIngresos?id=' + id;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.arrayDetalle = respuesta.detalles;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        ocultarDetalle: function ocultarDetalle() {
-            this.listado = 1;
-        }
-    }, 'cerrarModal', function cerrarModal() {
-        this.modal = 0;
-        this.tituloModal = '';
-    }),
-    mounted: function mounted() {
-        this.listarArticulo(1, this.buscar, this.criterio);
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
     }
+  },
+  methods: _defineProperty({
+    pdfArticulo: function pdfArticulo(id) {
+      window.open("/articulo/pdf/" + id + "," + "_blank");
+    },
+    listarArticulofeha: function listarArticulofeha(id, desde, hasta) {
+      //let me = this;
+      //var url =
+      // "/articulo?page=" +page +"&buscar=" + buscar +"&criterio=" +criterio;
+      window.open("/articulo/pdf/" + id, "_blank" + "&desde=" + desde + "&hasta=" + hasta);
+      // window.open("/articulo/pdf/" + response.data.id + ','+ "_blank" );
+    },
+    listarArticulo: function listarArticulo(page, buscar, criterio) {
+      var me = this;
+      var url = "/articulo?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayArticulo = respuesta.articulos.data;
+        me.pagination = respuesta.pagination;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    cargarPdf: function cargarPdf() {
+      window.open("articulo/listarPdf", "_blank");
+    },
+    selectCategoria: function selectCategoria() {
+      var me = this;
+      var url = "/categoria/selectCategoria";
+      axios.get(url).then(function (response) {
+        //console.log(response);
+        var respuesta = response.data;
+        me.arrayCategoria = respuesta.categorias;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    selectGramaje: function selectGramaje() {
+      var me = this;
+      var url = "/gramaje/selectGramaje";
+      axios.get(url).then(function (response) {
+        //console.log(response);
+        var respuesta = response.data;
+        me.arraygramaje = respuesta.gramajes;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this;
+      //Actualiza la página actual
+      me.pagination.current_page = page;
+      //Envia la petición para visualizar la data de esa página
+      me.listarArticulo(page, buscar, criterio);
+    },
+    registrarArticulo: function registrarArticulo() {
+      if (this.validarArticulo()) {
+        return;
+      }
+
+      var me = this;
+
+      axios.post("/articulo/registrar", {
+        idcategoria: this.idcategoria,
+        idgramaje: this.idgramaje,
+        nombre: this.nombre,
+        presentacion: this.presentacion,
+        administracion: this.administracion,
+        concentracion: this.concentracion,
+        items: this.items
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listarArticulo(1, "", "nombre");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    actualizarArticulo: function actualizarArticulo() {
+      if (this.validarArticulo()) {
+        return;
+      }
+
+      var me = this;
+
+      axios.put("/articulo/actualizar", {
+        idcategoria: this.idcategoria,
+        idgramaje: this.idgramaje,
+        nombre: this.nombre,
+        presentacion: this.presentacion,
+        administracion: this.administracion,
+        concentracion: this.concentracion,
+        items: this.items,
+        id: this.articulo_id
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listarArticulo(1, "", "nombre");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    desactivarArticulo: function desactivarArticulo(id) {
+      var _this = this;
+
+      swal({
+        title: "Esta seguro de desactivar este artículo?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          var me = _this;
+
+          axios.put("/articulo/desactivar", {
+            id: id
+          }).then(function (response) {
+            me.listarArticulo(1, "", "nombre");
+            swal("Desactivado!", "El registro ha sido desactivado con éxito.", "success");
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else if (
+        // Read more about handling dismissals
+        result.dismiss === swal.DismissReason.cancel) {}
+      });
+    },
+    activarArticulo: function activarArticulo(id) {
+      var _this2 = this;
+
+      swal({
+        title: "Esta seguro de activar este artículo?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          var me = _this2;
+
+          axios.put("/articulo/activar", {
+            id: id
+          }).then(function (response) {
+            me.listarArticulo(1, "", "nombre");
+            swal("Activado!", "El registro ha sido activado con éxito.", "success");
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else if (
+        // Read more about handling dismissals
+        result.dismiss === swal.DismissReason.cancel) {}
+      });
+    },
+    validarArticulo: function validarArticulo() {
+      this.errorArticulo = 0;
+      this.errorMostrarMsjArticulo = [];
+
+      if (this.idcategoria == 0) this.errorMostrarMsjArticulo.push("Seleccione una categoría.");
+      if (this.idgramaje == 0) this.errorMostrarMsjArticulo.push("Seleccione un gramaje.");
+      if (!this.nombre) this.errorMostrarMsjArticulo.push("El nombre del artículo no puede estar vacío.");
+      if (!this.presentacion) this.errorMostrarMsjArticulo.push("El campo presentacion no puede quedar vacio.");
+      if (!this.administracion) this.errorMostrarMsjArticulo.push("El campo de via de administracion no puede quedar vacio.");
+      if (!this.concentracion) this.errorMostrarMsjArticulo.push("El campo concentracion no puede quedar vacio");
+
+      if (this.errorMostrarMsjArticulo.length) this.errorArticulo = 1;
+
+      return this.errorArticulo;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.tituloModal = "";
+      this.idcategoria = 0;
+      this.idgramaje = 0;
+      this.nombre_categoria = "";
+      this.nombre = "";
+      this.concentracion = "";
+      this.administracion = 0;
+      this.presentacion = "";
+      this.items = "";
+      this.errorArticulo = 0;
+    },
+    abrirModal: function abrirModal(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "articulo":
+          {
+            switch (accion) {
+              case "registrar":
+                {
+                  this.modal = 1;
+                  this.tituloModal = "Registrar un Medicamento";
+                  this.idcategoria = 0;
+                  this.idgramaje = 0;
+                  this.nombre_categoria = "";
+                  this.nombre = "";
+                  this.concentracion = "";
+                  this.administracion = 0;
+                  this.presentacion = "";
+                  this.items = "";
+                  this.tipoAccion = 1;
+                  break;
+                }
+              case "actualizar":
+                {
+                  //console.log(data);
+                  this.modal = 1;
+                  this.tituloModal = "Actualizar Medicamento";
+                  this.tipoAccion = 2;
+                  this.articulo_id = data["id"];
+                  this.idcategoria = data["idcategoria"];
+                  this.idgramaje = data["idgramaje"];
+                  this.nombre = data["nombre"];
+                  this.concentracion = data["concentracion"];
+                  this.administracion = data["administracion"];
+                  this.presentacion = data["presentacion"];
+                  this.items = data["items"];
+                  break;
+                }
+              case "fecha":
+                {
+                  this.modal = 1;
+                  this.tituloModal = "fecha";
+                  this.tipoAccion = 3;
+                  this.desde = "";
+                  this.hasta = "";
+                  break;
+                }
+            }
+          }
+      }
+      this.selectCategoria();
+      this.selectGramaje();
+    },
+    abrirModalfecha: function abrirModalfecha(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "articulo":
+          {
+            switch (accion) {
+              case "fecha":
+                {
+                  this.modal = 1;
+                  this.tituloModal = "rango de fecha";
+                  this.desde = "";
+                  this.hasta = "";
+                  this.tipoAccion = 1;
+                  break;
+                }
+            }
+          }
+      }
+    },
+    verKardex: function verKardex(id) {
+      var me = this;
+      this.listado = 2;
+      //Obtener los datos del ingreso++++
+      var arrayIngresoT = [];
+      var url = "/articulo/Ingresos?id=" + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        arrayArticuloT = respuesta.articulo;
+        me.tipo_comprobante = arrayIngresoT[0]["tipo_comprobante"];
+        me.serie_comprobante = arrayIngresoT[0]["serie_comprobante"];
+        me.num_comprobante = arrayIngresoT[0]["num_comprobante"];
+        me.fecha_compra = arrayIngresoT[0]["fecha_compra"];
+        me.fecha_vencimiento = arrayIngresoT[0]["fecha_vencimiento"];
+        me.lote = arrayIngresoT[0]["lote"];
+        me.total = arrayIngresoT[0]["total"];
+      }).catch(function (error) {
+        console.log(error);
+      });
+      //Obtener los datos del detalle++++
+      var url = "/articulo/obtenerIngresos?id=" + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayDetalle = respuesta.detalles;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    ocultarDetalle: function ocultarDetalle() {
+      this.listado = 1;
+    }
+  }, "cerrarModal", function cerrarModal() {
+    this.modal = 0;
+    this.tituloModal = "";
+  }),
+  mounted: function mounted() {
+    this.listarArticulo(1, this.buscar, this.criterio);
+  }
 });
 
 /***/ }),
@@ -39971,7 +40328,7 @@ var render = function() {
           [
             _c("div", { staticClass: "card-header" }, [
               _c("i", { staticClass: "fa fa-align-justify" }),
-              _vm._v(" Artículos\n                "),
+              _vm._v(" Artículos\n        "),
               _c(
                 "button",
                 {
@@ -39985,7 +40342,24 @@ var render = function() {
                 },
                 [
                   _c("i", { staticClass: "icon-plus" }),
-                  _vm._v(" Nuevo\n                ")
+                  _vm._v(" Nuevo\n        ")
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.formularioFecha()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "icon-doc" }),
+                  _vm._v(" fecha\n        ")
                 ]
               ),
               _vm._v(" "),
@@ -40002,7 +40376,7 @@ var render = function() {
                 },
                 [
                   _c("i", { staticClass: "icon-doc" }),
-                  _vm._v(" Reporte\n                ")
+                  _vm._v(" Reporte\n        ")
                 ]
               )
             ]),
@@ -40122,7 +40496,7 @@ var render = function() {
                             },
                             [
                               _c("i", { staticClass: "fa fa-search" }),
-                              _vm._v(" Buscar")
+                              _vm._v(" Buscar\n                ")
                             ]
                           )
                         ])
@@ -40159,7 +40533,7 @@ var render = function() {
                                     [_c("i", { staticClass: "icon-doc" })]
                                   ),
                                   _vm._v(
-                                    "  \n\n                               \n\n                                "
+                                    "\n                   \n\n                  "
                                   ),
                                   _c(
                                     "button",
@@ -40179,7 +40553,7 @@ var render = function() {
                                     [_c("i", { staticClass: "icon-pencil" })]
                                   ),
                                   _vm._v(
-                                    "  \n\n                                "
+                                    "\n                   \n\n                  "
                                   ),
                                   articulo.condicion
                                     ? [
@@ -40476,7 +40850,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar")]
+                    [_vm._v("\n            Cerrar\n          ")]
                   )
                 ])
               ])
@@ -40550,7 +40924,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Categoría")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Casa Farmaceutica(*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40587,7 +40966,11 @@ var render = function() {
                               _c(
                                 "option",
                                 { attrs: { value: "0", disabled: "" } },
-                                [_vm._v("Seleccione")]
+                                [
+                                  _vm._v(
+                                    "\n                    Seleccione una casa farmaceutica\n                  "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _vm._l(_vm.arrayCategoria, function(categoria) {
@@ -40612,7 +40995,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Nombre")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Nombre (*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40628,7 +41016,7 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: {
                               type: "text",
-                              placeholder: "Nombre de artículo"
+                              placeholder: "Nombre del medicamento"
                             },
                             domProps: { value: _vm.nombre },
                             on: {
@@ -40650,7 +41038,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("concentracion")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Concentración(*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40666,7 +41059,8 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: {
                               type: "text",
-                              placeholder: "ingresa la concentracion"
+                              placeholder:
+                                "Ingrese concentración del medicamento"
                             },
                             domProps: { value: _vm.concentracion },
                             on: {
@@ -40688,7 +41082,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Gramaje")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Gramaje(*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40725,7 +41124,7 @@ var render = function() {
                               _c(
                                 "option",
                                 { attrs: { value: "0", disabled: "" } },
-                                [_vm._v("Seleccione")]
+                                [_vm._v("Seleccione un Gramaje")]
                               ),
                               _vm._v(" "),
                               _vm._l(_vm.arraygramaje, function(gramaje) {
@@ -40750,7 +41149,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Tipo Administración")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Tipo Administración(*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40808,6 +41212,10 @@ var render = function() {
                                 _vm._v("Ótica")
                               ]),
                               _vm._v(" "),
+                              _c("option", { attrs: { value: "Vía Tópica" } }, [
+                                _vm._v("Tópica")
+                              ]),
+                              _vm._v(" "),
                               _c("option", { attrs: { value: "Vía Nasal" } }, [
                                 _vm._v("Nasal")
                               ]),
@@ -40829,7 +41237,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Presentacion")]
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("Presentación(*)")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40845,7 +41258,8 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: {
                               type: "text",
-                              placeholder: "ingresa la presentacion"
+                              placeholder:
+                                "Ingrese presentación del medicamento"
                             },
                             domProps: { value: _vm.presentacion },
                             on: {
@@ -40867,7 +41281,12 @@ var render = function() {
                             staticClass: "col-md-3 form-control-label",
                             attrs: { for: "email-input" }
                           },
-                          [_vm._v("C.Items")]
+                          [
+                            _c("spam", { staticStyle: { color: "black" } }, [
+                              _vm._v("C.Items")
+                            ])
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -40943,7 +41362,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar")]
+                    [_vm._v("\n            Cerrar\n          ")]
                   ),
                   _vm._v(" "),
                   _vm.tipoAccion == 1
@@ -40958,7 +41377,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Guardar")]
+                        [_vm._v("\n            Guardar\n          ")]
                       )
                     : _vm._e(),
                   _vm._v(" "),
@@ -40974,7 +41393,220 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Actualizar")]
+                        [_vm._v("\n            Actualizar\n          ")]
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          class: { mostrar: _vm.modal },
+          staticStyle: { display: "none" },
+          attrs: {
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "myModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-dialog modal-primary modal-lg",
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "modal-header" }, [
+                  _c("h4", {
+                    staticClass: "modal-title",
+                    domProps: { textContent: _vm._s(_vm.tituloModal) }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "close",
+                      attrs: { type: "button", "aria-label": "Close" },
+                      on: {
+                        click: function($event) {
+                          return _vm.cerrarModal()
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { attrs: { "aria-hidden": "true" } }, [
+                        _vm._v("×")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "form-horizontal",
+                      attrs: {
+                        action: "",
+                        method: "get",
+                        enctype: "multipart/form-data"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("desde (*)")
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.desde,
+                                expression: "desde"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "date" },
+                            domProps: { value: _vm.desde },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.desde = $event.target.value
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v(" hasta(*)")
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.hasta,
+                                expression: "hasta"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "date" },
+                            domProps: { value: _vm.hasta },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.hasta = $event.target.value
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.errorArticulo,
+                              expression: "errorArticulo"
+                            }
+                          ],
+                          staticClass: "form-group row div-error"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "text-center text-error" },
+                            _vm._l(_vm.errorMostrarMsjArticulo, function(
+                              error
+                            ) {
+                              return _c("div", {
+                                key: error,
+                                domProps: { textContent: _vm._s(error) }
+                              })
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.cerrarModal()
+                        }
+                      }
+                    },
+                    [_vm._v("\n            Cerrar\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _vm.tipoAccion == 1
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.listarArticulofeha(
+                                _vm.id,
+                                _vm.desde,
+                                _vm.hasta
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("\n            ver\n          ")]
                       )
                     : _vm._e()
                 ])
@@ -45695,7 +46327,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n.modal-content {\n  width: 100% !important;\n  position: absolute !important;\n}\n.mostrar {\n  display: list-item !important;\n  opacity: 1 !important;\n  position: absolute !important;\n  background-color: #3c29297a !important;\n}\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.text-error {\n  color: red !important;\n  font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n    margin-top: 2rem;\n}\n}\n", ""]);
 
 // exports
 
@@ -46163,386 +46795,393 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        var _ref;
+  data: function data() {
+    var _ref;
 
-        return _ref = {
-            ingreso_id: 0,
-            idproveedor: 0,
-            proveedor: '',
-            nombre: '',
-            tipo_comprobante: 'BOLETA',
-            serie_comprobante: '',
-            num_comprobante: '',
-            fecha_compra: '',
-            fecha_vencimiento: '',
-            lote: '',
-            total: 0.0,
-            totalImpuesto: 0.0,
-            totalParcial: 0.0,
-            arrayIngreso: [],
-            arrayProveedor: [],
-            arrayDetalle: [],
-            listado: 1,
-            modal: 0,
-            tituloModal: '',
-            tipoAccion: 0,
-            errorIngreso: 0,
-            errorMostrarMsjIngreso: [],
-            pagination: {
-                'total': 0,
-                'current_page': 0,
-                'per_page': 0,
-                'last_page': 0,
-                'from': 0,
-                'to': 0
-            },
-            offset: 3,
-            criterio: 'num_comprobante',
-            buscar: '',
-            criterioA: 'nombre',
-            buscarA: '',
-            arrayArticulo: [],
-            arrayInventario: [],
-            idinventario: 0
-        }, _defineProperty(_ref, 'nombre', ''), _defineProperty(_ref, 'articulo', ''), _defineProperty(_ref, 'inventario', ''), _defineProperty(_ref, 'precio', 0), _defineProperty(_ref, 'cantidad', 0), _defineProperty(_ref, 'cantidad_blister', 0), _ref;
+    return _ref = {
+      ingreso_id: 0,
+      idproveedor: 0,
+      proveedor: "",
+      nombre: "",
+      tipo_comprobante: "CCF",
+      serie_comprobante: "",
+      num_comprobante: "",
+      fecha_compra: "",
+      total: 0.0,
+      totalImpuesto: 0.0,
+      totalParcial: 0.0,
+      arrayIngreso: [],
+      arrayProveedor: [],
+      arrayDetalle: [],
+      listado: 1,
+      modal: 0,
+      tituloModal: "",
+      tipoAccion: 0,
+      errorIngreso: 0,
+      errorMostrarMsjIngreso: [],
+      pagination: {
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0
+      },
+      offset: 3,
+      criterio: "num_comprobante",
+      buscar: "",
+      criterioA: "nombre",
+      buscarA: "",
+      arrayArticulo: [],
+      arrayInventario: [],
+      idinventario: 0
+    }, _defineProperty(_ref, "nombre", ""), _defineProperty(_ref, "articulo", ""), _defineProperty(_ref, "inventario", ""), _defineProperty(_ref, "precio", 0), _defineProperty(_ref, "cantidad", 0), _defineProperty(_ref, "cantidad_blister", 0), _defineProperty(_ref, "fecha_vencimiento", ""), _defineProperty(_ref, "lote", ""), _ref;
+  },
+
+  components: {
+    vSelect: __WEBPACK_IMPORTED_MODULE_0_vue_select___default.a
+  },
+  computed: {
+    isActived: function isActived() {
+      return this.pagination.current_page;
     },
+    //Calcula los elementos de la paginación
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
 
-    components: {
-        vSelect: __WEBPACK_IMPORTED_MODULE_0_vue_select___default.a
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
     },
-    computed: {
-        isActived: function isActived() {
-            return this.pagination.current_page;
-        },
-        //Calcula los elementos de la paginación
-        pagesNumber: function pagesNumber() {
-            if (!this.pagination.to) {
-                return [];
-            }
-
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-
-            var to = from + this.offset * 2;
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        },
-        calcularTotal: function calcularTotal() {
-            var resultado = 0.0;
-            for (var i = 0; i < this.arrayDetalle.length; i++) {
-                resultado = resultado + this.arrayDetalle[i].precio * this.arrayDetalle[i].cantidad;
-            }
-            return resultado;
-        }
-    },
-    methods: {
-        listarIngreso: function listarIngreso(page, buscar, criterio) {
-            var me = this;
-            var url = '/ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.arrayIngreso = respuesta.ingresos.data;
-                me.pagination = respuesta.pagination;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        selectProveedor: function selectProveedor(search, loading) {
-            var me = this;
-            loading(true);
-
-            var url = '/proveedor/selectProveedor?filtro=' + search;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                q: search;
-                me.arrayProveedor = respuesta.proveedores;
-                loading(false);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        getDatosProveedor: function getDatosProveedor(val1) {
-            var me = this;
-            me.loading = true;
-            me.idproveedor = val1.id;
-        },
-        buscarArticulo: function buscarArticulo() {
-            var me = this;
-            var url = '/inventario/buscarArticuloInventario?filtro=' + me.nombre;
-
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.arrayInventario = respuesta.inventarios;
-
-                if (me.arrayInventario.length > 0) {
-                    me.inventario = me.arrayInventario[0]['nombre'];
-
-                    me.idinventario = me.arrayInventario[0]['id'];
-                } else {
-                    me.inventario = 'No existen articulos';
-                    me.idinventario = 0;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-            var me = this;
-            //Actualiza la página actual
-            me.pagination.current_page = page;
-            //Envia la petición para visualizar la data de esa página
-            me.listarIngreso(page, buscar, criterio);
-        },
-        encuentra: function encuentra(id) {
-            var sw = 0;
-
-            for (var i = 0; i < this.arrayDetalle.length; i++) {
-                if (this.arrayDetalle[i].idinventario == id) {
-                    sw = true;
-                }
-            }
-            return sw;
-        },
-        eliminarDetalle: function eliminarDetalle(index) {
-            var me = this;
-            me.arrayDetalle.splice(index, 1);
-        },
-        agregarDetalle: function agregarDetalle() {
-            var me = this;
-
-            if (me.idinventario == 0 || me.cantidad == 0 || me.cantidad_blister == 0 || me.precio == 0) {} else {
-
-                if (me.encuentra(me.idinventario)) {
-                    swal({
-                        type: 'error',
-                        title: 'Error....',
-                        text: 'Ese Medicamento ya se encuentra agregado!'
-                    });
-                } else {
-                    me.arrayDetalle.push({
-                        idinventario: me.idinventario,
-                        nombre: me.nombre,
-                        cantidad: me.cantidad,
-                        cantidad_blister: me.cantidad_blister,
-                        precio: me.precio
-                    });
-
-                    me.nombre = "";
-                    me.idinventario = 0;
-                    me.inventario = "";
-                    me.cantidad = 0;
-                    me.cantidad_blister = 0;
-                    me.precio = 0;
-                }
-            }
-        },
-        agregarDetalleModal: function agregarDetalleModal() {
-            var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-
-            var me = this;
-
-            if (me.encuentra(data['id'])) {
-                swal({
-                    type: 'error',
-                    title: 'Error....',
-                    text: 'Ese Medicamento ya se encuentra agregado!'
-                });
-            } else {
-                me.arrayDetalle.push({
-                    idinventario: data['id'],
-                    nombre: data['nombre'],
-                    cantidad: 1,
-                    cantidad_blister: 1,
-                    precio: 1
-                });
-            }
-        },
-
-
-        //listar articulo
-        listarArticuloinventario: function listarArticuloinventario(buscar, criterio) {
-            var me = this;
-            var url = '/inventario/buscarArticuloin?buscar=' + buscar + '&criterio=' + criterio;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                //handle sucess
-                me.arrayInventario = respuesta.inventarios.data;
-            }).catch(function (error) {
-                //handle error
-                console.log(error);
-            });
-        },
-        registrarIngreso: function registrarIngreso() {
-            if (this.validarIngreso()) {
-                return;
-            }
-
-            var me = this;
-
-            axios.post('/ingreso/registrar', {
-                'idproveedor': this.idproveedor,
-                'tipo_comprobante': this.tipo_comprobante,
-                'serie_comprobante': this.serie_comprobante,
-                'num_comprobante': this.num_comprobante,
-                'fecha_compra': this.fecha_compra,
-                'fecha_vencimiento': this.fecha_vencimiento,
-                'lote': this.lote,
-                'total': this.total,
-                'data': this.arrayDetalle
-
-            }).then(function (response) {
-                me.listado = 1;
-                me.listarIngreso(1, '', 'fecha_compra');
-                me.idproveedor = 0;
-                me.tipo_comprobante = 'BOLETA';
-                me.serie_comprobante = '';
-                me.num_comprobante = '';
-                me.fecha_compra = '';
-                me.fecha_vencimiento = '';
-                me.lote = '';
-                me.total = 0.0;
-                me.idinventario = 0;
-                me.inventario = '';
-                me.cantidad = 0;
-                me.cantidad_blister = 0;
-                me.precio = 0;
-                me.arrayDetalle = [];
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        validarIngreso: function validarIngreso() {
-            this.errorIngreso = 0;
-            this.errorMostrarMsjIngreso = [];
-
-            if (this.idproveedor == 0) this.errorMostrarMsjIngreso.push("Seleccione un Proveedor.");
-            if (this.tipo_comprobante == 0) this.errorMostrarMsjIngreso.push("Seleccione el comprobante.");
-            if (!this.num_comprobante) this.errorMostrarMsjIngreso.push("Ingrese el número de comprobante.");
-            if (!this.fecha_compra) this.errorMostrarMsjIngreso.push("Seleccione la fecha de compra.");
-            if (!this.fecha_vencimiento) this.errorMostrarMsjIngreso.push("Seleccione la fecha de vencimiento del medicamento.");
-            if (!this.lote) this.errorMostrarMsjIngreso.push("Ingrese número de lote..");
-            if (this.arrayDetalle.length <= 0) this.errorMostrarMsjIngreso.push("Ingrese detalles.");
-
-            if (this.errorMostrarMsjIngreso.length) this.errorIngreso = 1;
-
-            return this.errorIngreso;
-        },
-        mostrarDetalle: function mostrarDetalle() {
-            var me = this;
-            this.listado = 0;
-            /*dejara las variables vacias cuando el usuario ingres una compra pero no la registra se actualiza*/
-            me.idproveedor = 0;
-            me.tipo_comprobante = 'BOLETA';
-            me.serie_comprobante = '';
-            me.num_comprobante = '';
-            me.fecha_compra = '';
-            me.fecha_vencimiento = '';
-            me.lote = '';
-            me.total = 0.0;
-            me.idinventario = 0;
-            me.inventario = '';
-            me.cantidad = 0;
-            me.cantidad_blister = 0;
-            me.precio = 0;
-            me.arrayDetalle = [];
-        },
-        verIngreso: function verIngreso(id) {
-            var me = this;
-            this.listado = 2;
-            //Obtener los datos del ingreso++++
-            var arrayIngresoT = [];
-            var url = '/ingreso/obtenerCabecera?id=' + id;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                arrayIngresoT = respuesta.ingreso;
-                me.proveedor = arrayIngresoT[0]['nombre'];
-                me.tipo_comprobante = arrayIngresoT[0]['tipo_comprobante'];
-                me.serie_comprobante = arrayIngresoT[0]['serie_comprobante'];
-                me.num_comprobante = arrayIngresoT[0]['num_comprobante'];
-                me.fecha_compra = arrayIngresoT[0]['fecha_compra'];
-                me.fecha_vencimiento = arrayIngresoT[0]['fecha_vencimiento'];
-                me.lote = arrayIngresoT[0]['lote'];
-                me.total = arrayIngresoT[0]['total'];
-            }).catch(function (error) {
-                console.log(error);
-            });
-            //Obtener los datos del detalle++++
-            var url = '/ingreso/obtenerDetalles?id=' + id;
-            axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.arrayDetalle = respuesta.detalles;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        pdfIngreso: function pdfIngreso(id) {
-            window.open('/ingreso/pdf/' + id + ',' + '_blank');
-        },
-        ocultarDetalle: function ocultarDetalle() {
-            this.listado = 1;
-        },
-        cerrarModal: function cerrarModal() {
-            this.modal = 0;
-            this.tituloModal = '';
-        },
-        abrirModal: function abrirModal() {
-            this.arrayInventario = [];
-            this.modal = 1;
-            this.tituloModal = 'Seleccione uno o varios medicamentos';
-        },
-        desactivarIngreso: function desactivarIngreso(id) {
-            var _this = this;
-
-            swal({
-                title: 'Esta seguro de anular este ingreso?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then(function (result) {
-                if (result.value) {
-                    var me = _this;
-
-                    axios.put('/ingreso/desactivar', {
-                        'id': id
-                    }).then(function (response) {
-                        me.listarIngreso(1, '', 'num_comprobante');
-                        swal('Anulado!', 'El ingreso ha sido anulado con éxito.', 'success');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else if (
-                // Read more about handling dismissals
-                result.dismiss === swal.DismissReason.cancel) {}
-            });
-        }
-    },
-    mounted: function mounted() {
-        this.listarIngreso(1, this.buscar, this.criterio);
+    calcularTotal: function calcularTotal() {
+      var resultado = 0.0;
+      for (var i = 0; i < this.arrayDetalle.length; i++) {
+        resultado = resultado + this.arrayDetalle[i].precio * this.arrayDetalle[i].cantidad;
+      }
+      return resultado;
     }
+  },
+  methods: {
+    listarIngreso: function listarIngreso(page, buscar, criterio) {
+      var me = this;
+      var url = "/ingreso?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayIngreso = respuesta.ingresos.data;
+        me.pagination = respuesta.pagination;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    selectProveedor: function selectProveedor(search, loading) {
+      var me = this;
+      loading(true);
+
+      var url = "/proveedor/selectProveedor?filtro=" + search;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        q: search;
+        me.arrayProveedor = respuesta.proveedores;
+        loading(false);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    getDatosProveedor: function getDatosProveedor(val1) {
+      var me = this;
+      me.loading = true;
+      me.idproveedor = val1.id;
+    },
+    buscarArticulo: function buscarArticulo() {
+      var me = this;
+      var url = "/inventario/buscarArticuloInventario?filtro=" + me.nombre;
+
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayInventario = respuesta.inventarios;
+
+        if (me.arrayInventario.length > 0) {
+          me.inventario = me.arrayInventario[0]["nombre"];
+
+          me.idinventario = me.arrayInventario[0]["id"];
+        } else {
+          me.inventario = "No existen articulos";
+          me.idinventario = 0;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this;
+      //Actualiza la página actual
+      me.pagination.current_page = page;
+      //Envia la petición para visualizar la data de esa página
+      me.listarIngreso(page, buscar, criterio);
+    },
+    encuentra: function encuentra(id) {
+      var sw = 0;
+
+      for (var i = 0; i < this.arrayDetalle.length; i++) {
+        if (this.arrayDetalle[i].idinventario == id) {
+          sw = true;
+        }
+      }
+      return sw;
+    },
+    eliminarDetalle: function eliminarDetalle(index) {
+      var me = this;
+      me.arrayDetalle.splice(index, 1);
+    },
+    agregarDetalle: function agregarDetalle() {
+      var me = this;
+
+      if (me.idinventario == 0 || me.cantidad == 0 || me.cantidad_blister == 0 || me.precio == 0 || me.fecha_vencimiento == 0 || me.lote == 0) {} else {
+        if (me.encuentra(me.idinventario)) {
+          swal({
+            type: "error",
+            title: "Error....",
+            text: "Ese Medicamento ya se encuentra agregado!"
+          });
+        } else {
+          me.arrayDetalle.push({
+            idinventario: me.idinventario,
+            nombre: me.nombre,
+            cantidad: me.cantidad,
+            cantidad_blister: me.cantidad_blister,
+            precio: me.precio,
+            fecha_vencimiento: me.fecha_vencimiento,
+            lote: me.lote
+          });
+
+          me.nombre = "";
+          me.idinventario = 0;
+          me.inventario = "";
+          me.cantidad = 0;
+          me.cantidad_blister = 0;
+          me.precio = 0;
+          me.fecha_vencimiento = "";
+          me.lote = 0;
+        }
+      }
+    },
+    agregarDetalleModal: function agregarDetalleModal() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      var me = this;
+      if (me.encuentra(data["id"])) {
+        swal({
+          type: "error",
+          title: "Error....",
+          text: "Ese Medicamento ya se encuentra agregado!"
+        });
+      } else {
+        me.arrayDetalle.push({
+          idinventario: data["id"],
+          nombre: data["nombre"],
+          cantidad: 1,
+          cantidad_blister: 1,
+          precio: 1,
+          fecha_vencimiento: "",
+          lote: 0
+        });
+      }
+    },
+
+
+    //listar articulo
+    listarArticuloinventario: function listarArticuloinventario(buscar, criterio) {
+      var me = this;
+      var url = "/inventario/buscarArticuloin?buscar=" + buscar + "&criterio=" + criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        //handle sucess
+        me.arrayInventario = respuesta.inventarios.data;
+      }).catch(function (error) {
+        //handle error
+        console.log(error);
+      });
+    },
+    registrarIngreso: function registrarIngreso() {
+      if (this.validarIngreso()) {
+        return;
+      }
+
+      var me = this;
+
+      axios.post("/ingreso/registrar", {
+        idproveedor: this.idproveedor,
+        tipo_comprobante: this.tipo_comprobante,
+        serie_comprobante: this.serie_comprobante,
+        num_comprobante: this.num_comprobante,
+        fecha_compra: this.fecha_compra,
+        total: this.total,
+        data: this.arrayDetalle
+      }).then(function (response) {
+        me.listado = 1;
+        me.listarIngreso(1, "", "fecha_compra");
+        me.idproveedor = 0;
+        me.tipo_comprobante = "";
+        me.serie_comprobante = "";
+        me.num_comprobante = "";
+        me.fecha_compra = "";
+        me.total = 0.0;
+        me.idinventario = 0;
+        me.inventario = "";
+        me.cantidad = 0;
+        me.cantidad_blister = 0;
+        me.precio = 0;
+        me.fecha_vencimiento = "";
+        me.lote = "";
+        me.arrayDetalle = [];
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    validarIngreso: function validarIngreso() {
+      this.errorIngreso = 0;
+      this.errorMostrarMsjIngreso = [];
+
+      if (this.idproveedor == 0) this.errorMostrarMsjIngreso.push("Seleccione un Proveedor.");
+      if (this.tipo_comprobante == 0) this.errorMostrarMsjIngreso.push("Seleccione el comprobante.");
+      if (!this.num_comprobante) this.errorMostrarMsjIngreso.push("Ingrese el número de comprobante.");
+      if (!this.fecha_compra) this.errorMostrarMsjIngreso.push("Seleccione la fecha de compra.");
+      if (this.arrayDetalle.length <= 0) this.errorMostrarMsjIngreso.push("Ingrese detalles.");
+      if (this.errorMostrarMsjIngreso.length) this.errorIngreso = 1;
+
+      return this.errorIngreso;
+    },
+    mostrarDetalle: function mostrarDetalle() {
+      var me = this;
+      this.listado = 0;
+      /*dejara las variables vacias cuando el usuario ingres una compra pero no la registra se actualiza*/
+      me.idproveedor = 0;
+      me.tipo_comprobante = "BOLETA";
+      me.serie_comprobante = "";
+      me.num_comprobante = "";
+      me.fecha_compra = "";
+      me.total = 0.0;
+      me.idinventario = 0;
+      me.inventario = "";
+      me.cantidad = 0;
+      me.cantidad_blister = 0;
+      me.precio = 0;
+      me.fecha_vencimiento = "";
+      me.lote = "";
+      me.arrayDetalle = [];
+    },
+    verIngreso: function verIngreso(id) {
+      var me = this;
+      this.listado = 2;
+      //Obtener los datos del ingreso++++
+      var arrayIngresoT = [];
+      var url = "/ingreso/obtenerCabecera?id=" + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        arrayIngresoT = respuesta.ingreso;
+        me.proveedor = arrayIngresoT[0]["nombre"];
+        me.tipo_comprobante = arrayIngresoT[0]["tipo_comprobante"];
+        me.serie_comprobante = arrayIngresoT[0]["serie_comprobante"];
+        me.num_comprobante = arrayIngresoT[0]["num_comprobante"];
+        me.fecha_compra = arrayIngresoT[0]["fecha_compra"];
+        me.total = arrayIngresoT[0]["total"];
+      }).catch(function (error) {
+        console.log(error);
+      });
+      //Obtener los datos del detalle++++
+      var url = "/ingreso/obtenerDetalles?id=" + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayDetalle = respuesta.detalles;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    pdfIngreso: function pdfIngreso(id) {
+      window.open("/ingreso/pdf/" + id + "," + "_blank");
+    },
+    ocultarDetalle: function ocultarDetalle() {
+      this.listado = 1;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.tituloModal = "";
+    },
+    abrirModal: function abrirModal() {
+      this.arrayInventario = [];
+      this.modal = 1;
+      this.tituloModal = "Seleccione uno o varios medicamentos";
+    },
+    desactivarIngreso: function desactivarIngreso(id) {
+      var _this = this;
+
+      swal({
+        title: "Esta seguro de anular este ingreso?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          var me = _this;
+
+          axios.put("/ingreso/desactivar", {
+            id: id
+          }).then(function (response) {
+            me.listarIngreso(1, "", "num_comprobante");
+            swal("Anulado!", "El ingreso ha sido anulado con éxito.", "success");
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else if (
+        // Read more about handling dismissals
+        result.dismiss === swal.DismissReason.cancel) {}
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.listarIngreso(1, this.buscar, this.criterio);
+  }
 });
 
 /***/ }),
@@ -47031,7 +47670,7 @@ var render = function() {
         [
           _c("div", { staticClass: "card-header" }, [
             _c("i", { staticClass: "fa fa-align-justify" }),
-            _vm._v(" Ingresos\n                "),
+            _vm._v(" Ingresos\n        "),
             _c(
               "button",
               {
@@ -47045,7 +47684,7 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "icon-plus" }),
-                _vm._v(" Nuevo\n                ")
+                _vm._v(" Nuevo\n        ")
               ]
             )
           ]),
@@ -47099,16 +47738,6 @@ var render = function() {
                             _vm._v(" "),
                             _c("option", { attrs: { value: "fecha_compra" } }, [
                               _vm._v("Fecha-Compra")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "fecha_vencimiento" } },
-                              [_vm._v("Fecha_vencimiento")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "lote" } }, [
-                              _vm._v("Lote")
                             ])
                           ]
                         ),
@@ -47174,7 +47803,7 @@ var render = function() {
                           },
                           [
                             _c("i", { staticClass: "fa fa-search" }),
-                            _vm._v(" Buscar")
+                            _vm._v(" Buscar\n                ")
                           ]
                         )
                       ])
@@ -47195,73 +47824,40 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.arrayIngreso, function(ingreso) {
                             return _c("tr", { key: ingreso.id }, [
-                              _c(
-                                "td",
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.verIngreso(ingreso.id)
-                                        }
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.verIngreso(ingreso.id)
                                       }
-                                    },
-                                    [_c("i", { staticClass: "icon-eye" })]
-                                  ),
-                                  _vm._v(
-                                    "  \n                                     "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-danger btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.pdfIngreso(ingreso.id)
-                                        }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "icon-eye" })]
+                                ),
+                                _vm._v(
+                                  "\n                     \n                    "
+                                ),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.pdfIngreso(ingreso.id)
                                       }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fa fa-file-pdf-o"
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    "  \n                                    "
-                                  ),
-                                  ingreso.estado == "Registrado"
-                                    ? [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.desactivarIngreso(
-                                                  ingreso.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-trash"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    : _vm._e()
-                                ],
-                                2
-                              ),
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                                ),
+                                _vm._v(
+                                  "\n                     \n                  "
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
@@ -47303,21 +47899,15 @@ var render = function() {
                                 domProps: { textContent: _vm._s(ingreso.total) }
                               }),
                               _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(ingreso.fecha_vencimiento)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: { textContent: _vm._s(ingreso.lote) }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(ingreso.estado)
-                                }
-                              })
+                              ingreso.estado
+                                ? _c("div", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Registrada")]
+                                    )
+                                  ])
+                                : _vm._e()
                             ])
                           }),
                           0
@@ -47332,11 +47922,11 @@ var render = function() {
                       { staticClass: "pagination" },
                       [
                         _vm.pagination.current_page > 1
-                          ? _c("li", { staticClass: "page-item" }, [
+                          ? _c("li", { staticClass: "page-item cafe" }, [
                               _c(
                                 "a",
                                 {
-                                  staticClass: "page-link",
+                                  staticClass: "page-link ",
                                   attrs: { href: "#" },
                                   on: {
                                     click: function($event) {
@@ -47359,7 +47949,7 @@ var render = function() {
                             "li",
                             {
                               key: page,
-                              staticClass: "page-item",
+                              staticClass: "page-item cafe",
                               class: [page == _vm.isActived ? "active" : ""]
                             },
                             [
@@ -47383,11 +47973,11 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.pagination.current_page < _vm.pagination.last_page
-                          ? _c("li", { staticClass: "page-item" }, [
+                          ? _c("li", { staticClass: "page-item cafe" }, [
                               _c(
                                 "a",
                                 {
-                                  staticClass: "page-link",
+                                  staticClass: "page-link cafe",
                                   attrs: { href: "#" },
                                   on: {
                                     click: function($event) {
@@ -47419,9 +48009,17 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Proveedor(*)")
-                          ]),
+                          _c(
+                            "label",
+                            { attrs: { for: "" } },
+                            [
+                              _vm._v("Proveedor"),
+                              _c("spam", { staticStyle: { color: "red" } }, [
+                                _vm._v("(*Ingrese)")
+                              ])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
@@ -47440,34 +48038,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
-                      _c("label", { attrs: { for: "" } }, [_vm._v("Lote(*)")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.lote,
-                            expression: "lote"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", placeholder: "0000000" },
-                        domProps: { value: _vm.lote },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.lote = $event.target.value
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Tipo Comprobante(*)")]),
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Tipo Comprobante"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Seleccione)")
+                            ])
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -47520,7 +48101,16 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Serie Comprobante")]),
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Serie Comprobante"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Ingrese)")
+                            ])
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -47548,7 +48138,16 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Número Comprobante(*)")]),
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Número Comprobante"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Ingrese)")
+                            ])
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -47576,7 +48175,16 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Fecha_Compra(*)")]),
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Fecha_Compra"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Seleccione)")
+                            ])
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -47599,37 +48207,6 @@ var render = function() {
                                 return
                               }
                               _vm.fecha_compra = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Fecha_vencimiento(*)")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.fecha_vencimiento,
-                              expression: "fecha_vencimiento"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "date",
-                            placeholder: "Seleccione la fecha"
-                          },
-                          domProps: { value: _vm.fecha_vencimiento },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.fecha_vencimiento = $event.target.value
                             }
                           }
                         })
@@ -47673,9 +48250,7 @@ var render = function() {
                         _c(
                           "label",
                           [
-                            _vm._v(
-                              "Medicamento\n                                "
-                            ),
+                            _vm._v("Medicamento\n                  "),
                             _c(
                               "spam",
                               {
@@ -47684,7 +48259,7 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.idinventario == 0,
-                                    expression: "idinventario==0"
+                                    expression: "idinventario == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
@@ -47746,7 +48321,11 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("...")]
+                            [
+                              _vm._v(
+                                "\n                    Seleccionar\n                  "
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -47779,7 +48358,7 @@ var render = function() {
                         _c(
                           "label",
                           [
-                            _vm._v("Precio "),
+                            _vm._v("Precio\n                  "),
                             _c(
                               "spam",
                               {
@@ -47788,12 +48367,12 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.precio == 0,
-                                    expression: "precio==0"
+                                    expression: "precio == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [_vm._v("(*)")]
                             )
                           ],
                           1
@@ -47837,12 +48416,12 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.cantidad == 0,
-                                    expression: "cantidad==0"
+                                    expression: "cantidad == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [_vm._v("(*)")]
                             )
                           ],
                           1
@@ -47886,12 +48465,12 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.cantidad_blister == 0,
-                                    expression: "cantidad_blister==0"
+                                    expression: "cantidad_blister == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [_vm._v("(*)")]
                             )
                           ],
                           1
@@ -48000,7 +48579,7 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "3" },
+                                          attrs: { type: "number", value: "5" },
                                           domProps: { value: detalle.precio },
                                           on: {
                                             input: function($event) {
@@ -48028,7 +48607,7 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "2" },
+                                          attrs: { type: "number", value: "5" },
                                           domProps: { value: detalle.cantidad },
                                           on: {
                                             input: function($event) {
@@ -48057,7 +48636,7 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "2" },
+                                          attrs: { type: "number", value: "5" },
                                           domProps: {
                                             value: detalle.cantidad_blister
                                           },
@@ -48077,12 +48656,71 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: detalle.fecha_vencimiento,
+                                              expression:
+                                                "detalle.fecha_vencimiento"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "date" },
+                                          domProps: {
+                                            value: detalle.fecha_vencimiento
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "fecha_vencimiento",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: detalle.lote,
+                                              expression: "detalle.lote"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "number", value: "5" },
+                                          domProps: { value: detalle.lote },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "lote",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
                                         _vm._v(
-                                          "\n                                        " +
+                                          "\n                      $" +
                                             _vm._s(
                                               detalle.precio * detalle.cantidad
                                             ) +
-                                            "\n                                    "
+                                            "\n                    "
                                         )
                                       ])
                                     ])
@@ -48092,7 +48730,7 @@ var render = function() {
                                     "tr",
                                     {
                                       staticStyle: {
-                                        "background-color": "#CEECF5"
+                                        "background-color": "#d8e4e4"
                                       }
                                     },
                                     [
@@ -48122,7 +48760,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-secondary",
+                          staticClass: "btn btn-dark",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -48130,13 +48768,13 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cerrar")]
+                        [_vm._v("\n                Cerrar\n              ")]
                       ),
                       _vm._v(" "),
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary",
+                          staticClass: "btn cafe",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -48144,7 +48782,11 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Registrar Compra")]
+                        [
+                          _vm._v(
+                            "\n                Registrar Compra\n              "
+                          )
+                        ]
                       )
                     ])
                   ])
@@ -48156,9 +48798,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "" } }, [
-                          _vm._v("Proveedor")
-                        ]),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.proveedor) }
@@ -48168,7 +48808,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Tipo Comprobante")]),
+                        _vm._m(6),
                         _vm._v(" "),
                         _c("p", {
                           domProps: {
@@ -48180,7 +48820,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Serie Comprobante")]),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c("p", {
                           domProps: {
@@ -48192,7 +48832,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Número Comprobante")]),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.num_comprobante) }
@@ -48202,7 +48842,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Fecha_Compra")]),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.fecha_compra) }
@@ -48212,27 +48852,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Fecha_vencimiento")]),
-                        _vm._v(" "),
-                        _c("p", {
-                          domProps: {
-                            textContent: _vm._s(_vm.fecha_vencimiento)
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Lote")]),
-                        _vm._v(" "),
-                        _c("p", { domProps: { textContent: _vm._s(_vm.lote) } })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Total")]),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.total) }
@@ -48250,7 +48870,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(5),
+                          _vm._m(11),
                           _vm._v(" "),
                           _vm.arrayDetalle.length
                             ? _c(
@@ -48284,13 +48904,27 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            detalle.fecha_vencimiento
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(detalle.lote)
+                                        }
+                                      }),
+                                      _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
-                                          "\n                                        " +
+                                          "\n                      $" +
                                             _vm._s(
                                               detalle.precio * detalle.cantidad
                                             ) +
-                                            "\n                                    "
+                                            "\n                    "
                                         )
                                       ])
                                     ])
@@ -48300,11 +48934,11 @@ var render = function() {
                                     "tr",
                                     {
                                       staticStyle: {
-                                        "background-color": "#CEECF5"
+                                        "background-color": "#dfdf9c"
                                       }
                                     },
                                     [
-                                      _vm._m(6),
+                                      _vm._m(12),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v("$ " + _vm._s(_vm.total))
@@ -48314,7 +48948,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(7)])
+                            : _c("tbody", [_vm._m(13)])
                         ]
                       )
                     ])
@@ -48333,7 +48967,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cerrar")]
+                        [_vm._v("\n                Cerrar\n              ")]
                       )
                     ])
                   ])
@@ -48495,7 +49129,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-search" }),
-                          _vm._v(" Buscar")
+                          _vm._v(" Buscar\n                ")
                         ]
                       )
                     ])
@@ -48509,7 +49143,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(8),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -48614,7 +49248,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Cerrar")]
+                  [_vm._v("\n            Cerrar\n          ")]
                 ),
                 _vm._v(" "),
                 _vm.tipoAccion == 1
@@ -48629,7 +49263,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Guardar")]
+                      [_vm._v("\n            Guardar\n          ")]
                     )
                   : _vm._e(),
                 _vm._v(" "),
@@ -48645,7 +49279,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Actualizar")]
+                      [_vm._v("\n            Actualizar\n          ")]
                     )
                   : _vm._e()
               ])
@@ -48689,10 +49323,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Total")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Fecha_vencimiento")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Lote")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
     ])
@@ -48713,6 +49343,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Blister")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Fecha_vencimiento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Lote")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
     ])
@@ -48721,7 +49355,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "7", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -48730,12 +49364,46 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
-        _vm._v(
-          "\n                                        No hay medicina agregada\n                                    "
-        )
+      _c("td", { attrs: { colspan: "7" } }, [
+        _vm._v("No hay medicina agregada")
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "" } }, [_c("b", [_vm._v("Proveedor")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Tipo Comprobante")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Serie Comprobante")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Número Comprobante")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Fecha_Compra")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Total")])])
   },
   function() {
     var _vm = this
@@ -48751,6 +49419,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Blister")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Fecha_vencimiento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Lote")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
     ])
@@ -48759,7 +49431,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -48768,10 +49440,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
-        _vm._v(
-          "\n                                        No hay medicina agregada\n                                    "
-        )
+      _c("td", { attrs: { colspan: "6" } }, [
+        _vm._v("No hay medicamento agregado")
       ])
     ])
   },
@@ -48897,7 +49567,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n.modal-content {\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar {\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error {\n    display: flex;\n    justify-content: center;\n}\n.text-error {\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n", ""]);
 
 // exports
 
@@ -49321,6 +49991,70 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -49330,10 +50064,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return {
             venta_id: 0,
             idcliente: 0,
-            cliente: '',
-            fecha_salida: '',
-            usuario: '',
+            cliente: "",
+            tipo_comprobante: "",
+            num_comprobante: "",
+            fecha_salida: "",
+            usuario: "",
             total: 0.0,
+            descripcion: "",
             totalImpuesto: 0.0,
             totalParcial: 0.0,
             arrayVenta: [],
@@ -49341,35 +50078,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             arrayDetalle: [],
             listado: 1,
             modal: 0,
-            tituloModal: '',
+            tituloModal: "",
             tipoAccion: 0,
             errorVenta: 0,
             errorMostrarMsjVenta: [],
             pagination: {
-                'total': 0,
-                'current_page': 0,
-                'per_page': 0,
-                'last_page': 0,
-                'from': 0,
-                'to': 0
+                total: 0,
+                current_page: 0,
+                per_page: 0,
+                last_page: 0,
+                from: 0,
+                to: 0
             },
             offset: 3,
-            criterio: 'num_comprobante',
-            buscar: '',
-            criterioA: 'nombre',
-            buscarA: '',
+            criterio: "fecha_salida",
+            buscar: "",
+            criterioA: "nombre",
+            buscarA: "",
             arrayArticulo: [],
             arrayInventario: [],
             idinventario: 0,
-            nombre: '',
-            articulo: '',
-            inventario: '',
+            nombre: "",
+            articulo: "",
+            inventario: "",
             precio: 0,
             cantidad: 0,
             cantidad_blister: 0,
             stock: 0,
-            stockk: 0
-
+            stockk: 0,
+            fecha_vencimiento: "",
+            lote: 0
         };
     },
 
@@ -49414,7 +50152,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     methods: {
         listarVenta: function listarVenta(page, buscar, criterio) {
             var me = this;
-            var url = '/venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+            var url = "/venta?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 me.arrayVenta = respuesta.ventas.data;
@@ -49427,7 +50165,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var me = this;
             loading(true);
 
-            var url = '/cliente/selectCliente?filtro=' + search;
+            var url = "/cliente/selectCliente?filtro=" + search;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 q: search;
@@ -49444,20 +50182,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         buscarArticulo: function buscarArticulo() {
             var me = this;
-            var url = '/inventario/buscarArticuloInventariov?filtro=' + me.nombre;
+            var url = "/inventario/buscarArticuloInventariov?filtro=" + me.nombre;
 
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 me.arrayInventario = respuesta.inventarios;
 
                 if (me.arrayInventario.length > 0) {
-                    me.inventario = me.arrayInventario[0]['nombre'];
-                    me.idinventario = me.arrayInventario[0]['precio'];
-                    me.idinventario = me.arrayInventario[0]['id'];
-                    me.stock = me.arrayInventario[0]['cantidad_tableta'];
-                    me.stockk = me.arrayInventario[0]['cantidad_blister'];
+                    me.inventario = me.arrayInventario[0]["nombre"];
+                    me.idinventario = me.arrayInventario[0]["precio"];
+                    me.idinventario = me.arrayInventario[0]["id"];
+                    me.stock = me.arrayInventario[0]["cantidad_tableta"];
+                    me.stockk = me.arrayInventario[0]["cantidad_blister"];
                 } else {
-                    me.inventario = 'No existen Medicamentos';
+                    me.inventario = "No existen Medicamentos";
                     me.idinventario = 0;
                 }
             }).catch(function (error) {
@@ -49465,7 +50203,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         pdfVenta: function pdfVenta(id) {
-            window.open('/venta/pdf/' + id + ',' + '_blank');
+            window.open("/venta/pdf/" + id + "," + "_blank");
         },
         cambiarPagina: function cambiarPagina(page, buscar, criterio) {
             var me = this;
@@ -49491,23 +50229,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         agregarDetalle: function agregarDetalle() {
             var me = this;
 
-            if (me.idinventario == 0 || me.cantidad == 0 || me.cantidad_blister == 0 || me.precio == 0) {} else {
-
+            if (me.idinventario == 0 || me.cantidad == 0 || me.cantidad_blister == 0 || me.precio == 0 || me.fecha_vencimiento == 0 || me.lote == 0) {} else {
                 if (me.encuentra(me.idinventario)) {
                     swal({
-                        type: 'error',
-                        title: 'Error....',
-                        text: 'Ese Medicamento ya se encuentra agregado!'
+                        type: "error",
+                        title: "Error....",
+                        text: "Ese Medicamento ya se encuentra agregado!"
                     });
                 } else {
                     if (me.cantidad > me.stock) {
                         swal({
-                            type: 'error',
-                            title: 'Error....',
-                            text: 'No hay stock disponible !'
+                            type: "error",
+                            title: "Error....",
+                            text: "No hay stock disponible !"
                         });
                     } else {
-                        me.arrayDetalle.push(_defineProperty({
+                        var _me$arrayDetalle$push;
+
+                        me.arrayDetalle.push((_me$arrayDetalle$push = {
                             idinventario: me.idinventario,
                             articulo: me.nombre, //para mostrar el noombre del articulo en busqueda por nombre
 
@@ -49515,7 +50254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             cantidad_blister: me.cantidad_blister,
                             precio: me.precio,
                             cantidad_tableta: me.stock
-                        }, 'cantidad_blister', me.stockk));
+                        }, _defineProperty(_me$arrayDetalle$push, "cantidad_blister", me.stockk), _defineProperty(_me$arrayDetalle$push, "fecha_vencimiento", me.fecha_vencimiento), _defineProperty(_me$arrayDetalle$push, "lote", me.lote), _me$arrayDetalle$push));
 
                         me.nombre = "";
                         me.idinventario = 0;
@@ -49523,6 +50262,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         me.cantidad = 0;
                         me.cantidad_blister = 0;
                         me.precio = 0;
+                        me.fecha_vencimiento = "";
+                        me.lote = 0;
                         me.stock = 0;
                         me.stockk = 0;
                     }
@@ -49532,24 +50273,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         agregarDetalleModal: function agregarDetalleModal() {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-
             var me = this;
 
-            if (me.encuentra(data['id'])) {
+            if (me.encuentra(data["id"])) {
                 swal({
-                    type: 'error',
-                    title: 'Error....',
-                    text: 'Ese Medicamento ya se encuentra agregado!'
+                    type: "error",
+                    title: "Error....",
+                    text: "Ese Medicamento ya se encuentra agregado!"
                 });
             } else {
                 me.arrayDetalle.push({
-                    idinventario: data['id'],
-                    articulo: data['nombre'],
+                    idinventario: data["id"],
+                    articulo: data["nombre"],
                     cantidad: 1,
                     cantidad_blister: 1,
-                    stock: data['cantidad_tableta'],
-                    stockk: data['cantidad_blister'],
-                    precio: 0
+                    stock: data["cantidad_tableta"],
+                    stockk: data["cantidad_blister"],
+                    precio: 0,
+                    fecha_vencimiento: "",
+                    lote: 0
                 });
             }
         },
@@ -49558,7 +50300,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         //listar articulo
         listarArticuloinventario: function listarArticuloinventario(buscar, criterio) {
             var me = this;
-            var url = '/inventario/buscarArticuloInventarioventa?buscar=' + buscar + '&criterio=' + criterio;
+            var url = "/inventario/buscarArticuloInventarioventa?buscar=" + buscar + "&criterio=" + criterio;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 //handle sucess
@@ -49575,29 +50317,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             var me = this;
 
-            axios.post('/venta/registrar', {
-                'idcliente': this.idcliente,
-                'tipo_comprobante': this.tipo_comprobante,
-                'fecha_salida': this.fecha_salida,
-                'total': this.total,
-                'data': this.arrayDetalle
-
+            axios.post("/venta/registrar", {
+                idcliente: this.idcliente,
+                tipo_comprobante: this.tipo_comprobante,
+                num_comprobante: this.num_comprobante,
+                fecha_salida: this.fecha_salida,
+                total: this.total,
+                descripcion: this.descripcion,
+                data: this.arrayDetalle
             }).then(function (response) {
                 me.listado = 1;
-                me.listarVenta(1, '', 'num_comprobante');
+                me.listarVenta(1, "", "num_comprobante");
                 me.idcliente = 0;
+                me.tipo_comprobante = "BOLETA";
+                me.num_comprobante = "";
                 me.total = 0.0;
-                me.idinvetario = 0;
-                me.inventario = '';
-                me.articulo = '';
-                me.fecha_salida = '';
+                me.descripcion = "", me.idinvetario = 0;
+                me.inventario = "";
+                me.articulo = "";
+                me.fecha_salida = "";
                 me.cantidad = 0;
                 me.precio = 0;
                 me.stock = 0;
                 me.stockk = 0;
                 me.cantidad_blister = 0;
+                me.fecha_vencimiento = "";
+                me.lote = "";
                 me.arrayDetalle = [];
-                window.open('/venta/pdf/' + response.data.id + ',' + '_blank');
+                //window.open('/venta/pdf/'+ response.data.id + ',' + '_blank');
             }).catch(function (error) {
                 console.log(error);
             });
@@ -49616,8 +50363,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
 
             if (this.idcliente == 0) this.errorMostrarMsjVenta.push("Seleccione un Cliente .");
+            if (this.tipo_comprobante == 0) this.errorMostrarMsjVenta.push("Seleccione el comprobante.");
+            if (!this.num_comprobante) this.errorMostrarMsjVenta.push("Ingrese el número de comprobante.");
             if (this.fecha_salida == 0) this.errorMostrarMsjVenta.push("Seleccione el fecha.");
-
+            if (this.descripcion == 0) this.errorMostrarMsjVenta.push("Ingrese descripción.");
             if (this.arrayDetalle.length <= 0) this.errorMostrarMsjVenta.push("Ingrese detalles.");
 
             if (this.errorMostrarMsjVenta.length) this.errorVenta = 1;
@@ -49628,14 +50377,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var me = this;
             this.listado = 0;
             me.idproveedor = 0;
-            me.tipo_comprobante = 'BOLETA';
-            me.serie_comprobante = '';
-            me.num_comprobante = '';
-            me.impuesto = 0.18;
+            me.tipo_comprobante = 0, me.num_comprobante = "";
+            me.fecha_salida = "";
             me.total = 0.0;
+            me.descripcion = "";
             me.idarticulo = 0;
             me.cantidad = 0;
             me.precio = 0;
+            me.fecha_vencimiento = "";
+            me.lote = "";
             me.arrayDetalle = [];
         },
         verVenta: function verVenta(id) {
@@ -49645,22 +50395,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             //Obtener los datos del ingreso++++
             var arrayVentaT = [];
 
-            var url = '/venta/obtenerCabecera?id=' + id;
+            var url = "/venta/obtenerCabecera?id=" + id;
 
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 arrayVentaT = respuesta.venta;
-
-                me.cliente = arrayVentaT[0]['nombre'];
-
-                me.fecha_salida = arrayVentaT[0]['fecha_salida'];
-                me.total = arrayVentaT[0]['total'];
+                me.cliente = arrayVentaT[0]["nombre"];
+                me.tipo_comprobante = arrayVentaT[0]["tipo_comprobante"];
+                me.num_comprobante = arrayVentaT[0]["num_comprobante"];
+                me.fecha_salida = arrayVentaT[0]["fecha_salida"];
+                me.total = arrayVentaT[0]["total"];
             }).catch(function (error) {
                 console.log(error);
             });
             //Obtener los datos del detalle++++
 
-            var url = '/venta/obtenerDetalles?id=' + id;
+            var url = "/venta/obtenerDetalles?id=" + id;
 
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
@@ -49674,37 +50424,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         cerrarModal: function cerrarModal() {
             this.modal = 0;
-            this.tituloModal = '';
+            this.tituloModal = "";
         },
         abrirModal: function abrirModal() {
             this.arrayInventario = [];
             this.modal = 1;
-            this.tituloModal = 'Seleccione uno o varios Medicamnetos';
+            this.tituloModal = "Seleccione uno o varios Medicamnetos";
         },
         desactivarVenta: function desactivarVenta(id) {
             var _this = this;
 
             swal({
-                title: 'Esta seguro de anular esta Venta?',
-                type: 'warning',
+                title: "Esta seguro de anular esta Venta?",
+                type: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Aceptar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-success",
+                cancelButtonClass: "btn btn-danger",
                 buttonsStyling: false,
                 reverseButtons: true
             }).then(function (result) {
                 if (result.value) {
                     var me = _this;
 
-                    axios.put('/venta/desactivar', {
-                        'id': id
+                    axios.put("/venta/desactivar", {
+                        id: id
                     }).then(function (response) {
-                        me.listarVenta(1, '', 'num_comprobante');
-                        swal('Anulado!', 'La Venta ha sido anulada con éxito.', 'success');
+                        me.listarVenta(1, "", "num_comprobante");
+                        swal("Anulado!", "La Venta ha sido anulada con éxito.", "success");
                     }).catch(function (error) {
                         console.log(error);
                     });
@@ -49862,7 +50612,7 @@ var render = function() {
                           },
                           [
                             _c("i", { staticClass: "fa fa-search" }),
-                            _vm._v(" Buscar")
+                            _vm._v(" Buscar\n                                ")
                           ]
                         )
                       ])
@@ -49883,68 +50633,40 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.arrayVenta, function(venta) {
                             return _c("tr", { key: venta.id }, [
-                              _c(
-                                "td",
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.verVenta(venta.id)
-                                        }
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.verVenta(venta.id)
                                       }
-                                    },
-                                    [_c("i", { staticClass: "icon-eye" })]
-                                  ),
-                                  _vm._v(
-                                    "  \n\n                                    "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-info btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.pdfVenta(venta.id)
-                                        }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "icon-eye" })]
+                                ),
+                                _vm._v(
+                                  "\n                                         \n\n                                        "
+                                ),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.pdfVenta(venta.id)
                                       }
-                                    },
-                                    [_c("i", { staticClass: "icon-doc" })]
-                                  ),
-                                  _vm._v(
-                                    "  \n\n                                    "
-                                  ),
-                                  venta.estado == "Registrado"
-                                    ? [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.desactivarVenta(
-                                                  venta.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-trash"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    : _vm._e()
-                                ],
-                                2
-                              ),
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                                ),
+                                _vm._v(
+                                  "\n                                         \n                                    "
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: { textContent: _vm._s(venta.usuario) }
@@ -49961,12 +50683,36 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(venta.tipo_comprobante)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(venta.num_comprobante)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
                                 domProps: { textContent: _vm._s(venta.total) }
                               }),
                               _vm._v(" "),
                               _c("td", {
-                                domProps: { textContent: _vm._s(venta.estado) }
-                              })
+                                domProps: {
+                                  textContent: _vm._s(venta.descripcion)
+                                }
+                              }),
+                              _vm._v(" "),
+                              venta.estado
+                                ? _c("div", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Registrada")]
+                                    )
+                                  ])
+                                : _vm._e()
                             ])
                           }),
                           0
@@ -50068,9 +50814,17 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Cliente(*)")
-                          ]),
+                          _c(
+                            "label",
+                            { attrs: { for: "" } },
+                            [
+                              _vm._v("Cliente"),
+                              _c("spam", { staticStyle: { color: "red" } }, [
+                                _vm._v("(*Ingrese)")
+                              ])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
@@ -50089,9 +50843,116 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
-                      _c("label", { attrs: { for: "" } }, [
-                        _vm._v("Fecha Salida(*)")
-                      ]),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Tipo Comprobante"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Seleccione)")
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipo_comprobante,
+                                expression: "tipo_comprobante"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.tipo_comprobante = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "CCF" } }, [
+                              _vm._v("Credito Fiscal")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "FACTURA" } }, [
+                              _vm._v("Factura")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "TICKET" } }, [
+                              _vm._v("Ticket")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          [
+                            _vm._v("Número Comprobante"),
+                            _c("spam", { staticStyle: { color: "red" } }, [
+                              _vm._v("(*Ingrese)")
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.num_comprobante,
+                              expression: "num_comprobante"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "000xx" },
+                          domProps: { value: _vm.num_comprobante },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.num_comprobante = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "label",
+                        { attrs: { for: "" } },
+                        [
+                          _vm._v("Fecha Salida"),
+                          _c("spam", { staticStyle: { color: "red" } }, [
+                            _vm._v("(*Ingrese)")
+                          ])
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -50114,10 +50975,52 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "label",
+                        { attrs: { for: "" } },
+                        [
+                          _vm._v("Descripción"),
+                          _c("spam", { staticStyle: { color: "red" } }, [
+                            _vm._v("(*Ingrese)")
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.descripcion,
+                            expression: "descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          placeholder: "Descripción",
+                          name: "",
+                          id: "",
+                          cols: "53",
+                          rows: "3"
+                        },
+                        domProps: { value: _vm.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.descripcion = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br")
                     ])
                   ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-12" }, [
                     _c(
@@ -50156,7 +51059,7 @@ var render = function() {
                           "label",
                           [
                             _vm._v(
-                              "Meidacamento\n                                "
+                              "Meidacamento\n                                    "
                             ),
                             _c(
                               "spam",
@@ -50166,7 +51069,7 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.idinventario == 0,
-                                    expression: "idinventario==0"
+                                    expression: "idinventario == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
@@ -50228,7 +51131,11 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("...")]
+                            [
+                              _vm._v(
+                                "\n                                        Seleccionar\n                                    "
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -50261,7 +51168,9 @@ var render = function() {
                         _c(
                           "label",
                           [
-                            _vm._v("Precio "),
+                            _vm._v(
+                              "Precio\n                                    "
+                            ),
                             _c(
                               "spam",
                               {
@@ -50270,12 +51179,12 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.precio == 0,
-                                    expression: "precio==0"
+                                    expression: "precio == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [_vm._v("(*)")]
                             )
                           ],
                           1
@@ -50319,12 +51228,16 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.cantidad == 0,
-                                    expression: "cantidad==0"
+                                    expression: "cantidad == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [
+                                _vm._v(
+                                  "(*)\n                                    "
+                                )
+                              ]
                             )
                           ],
                           1
@@ -50359,7 +51272,9 @@ var render = function() {
                         _c(
                           "label",
                           [
-                            _vm._v("cantidad_blister "),
+                            _vm._v(
+                              "cantidad_blister\n                                    "
+                            ),
                             _c(
                               "spam",
                               {
@@ -50368,12 +51283,12 @@ var render = function() {
                                     name: "show",
                                     rawName: "v-show",
                                     value: _vm.cantidad_blister == 0,
-                                    expression: "cantidad_blister==0"
+                                    expression: "cantidad_blister == 0"
                                   }
                                 ],
                                 staticStyle: { color: "red" }
                               },
-                              [_vm._v("(*Ingrese)")]
+                              [_vm._v("(*)")]
                             )
                           ],
                           1
@@ -50511,16 +51426,16 @@ var render = function() {
                                                   detalle.cantidad >
                                                   detalle.stock,
                                                 expression:
-                                                  "detalle.cantidad>detalle.stock"
+                                                  "detalle.cantidad > detalle.stock"
                                               }
                                             ],
                                             staticStyle: { color: "red" }
                                           },
                                           [
                                             _vm._v(
-                                              " Stock:" +
+                                              "\n                                                Stock:" +
                                                 _vm._s(detalle.stock) +
-                                                " "
+                                                "\n                                            "
                                             )
                                           ]
                                         ),
@@ -50564,7 +51479,7 @@ var render = function() {
                                                   detalle.cantidad_blister >
                                                   detalle.stockk,
                                                 expression:
-                                                  "detalle.cantidad_blister>detalle.stockk"
+                                                  "detalle.cantidad_blister > detalle.stockk"
                                               }
                                             ],
                                             staticStyle: { color: "red" }
@@ -50573,7 +51488,7 @@ var render = function() {
                                             _vm._v(
                                               "Stock:" +
                                                 _vm._s(detalle.stockk) +
-                                                " "
+                                                "\n                                            "
                                             )
                                           ]
                                         ),
@@ -50609,12 +51524,71 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: detalle.fecha_vencimiento,
+                                              expression:
+                                                "detalle.fecha_vencimiento"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "date" },
+                                          domProps: {
+                                            value: detalle.fecha_vencimiento
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "fecha_vencimiento",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: detalle.lote,
+                                              expression: "detalle.lote"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "number" },
+                                          domProps: { value: detalle.lote },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "lote",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
                                         _vm._v(
-                                          "\n                                        " +
+                                          "\n                                            $" +
                                             _vm._s(
                                               detalle.precio * detalle.cantidad
                                             ) +
-                                            "\n                                    "
+                                            "\n                                        "
                                         )
                                       ])
                                     ])
@@ -50624,58 +51598,11 @@ var render = function() {
                                     "tr",
                                     {
                                       staticStyle: {
-                                        "background-color": "#CEECF5"
+                                        "background-color": "#d8e4e4"
                                       }
                                     },
                                     [
                                       _vm._m(3),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalParcial = (
-                                                _vm.total - _vm.totalImpuesto
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(4),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalImpuesto = (
-                                                (_vm.total * _vm.impuesto) /
-                                                (1 + _vm.impuesto)
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(5),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
@@ -50690,7 +51617,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(6)])
+                            : _c("tbody", [_vm._m(4)])
                         ]
                       )
                     ])
@@ -50701,7 +51628,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-secondary",
+                          staticClass: "btn btn-dark",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -50709,13 +51636,17 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cerrar")]
+                        [
+                          _vm._v(
+                            "\n                                Cerrar\n                            "
+                          )
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary",
+                          staticClass: "btn cafe",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -50723,7 +51654,11 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Registrar Venta")]
+                        [
+                          _vm._v(
+                            "\n                                Registrar Venta\n                            "
+                          )
+                        ]
                       )
                     ])
                   ])
@@ -50735,9 +51670,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "col-md-9" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "" } }, [
-                          _vm._v("CLiente")
-                        ]),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.cliente) }
@@ -50745,8 +51678,8 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-3" }, [
-                      _c("label", { attrs: { for: "" } }, [_vm._v("Usuario")]),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _vm._m(6),
                       _vm._v(" "),
                       _c("p", {
                         domProps: { textContent: _vm._s(_vm.usuario) }
@@ -50754,11 +51687,19 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
+                      _vm._m(7),
+                      _vm._v(" "),
+                      _c("p", {
+                        domProps: { textContent: _vm._s(_vm.tipo_comprobante) }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("fecha_salida")]),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("p", {
-                          domProps: { textContent: _vm._s(_vm.fecha_salida) }
+                          domProps: { textContent: _vm._s(_vm.num_comprobante) }
                         })
                       ])
                     ])
@@ -50773,7 +51714,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(7),
+                          _vm._m(9),
                           _vm._v(" "),
                           _vm.arrayDetalle.length
                             ? _c(
@@ -50807,13 +51748,27 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            detalle.fecha_vencimiento
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(detalle.lote)
+                                        }
+                                      }),
+                                      _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
-                                          "\n                                        " +
+                                          "\n                                            " +
                                             _vm._s(
                                               detalle.precio * detalle.cantidad
                                             ) +
-                                            "\n                                    "
+                                            "\n                                        "
                                         )
                                       ])
                                     ])
@@ -50823,53 +51778,7 @@ var render = function() {
                                     "tr",
                                     {
                                       staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(8),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalParcial = (
-                                                _vm.total - _vm.totalImpuesto
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(9),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalImpuesto = (
-                                                _vm.total * _vm.impuesto
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
+                                        "background-color": "#dfdf9c"
                                       }
                                     },
                                     [
@@ -50902,7 +51811,11 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cerrar")]
+                        [
+                          _vm._v(
+                            "\n                                Cerrar\n                            "
+                          )
+                        ]
                       )
                     ])
                   ])
@@ -51064,7 +51977,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-search" }),
-                          _vm._v(" Buscar")
+                          _vm._v(" Buscar\n                                ")
                         ]
                       )
                     ])
@@ -51183,7 +52096,11 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Cerrar")]
+                  [
+                    _vm._v(
+                      "\n                        Cerrar\n                    "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _vm.tipoAccion == 1
@@ -51198,7 +52115,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Guardar")]
+                      [
+                        _vm._v(
+                          "\n                        Guardar\n                    "
+                        )
+                      ]
                     )
                   : _vm._e(),
                 _vm._v(" "),
@@ -51214,7 +52135,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Actualizar")]
+                      [
+                        _vm._v(
+                          "\n                        Actualizar\n                    "
+                        )
+                      ]
                     )
                   : _vm._e()
               ])
@@ -51250,7 +52175,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Fecha salida")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Tipo_Comprobante")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Num_Comprobante")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripción")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
@@ -51272,6 +52203,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Cantidad_blister")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Fecha_vencimiento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Lote")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
     ])
@@ -51280,23 +52215,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
-      _c("strong", [_vm._v("Total Parcial:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
-      _c("strong", [_vm._v("Total Impuesto:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "7", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -51305,12 +52224,36 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "6" } }, [
-        _vm._v(
-          "\n                                        No hay mediciana agregada\n                                    "
-        )
+      _c("td", { attrs: { colspan: "7" } }, [
+        _vm._v("No hay medicamento agregado")
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "" } }, [_c("b", [_vm._v("Cliente")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "" } }, [_c("b", [_vm._v("Usuario")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "" } }, [
+      _c("b", [_vm._v("Tipo_Comprobante")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Num_Comprobante")])])
   },
   function() {
     var _vm = this
@@ -51326,6 +52269,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Cantidad_blister")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Fecha_vencimiento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Lote")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
     ])
@@ -51334,23 +52281,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
-      _c("strong", [_vm._v("Total Parcial:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
-      _c("strong", [_vm._v("Total Impuesto:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -51359,10 +52290,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
-        _vm._v(
-          "\n                                        No hay Medicamento agregado\n                                    "
-        )
+      _c("td", { attrs: { colspan: "6" } }, [
+        _vm._v("No hay Medicamento agregado")
       ])
     ])
   },
@@ -54690,7 +55619,12 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Medida")]
+                        [
+                          _c("spam", { staticStyle: { color: "red" } }, [
+                            _vm._v("Medida(*)")
+                          ])
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -54706,7 +55640,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            placeholder: "ingresa la medida"
+                            placeholder: "Ingrese la medida de un gramaje"
                           },
                           domProps: { value: _vm.gramaje },
                           on: {
