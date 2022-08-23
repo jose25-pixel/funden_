@@ -21,7 +21,7 @@
                                       <option value="gramaje">Medida</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listargramaje(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" class="btn btn-cafe" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
             <div class="modal fade"  tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header cafe">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
                             <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                               <span aria-hidden="true">×</span>
@@ -92,7 +92,7 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input"><spam style="color:red">Medida(*)</spam></label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Medida<spam style="color:red">(Obligatorio *)</spam></label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="gramaje" class="form-control" placeholder="Ingrese la medida de un gramaje">
                                     </div>
@@ -104,14 +104,12 @@
                                  </div>
                                  </div>
                                 </div>
-
-
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrargramaje()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizargramaje()">Actualizar</button>
+                            <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrargramaje()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizargramaje()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -120,12 +118,9 @@
             </div>
             <!--Fin del modal-->
             <!-- Inicio del modal Eliminar -->
-            
             <!-- Fin del modal Eliminar -->
-            
         </main>
 </template>
-
 <script>
     export default {
         data(){
@@ -260,12 +255,9 @@
                 'El registro ha sido Desactivado con éxito.',
                 'success'
                 )
-
                 }).catch(function(error){
                     console.log(error);
                 });
-
-                
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -330,10 +322,31 @@
             this.errorgramaje=0,
             this.errorMostrarMsjgramaje =[];
 
-            if (!this.gramaje) this.errorMostrarMsjgramaje.push("El nombre de la medida no puede estar vacío");
-            if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
+             if (this.gramaje == '' || this.gramaje == null) {
+                this.errorMostrarMsjgramaje.push("La medida del gramaje no puede estar vacio");
+                if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
+             }
+              else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.gramaje)){
+                this.errorMostrarMsjgramaje.push("La medida del gramaje  no debe contener números");
+                if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
+            }
+             else if (!/^[A-Z]/.test(this.gramaje)){
+                this.errorMostrarMsjgramaje.push("La medida del gramaje debe iniciar con una letra mayúscula");
+                if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
+            } 
             return this.errorgramaje;
         },
+
+
+
+
+
+
+
+
+
+
+
         cerrarModal(){
             this.modal=0;
             this.tituloModal='';

@@ -8,7 +8,7 @@
       <!-- Ejemplo de tabla Listado -->
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Casa Farmaceutica
+          <i class="fa fa-align-justify"></i> Casa Farmacéutica
           <button
             type="button"
             @click="abrirModal('categoria', 'registrar')"
@@ -28,12 +28,12 @@
                   type="text"
                   v-model="buscar"
                   @keyup.enter="listarCategoria(1, buscar, criterio)"
-                  class="form-control"
+                  class="form-control "
                   placeholder="Texto a buscar"
                 />
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  class="btn btn-cafe"
                   @click="listarCategoria(1, buscar, criterio)"
                 >
                   <i class="fa fa-search"></i> Buscar
@@ -45,7 +45,7 @@
             <thead>
               <tr>
                 <th>Opciones</th>
-                <th>C.Farmaceutica</th>
+                <th>Casa Farmacéutica</th>
                 <th>Estado</th>
               </tr>
             </thead>
@@ -167,14 +167,14 @@
             >
               <div class="form-group row">
                 <label class="col-md-3 form-control-label" for="text-input">
-                  <spam style="color: red">Casa Farmaceutica (*)</spam>
+                Casa Farmaceutica<spam style="color: red"> (*)</spam>
                 </label>
                 <div class="col-md-9">
                   <input
                     type="text"
                     v-model="nombre"
                     class="form-control"
-                    placeholder="Nombre de Casa Farmaceutica"
+                    placeholder="Nombre de Casa Farmacéutica"
                   />
                 </div>
               </div>
@@ -201,7 +201,7 @@
             <button
               type="button"
               v-if="tipoAccion == 2"
-              class="btn verde"
+              class="btn cafe"
               @click="actualizarCategoria()"
             >
               Actualizar
@@ -338,7 +338,7 @@ export default {
     },
     desactivarCategoria(id) {
       swal({
-        title: "Esta seguro de desactivar la casa farmaceutica?",
+        title: "Esta seguro de desactivar la casa farmacéutica?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "green",
@@ -379,7 +379,7 @@ export default {
 
     activarCategoria(id) {
       swal({
-        title: "Esta seguro de activar la casa farmaceutica?",
+        title: "Esta seguro de activar el registro de  la casa farmacéutica?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "green",
@@ -419,15 +419,23 @@ export default {
     },
 
     validarCategoria() {
-      (this.errorCategoria = 0), (this.errorMostrarMsjCategoria = []);
-
-      if (!this.nombre)
-        this.errorMostrarMsjCategoria.push(
-          "El nombre de la farmaceutica no puede estar vacío"
-        );
-      if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
-      return this.errorCategoria;
-    },
+      this.errorCategoria = 0,
+      this.errorMostrarMsjCategoria = [];
+      if (this.nombre == '' || this.nombre == null)
+      {
+        this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
+         if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1
+      }
+       else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
+                this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no debe contener números");
+                if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
+      }
+      else if (!/^[A-Z]/.test(this.nombre)){
+                this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica debe iniciar con una letra mayúscula");
+                if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
+      } 
+       return this.errorCategoria;
+        },
     cerrarModal() {
       this.modal = 0;
       this.tituloModal = "";
@@ -439,7 +447,7 @@ export default {
           switch (accion) {
             case "registrar": {
               this.modal = 1;
-              this.tituloModal = "Registrar Casa Farmaceutica";
+              this.tituloModal = "Registrar Casa Farmacéutica";
               this.nombre = "";
               this.descripcion = "";
               this.tipoAccion = 1;
@@ -448,7 +456,7 @@ export default {
             case "actualizar": {
               //console.log(data);
               this.modal = 1;
-              this.tituloModal = "Actualizar Casa Farmaceutica";
+              this.tituloModal = "Actualizar Casa Farmacéutica";
               this.tipoAccion = 2;
               this.categoria_id = data["id"];
               this.nombre = data["nombre"];

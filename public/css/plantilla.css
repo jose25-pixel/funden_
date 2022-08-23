@@ -165,12 +165,13 @@ sup {
   top: -.5em; }
 
 a {
-  color: #20a8d8;
+  color: #877a47;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects; }
   a:hover {
-    color: #167495;
+    color: #726636;
+    background-color:#726636 ;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -187,7 +188,7 @@ a:not([href]):not([tabindex]) {
    color:white!important;
 }
 .cafe{
-  background-color:#af9d5fee!important; 
+  background-color:#877a47!important; 
   color:white!important;
 }
 .borde-b{
@@ -1600,6 +1601,26 @@ fieldset[disabled] a.btn {
     background-image: none;
     border-color: #1985ac; }
 
+
+    .btn-cafe {
+      color: #fff;
+      background-color: #877a47;
+      border-color:#877a47; }
+      .btn-primary:hover {
+        color: #fff;
+        background-color: #9c9061;
+        border-color:#877a47; }
+      .btn-primary:focus, .btn-primary.focus {
+        box-shadow: 0 0 0 3px #b1a472; }
+      .btn-primary.disabled, .btn-primary:disabled {
+        background-color: #877a47;
+        border-color: #877a47; }
+      .btn-primary:active, .btn-primary.active,
+      .show > .btn-primary.dropdown-toggle {
+        background-color: #b3a46b;
+        background-image: none;
+        border-color:#877a47; }
+
 .btn-secondary {
   color: #111;
   background-color: #a4b7c1;
@@ -2387,7 +2408,7 @@ tbody.collapse.show {
   .nav-link:focus, .navbar .dropdown-toggle:focus, .nav-link:hover, .navbar .dropdown-toggle:hover {
     text-decoration: none; }
   .nav-link.disabled, .navbar .disabled.dropdown-toggle {
-    color: #536c79; }
+    color: #7e713e; }
 
 .nav-tabs {
   border-bottom: 1px solid #ddd; }
@@ -2398,14 +2419,14 @@ tbody.collapse.show {
     .nav-tabs .nav-link:focus, .nav-tabs .navbar .dropdown-toggle:focus, .navbar .nav-tabs .dropdown-toggle:focus, .nav-tabs .nav-link:hover, .nav-tabs .navbar .dropdown-toggle:hover, .navbar .nav-tabs .dropdown-toggle:hover {
       border-color: #c2cfd6 #c2cfd6 #ddd; }
     .nav-tabs .nav-link.disabled, .nav-tabs .navbar .disabled.dropdown-toggle, .navbar .nav-tabs .disabled.dropdown-toggle {
-      color: #536c79;
+      color: #877a47;
       background-color: transparent;
       border-color: transparent; }
   .nav-tabs .nav-link.active, .nav-tabs .navbar .active.dropdown-toggle, .navbar .nav-tabs .active.dropdown-toggle,
   .nav-tabs .nav-item.show .nav-link,
   .nav-tabs .nav-item.show .navbar .dropdown-toggle, .navbar
   .nav-tabs .nav-item.show .dropdown-toggle {
-    color: #3e515b;
+    color: #877a47;
     background-color: #e4e5e6;
     border-color: #ddd #ddd #e4e5e6; }
   .nav-tabs .dropdown-menu {
@@ -2416,7 +2437,7 @@ tbody.collapse.show {
 .show > .nav-pills .navbar .dropdown-toggle, .navbar
 .show > .nav-pills .dropdown-toggle {
   color: #fff;
-  background-color: #20a8d8; }
+  background-color: #877a47; }
 
 .nav-fill .nav-item {
   -ms-flex: 1 1 auto;

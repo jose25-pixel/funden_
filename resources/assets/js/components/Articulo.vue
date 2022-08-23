@@ -16,7 +16,7 @@
           >
             <i class="icon-plus"></i>&nbsp;Nuevo
           </button>
-          <button type="button" @click="formularioFecha()" class="btn btn-info">
+          <button type="button"   @click="abrirModal('articulo','fecha')" class="btn btn-info">
             <i class="icon-doc"></i>&nbsp;fecha
           </button>
           <button type="button" @click="cargarPdf()" class="btn btn-info">
@@ -30,7 +30,7 @@
                 <div class="input-group">
                   <select class="form-control col-md-3" v-model="criterio">
                     <option value="nombre">Nombre</option>
-                    <option value="concentracion">Concentraciónn</option>
+                    <option value="concentracion">Concentración</option>
                     <option value="presentacion">Presentación</option>
                   </select>
                   <input
@@ -42,7 +42,7 @@
                   />
                   <button
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-cafe"
                     @click="listarArticulo(1, buscar, criterio)"
                   >
                     <i class="fa fa-search"></i> Buscar
@@ -55,7 +55,7 @@
                 <tr>
                   <th>Opciones</th>
                   <th>Medicamento</th>
-                  <th>Casa_Farmaceutica</th>
+                  <th>Casa_Farmacéutica</th>
                   <th>Concentración</th>
                   <th>Presentación</th>
                   <th>Administración</th>
@@ -69,18 +69,18 @@
                     <button
                       type="button"
                       @click="pdfArticulo(articulo.id)"
-                      class="btn btn-secondary btn-sm"
+                      class="btn btn-outline-danger btn-sm"
                     >
-                      <i class="icon-doc"></i>
+                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                     </button>
                     &nbsp;
 
                     <button
                       type="button"
                       @click="abrirModal('articulo', 'actualizar', articulo)"
-                      class="btn btn-warning btn-sm"
+                      class="btn btn-success btn-sm"
                     >
-                      <i class="icon-pencil"></i>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </button>
                     &nbsp;
 
@@ -90,7 +90,7 @@
                         class="btn btn-danger btn-sm"
                         @click="desactivarArticulo(articulo.id)"
                       >
-                        <i class="icon-trash"></i>
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
                       </button>
                     </template>
                     <template v-else>
@@ -105,10 +105,7 @@
                   </td>
                   <td v-text="articulo.nombre"></td>
                   <td v-text="articulo.nombre_categoria"></td>
-                  <td
-                    v-text="articulo.concentracion + articulo.nombre_gramaje"
-                  ></td>
-
+                  <td v-text="articulo.concentracion + articulo.nombre_gramaje"></td>
                   <td v-text="articulo.presentacion"></td>
                   <td v-text="articulo.administracion"></td>
                   <td v-text="articulo.items"></td>
@@ -177,7 +174,7 @@
       <!-- Fin ejemplo de tabla Listado -->
     </div>
 
-    <template v-if="listado == 2">
+     <!--<template v-if="listado == 2">
       <div class="card-body">
         <div class="form-group row border">
           <div class="col-md-4">
@@ -246,7 +243,7 @@
           </div>
         </div>
       </div>
-    </template>
+    </template> -->
 
     <!--Inicio del modal agregar/actualizar-->
     <div
@@ -260,7 +257,7 @@
     >
       <div class="modal-dialog modal-primary modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header cafe">
             <h4 class="modal-title" v-text="tituloModal"></h4>
             <button
               type="button"
@@ -271,13 +268,12 @@
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body ">
             <form
               action=""
               method="post"
               enctype="multipart/form-data"
-              class="form-horizontal"
-            >
+              class="form-horizontal">
               <div class="form-group row">
                 <label class="col-md-3 form-control-label" for="text-input">
                   <spam style="color: red">Casa Farmaceutica(*)</spam>
@@ -398,7 +394,7 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-dark"
               @click="cerrarModal()"
             >
               Cerrar
@@ -406,7 +402,7 @@
             <button
               type="button"
               v-if="tipoAccion == 1"
-              class="btn btn-primary"
+              class="btn btn-cafe"
               @click="registrarArticulo()"
             >
               Guardar
@@ -426,67 +422,15 @@
       </div>
       <!-- /.modal-dialog -->
     </div>
-    <div
-      class="modal fade"
-      tabindex="-1"
-      :class="{ mostrar: modal }"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      style="display: none"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-primary modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" v-text="tituloModal"></h4>
-            <button
-              type="button"
-              class="close"
-              @click="cerrarModal()"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form
-              action=""
-              method="get"
-              enctype="multipart/form-data"
-              class="form-horizontal"
-            >
-              <div class="form-group row">
-                <label class="col-md-3 form-control-label" for="text-input">
-                  <spam style="color: red">desde (*)</spam>
-                </label>
-                <div class="col-md-9">
-                  <input type="date" v-model="desde" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-md-3 form-control-label" for="text-input">
-                  <spam style="color: red"> hasta(*)</spam>
-                </label>
-                <div class="col-md-9">
-                  <input type="date" v-model="hasta" class="form-control" />
-                </div>
-              </div>
+    
+    <!--Fin del modal-->
 
-              <div v-show="errorArticulo" class="form-group row div-error">
-                <div class="text-center text-error">
-                  <div
-                    v-for="error in errorMostrarMsjArticulo"
-                    :key="error"
-                    v-text="error"
-                  ></div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
+
+    <!-- nuevo modal-->
+      <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-dark"
               @click="cerrarModal()"
             >
               Cerrar
@@ -494,20 +438,23 @@
             <button
               type="button"
               v-if="tipoAccion == 1"
-              class="btn btn-primary"
-              @click="listarArticulofeha(id, desde, hasta)"
+              class="btn btn-cafe"
+              @click="registrarArticulo()"
             >
-              ver
+              Guardar
+            </button>
+            <button
+              type="button"
+              v-if="tipoAccion == 2"
+              class="btn btn-primary"
+              @click="actualizarArticulo()"
+            >
+              Actualizar
             </button>
           </div>
-        </div>
-
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!--Fin del modal-->
   </main>
+
+
 </template>
 
 <script>
@@ -859,14 +806,14 @@ export default {
               this.items = data["items"];
               break;
             }
-            case "fecha": {
+            /*case "fecha": {
               this.modal = 1;
               this.tituloModal = "fecha";
               this.tipoAccion = 3;
               this.desde = "";
               this.hasta = "";
               break;
-            }
+            }*/
           }
         }
       }
