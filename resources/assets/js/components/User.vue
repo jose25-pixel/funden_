@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Usuarios
+                        <i class="icon-user"></i> Usuarios
                         <button type="button" @click="abrirModal('users','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
@@ -24,12 +24,12 @@
                                       <option value="telefono">Teléfono</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarUsuario(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarUsuario(1,buscar,criterio)" class="btn btn-primary">
+                                    <button type="submit" @click="listarUsuario(1,buscar,criterio)" class="btn btn-cafe">
                                         <i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-bordered table-striped table-sm">
+                        <table class="table table-responsive table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
@@ -51,7 +51,7 @@
                                         </button>&nbsp;
                                         <template v-if="users.condicion">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(users.id)">
-                                                <i class="icon-trash"></i>
+                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
                                         </template>
                                         <template v-else>
@@ -74,13 +74,13 @@
                         <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                    <a class="page-link cafe" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
                                 </li>
                                 <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
                                 </li>
                                 <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                    <a class="page-link cafe" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
                                 </li>
                             </ul>
                         </nav>
@@ -92,7 +92,7 @@
             <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header cafe">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
                             <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                               <span aria-hidden="true">×</span>
@@ -101,54 +101,61 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre
-                                        <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
+                                 <div class="form-group col-md-6">
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre<span style="color:red;">(*Ingrese)</span></label>
+                                     <div>
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej.Nombre">                                        
+                                     </div>
+                                  </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 form-control-label" for="email-input">Email<span style="color:red;">(*Ingrese)</span></label>
+                                    <div>
+                                        <input type="email" v-model="email" class="form-control" placeholder="Ej.name@example.com">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
-                                    <div class="col-md-9">
+                             </div>
+
+                             <div class="form-group row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono<span style="color:red;">(*Ingrese)</span></label>
+                                    <div>
+                                        <input type="tel" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej.22223333 ó 77778888">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 form-control-label" for="email-input">Dirección<span style="color:red;">(*Ingrese)</span></label>
+                                    <div>
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Ej.San Salvador, El Salvador">
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                <div class="form-row">
+                                   <div class="form-group col-md-6">
+                                    <label class="col-md-6 form-control-label" for="text-input">Seleccione_Documento</label>
+                                    <div>
                                         <select v-model="tipo_documento" class="form-control">
-                                            
-                                            <option value="DNI">DNI</option>
-                                            <option value="RUC">RUC</option>
-                                            <option value="PASS">PASS</option>
+                                            <option value="">Seleccione</option>
+                                            <option value="DNI">DUI</option>
+                                            <option value="NIT">NIT</option>
+                                            <option value="PASS">PASAPORTE</option>
                                         </select>                                    
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                            
+                                <div class="form-group col-md-6">
                                     <label class="col-md-3 form-control-label" for="text-input">Número</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Número de documento">                                        
+                                    <div>
+                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.00000xxx">                                        
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección
-                                        <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono
-                                        <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Email
-                                        <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Rol
-                                        <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
+                            </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                    <label class="col-md-6 form-control-label" for="email-input">Rol<span style="color:red;">(*Seleccione)</span></label>
+                                    <div>
                                         <select class="form-control" v-model="idrol">
                                             <option value="0">Seleccione un rol</option>
                                             <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre">
@@ -157,33 +164,34 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Usuario
-                                         <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="usuario" class="form-control" placeholder="Nombre de usuario">
+                                 <div class="form-group col-md-4">
+                                    <label class="col-md-6 form-control-label" for="email-input">Usuario<span style="color:red;">(*Ingrese)</span></label>
+                                    <div>
+                                        <input type="text" v-model="usuario" id="validationDefaultUsername" class="form-control" placeholder="Ej.Ernesto10" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Password
-                                         <span style="color:red;">(*Ingrese)</span></label>
-                                    <div class="col-md-9">
-                                        <input type="password" v-model="password" class="form-control" placeholder="Password de acceso">
+                                 <div class="form-group col-md-4">
+                                    <label class="col-md-6 form-control-label" for="email-input">Password<span style="color:red;">(*Ingrese)</span></label>
+                                    <div>
+                                        <input type="password" v-model="password" class="form-control" placeholder="********" required>
                                     </div>
+                                </div>
                                 </div>
 
                                 <div v-show="errorUsuario" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMostrarMsjUsuario" :key="error" v-text="error">
                                         </div>
+                                    
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarUsuario()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
+                            <p>Si seleciona tipo de documento, es obligatorio que ingrese el Número de Documento.</p>
+                            <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizarUsuario()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -200,7 +208,7 @@
             return {
                 usuario_id: 0,
                 nombre : '',
-                tipo_documento : 'DNI',
+                tipo_documento : '',
                 num_documento : '',
                 direccion : '',
                 telefono : '',
@@ -337,18 +345,105 @@
                 this.errorUsuario=0;
                 this.errorMostrarMsjUsuario =[];
 
-                if (!this.nombre) this.errorMostrarMsjUsuario.push("El nombre de la persona no puede estar vacío.");
-                if (!this.usuario) this.errorMostrarMsjUsuario.push("El nombre de usuario no puede estar vacío.");
-                if (!this.password) this.errorMostrarMsjUsuario.push("El password no puede estar vacío.");
-                if (this.idrol==0) this.errorMostrarMsjUsuario.push("Debes seleccionar un rol para el usuario.");
-                if (this.errorMostrarMsjUsuario.length) this.errorUsuario = 1;
+                if (this.nombre == '' || this.nombre == null)
+                {
+                    this.errorMostrarMsjUsuario.push("El nombre de la persona no puede estar vacío.");
+                } 
+                else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
+                    this.errorMostrarMsjUsuario.push("El nombre del usuario no debe contener números");
+                }
+                else if( !/^[A-Z]/.test(this.nombre)){
+                    this.errorMostrarMsjUsuario.push("El nombre del usuario debe iniciar con una letra mayúscula");
+                }
+
+                /*Validación del correo*/
+                else if(this.email == '' || this.email == null)
+                {
+                   this.errorMostrarMsjUsuario.push("El email del usuario no puede estar vacío");
+                }
+                else if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email))
+                {
+                   this.errorMostrarMsjUsuario.push("Ingrese un correo electronico valido");
+                }
+
+                
+            /*Validación del número de telefono*/
+                else if(this.telefono == '' || this.telefono == null){
+                     this.errorMostrarMsjUsuario.push("El teléfono del usuario no puede estar vacío");
+                }
+                else if(!/^\d{8}$/.test(this.telefono)){
+                    this.errorMostrarMsjUsuario.push("Ingresa un número de télefono valido");
+                }
+                else if (this.direccion == '' || this.direccion == null) 
+            {
+                this.errorMostrarMsjUsuario.push("La dirección del usuario no puede estar vacía.");
+            }
+                
+                
+                /*Validación del  rol*/
+                else if(this.idrol==0){
+                    this.errorMostrarMsjUsuario.push("Seleccione un rol");
+                }
+                /*Validación del  usuario*/
+                else if(this.usuario == '' || this.usuario == null){
+                    this.errorMostrarMsjUsuario.push("El usuario no puede quedar vacío");
+                }
+                /*Validación de la contraseña*/
+                else if(this.password == '' || this.password == null){
+                    this.errorMostrarMsjUsuario.push("El password del usuario no puede estar vacío");
+                }
+                 else if(this.password.length<=7){
+                      this.errorMostrarMsjUsuario.push("La contraseña debe de contener mas de 7 caracteres");
+                    }
+                /*Validación del tipo de documento*/
+                else if (!this.tipo_documento == '' ){
+                    if(this.num_documento == ''){
+                      this.errorMostrarMsjUsuario.push("El número de documento del usuario no puede estar vacío.");
+                    }
+                    else if(!/^[0-9]+$/.test(this.num_documento)){
+                      this.errorMostrarMsjUsuario.push("El número de documento del usuario no debe contener letras.");
+                    }
+                    else if(this.num_documento.length<=7){
+                      this.errorMostrarMsjUsuario.push("El número de documento del usuario no es valido, debe ser mas de 7 caracteres.");
+                    }
+                }
+                    else if(!this.num_documento == ''){
+                       if(this.tipo_documento == ''){
+                         this.errorMostrarMsjUsuario.push("Seleccione un tipo de documento.");
+                        }
+                    }
+
+            if (this.errorMostrarMsjUsuario.length) this.errorUsuario = 1;
                 return this.errorUsuario;
             },
-            cerrarModal(){
+
+            validEmail (email) {
+            if (!this.email == ''){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+   
+            }else{
+                return true;
+            }
+       
+        }, 
+
+         validTelefono (telefono) {
+            if (!this.telefono == ''){
+               var  re = /^\d{8}$/;
+                return re.test(telefono);
+   
+            }else{
+                return true;
+            }
+       
+        },
+
+        cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.tipo_documento='DNI';
+                this.tipo_documento= '';
                 this.num_documento='';
                 this.direccion='';
                 this.telefono='';
@@ -369,7 +464,7 @@
                                 this.modal = 1;
                                 this.tituloModal = 'Registrar Usuario';
                                 this.nombre= '';
-                                this.tipo_documento='DNI';
+                                this.tipo_documento='';
                                 this.num_documento='';
                                 this.direccion='';
                                 this.telefono='';
@@ -388,7 +483,7 @@
                                 this.tipoAccion=2;
                                 this.usuario_id=data['id'];
                                 this.nombre = data['nombre'];
-                                this.tipo_documento = data['tipo_documento'];
+                                this.tipo_documento = data["tipo_documento"];
                                 this.num_documento = data['num_documento'];
                                 this.direccion = data['direccion'];
                                 this.telefono = data['telefono'];

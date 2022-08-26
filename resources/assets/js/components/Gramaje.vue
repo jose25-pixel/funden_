@@ -21,11 +21,11 @@
                                       <option value="gramaje">Medida</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listargramaje(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-cafe" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" class="btn btn-outline-cafe" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-bordered table-striped table-sm">
+                        <table class="table table-responsive table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
@@ -41,7 +41,7 @@
                                         </button> &nbsp;
                                         <template v-if="gramaje.condicion">
                                          <button type="button" class="btn btn-danger btn-sm" @click="desactivargramaje(gramaje.id)">
-                                          <i class="icon-trash"></i>
+                                           <i class="fa fa-trash-o fa-1x"></i>
                                         </button>  
                                         </template> 
                                         <template v-else>
@@ -64,7 +64,7 @@
                         <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page >1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                    <a class="page-link " href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
                                 </li>
                                 <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
@@ -92,7 +92,7 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Medida<spam style="color:red">(Obligatorio *)</spam></label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Medida<spam style="color:red">(* Ingrese )</spam></label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="gramaje" class="form-control" placeholder="Ingrese la medida de un gramaje">
                                     </div>
@@ -173,7 +173,7 @@
 
         methods: {
             //listar gramajes
-            listargramaje(page, buscar, criterio){
+        listargramaje(page, buscar, criterio){
                 
                 let me=this;
                 var url = '/gramaje?page=' + page + '&buscar=' + buscar + '&criterio='+ criterio;
@@ -187,14 +187,14 @@
                     //handle error
                     console.log(error);
                 });
-            },
-            cambiarPagina(page, buscar, criterio){
+        },
+        cambiarPagina(page, buscar, criterio){
                 let me = this;
 
                 me.pagination.current_page = page;
                 me.listargramaje(page, buscar, criterio);
-            },
-            registrargramaje(){
+        },
+        registrargramaje(){
                 if (this.validargramaje()){
                     return;
 
@@ -336,17 +336,6 @@
             } 
             return this.errorgramaje;
         },
-
-
-
-
-
-
-
-
-
-
-
         cerrarModal(){
             this.modal=0;
             this.tituloModal='';

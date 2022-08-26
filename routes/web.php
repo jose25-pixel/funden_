@@ -85,11 +85,11 @@ Route::group(['middleware' => ['auth']], function(){
         //activar registros en la tabla
         Route::put('/articulo/activar', 'ArticuloController@activar');
        //Ruta para el selec dinamico en la vista inventario
-        Route::get('/articulo/selectArticulo', 'ArticuloController@selectArticulo');
-        Route::get('/articulo/obtenerProducto', 'ArticuloController@obtenerProducto');
-        Route::get('/articulo/Ingresos', 'ArticuloController@Ingresos');
-        Route::get('/articulo/obtenerIngresos', 'ArticuloController@obtenerIngresos');
-        Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pfd');
+        //Route::get('/articulo/selectArticulo', 'ArticuloController@selectArticulo');
+        //Route::get('/articulo/obtenerProducto', 'ArticuloController@obtenerProducto');
+       // Route::get('/articulo/Ingresos', 'ArticuloController@Ingresos');
+       // Route::get('/articulo/obtenerIngresos', 'ArticuloController@obtenerIngresos');
+      //  Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pfd');
 
          //buscar articulo
         // Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
@@ -97,20 +97,12 @@ Route::group(['middleware' => ['auth']], function(){
          Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
          Route::get('/articulo/prueva', 'ArticuloController@indexprueva');
 
-       /*+++++++++++++++++++++++++++Rutas del inventario++++++++++++++++++++++++++++++++++++*/
-        //Rutas de listar medicamnetos desde el inventario para la compra
-         Route::get('/inventario/buscarArticuloin', 'InventarioController@listarArticuloinventario');
-         Route::get('/inventario/buscarArticuloInventario', 'InventarioController@buscarArticuloInventario');
-         //Rutas del inventario para venta de medicamento
-         Route::get('/inventario/buscarArticuloInventariov', 'InventarioController@buscarInventarioVenta');
-         Route::get('/inventario/buscarArticuloInventarioventa', 'InventarioController@listarArticuloinventarioV');
-         //rutas para mostrar datos e ingresar datos a inventario
-         Route::get('/inventario', 'InventarioController@index');
-         Route::post('/inventario/registrar', 'InventarioController@store');
+ 
+        // Route::post('/inventario/registrar', 'InventarioController@store');
             //desactivar registros en la tabla
-        Route::put('/inventario/desactivar', 'InventarioController@desactivar');
+        //Route::put('/inventario/desactivar', 'InventarioController@desactivar');
         //activar registros en la tabla
-        Route::put('/inventario/activar', 'InventarioController@activar');
+        //Route::put('/inventario/activar', 'InventarioController@activar');
 
 
         
@@ -199,14 +191,27 @@ Route::group(['middleware' => ['auth']], function(){
          Route::put('/articulo/desactivar', 'ArticuloController@desactivar'); 
          //activar registros en la tabla
          Route::put('/articulo/activar', 'ArticuloController@activar');
+         Route::get('/articulo/articulosTodos', 'ArticuloController@articulosTodos')->name('articulos_pdf');
+         Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pdf');
          //buscar articulo
-         Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
-         Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
-         Route::get('/articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
-         Route::get('/articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
-        // Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
-        // Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
-        Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pdf');
+        // Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
+         //Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
+         //Route::get('/articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
+         //Route::get('/articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
+       
+        //Route::get('/articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulos_pdf');
+
+
+         /*+++++++++++++++++++++++++++Rutas del inventario++++++++++++++++++++++++++++++++++++*/
+        //Rutas de listar medicamnetos desde el inventario para la compra
+        Route::get('/inventario/buscarArticuloin', 'InventarioController@listarArticuloinventario');
+        Route::get('/inventario/buscarArticuloInventario', 'InventarioController@buscarArticuloInventario');
+        //Rutas del inventario para venta de medicamento
+        Route::get('/inventario/buscarArticuloInventariov', 'InventarioController@buscarInventarioVenta');
+        Route::get('/inventario/buscarArticuloInventarioventa', 'InventarioController@listarArticuloinventarioV');
+        //rutas para mostrar datos e ingresar datos a inventario
+        Route::get('/inventario', 'InventarioController@index');
+     
  
  
          //rutas de proveedor

@@ -110,25 +110,24 @@
         <table class="table table-bordered table-striped table-sm">
             <thead>
                 <tr>
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Categoria</th>
-                    <th scope="col">Precio </th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Estado</th>
+                    <th scope="col">Medicamento</th>
+                    <th scope="col">Casa_Farmacéutica</th>
+                    <th scope="col">Concentración</th>
+                    <th scope="col">Presentación </th>
+                    <th scope="col">Administración</th>
+                    <th scope="col">Items</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($articulos as $a)
                 <tr>
-                    <td>{{ $a->codigo }}</td>
+                    
                     <td>{{ $a->nombre }}</td>
                     <td>{{ $a->nombre_categoria }}</td>
-                    <td>{{ $a->precio_venta }}</td>
-                    <td>{{ $a->stock }}</td>
-                    <td>{{ $a->descripcion }}</td>
-                    <td>{{ $a->condicion ? 'Activo' : 'Desactivado' }}</td>
+                    <td>{{ $a->concentracion }}{{ $a->gramaje }}</td>
+                    <td>{{ $a->presentacion }}</td>
+                    <td>{{ $a->administracion }}</td>
+                    <td>{{ $a->items }}</td>
                 </tr>
                 @endforeach
 

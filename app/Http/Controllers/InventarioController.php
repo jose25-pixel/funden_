@@ -16,26 +16,28 @@ class InventarioController extends Controller
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
         if ($buscar == '') {
             $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id')
-                ->select(
-                    'inventarios.id',
-                    'inventarios.idproducto',
-                    'articulos.nombre as nombre_articulo',
-                    'inventarios.cantidad_blister',
-                    'inventarios.cantidad_tableta',
-                    'inventarios.condicion',
+            ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+            ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+            ->select('inventarios.id','inventarios.idproducto',
+                    'articulos.nombre as medicamento','articulos.concentracion','articulos.presentacion','articulos.administracion',
+                    'articulos.items',
+                    'categorias.nombre as casa_farmaceutica',
+                     'gramajes.gramaje as gramaje',
+                    'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',
                 )->orderBy('articulos.id', 'desc')->paginate(8);
         } else {
             $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id',)
-                ->select(
-                    'inventarios.id',
-                    'inventarios.idproducto',
-                    'articulos.nombre as nombre_articulo',
-                    'inventarios.cantidad_blister',
-                    'inventarios.cantidad_tableta',
-                )->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
+            ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+            ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+            ->select('inventarios.id','inventarios.idproducto',
+                'articulos.nombre as medicamento','articulos.concentracion','articulos.presentacion','articulos.administracion',
+                'articulos.items',
+                'categorias.nombre as casa_farmaceutica',
+                 'gramajes.gramaje as gramaje',
+                'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',)
+                ->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
         }
         return [
             'pagination' => [

@@ -4,7 +4,7 @@
 @if(Auth::check())
     @if(Auth::user()->idrol == 1)
         <template v-if="menu==0">
-            <dashboard></dashboard>
+            <inventario></inventario>
         </template>
     
         <template v-if="menu==1">

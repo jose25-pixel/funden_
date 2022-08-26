@@ -24,11 +24,11 @@
                                       <option value="telefono">Teléfono</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary" @click="listarPersona(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" class="btn btn-cafe" @click="listarPersona(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-bordered table-striped table-sm">
+                        <table class="table table-responsive table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
@@ -37,7 +37,7 @@
                                     <th>Número</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
-                                    <th>email</th>
+                                    <th>Email</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,6 +47,7 @@
                                         <i class="icon-pencil"></i>
                                         </button>
                                     </td>
+                                     
                                     <td v-text="persona.nombre"> </td>
                                     <td v-text="persona.tipo_documento"> </td>
                                     <td v-text="persona.num_documento"> </td>
@@ -65,7 +66,7 @@
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
                                 </li>
                                 <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page  + 1,buscar,criterio)">Sig</a>
+                                    <a class="page-link " href="#" @click.prevent="cambiarPagina(pagination.current_page  + 1,buscar,criterio)">Sig</a>
                                 </li>
                             </ul>
                           
@@ -78,7 +79,7 @@
             <div class="modal fade"  tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header cafe">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
                             <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                               <span aria-hidden="true">×</span>
@@ -87,43 +88,44 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre<span style="color:red;">(*Ingrese)</span></label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej. Elías">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
                                     <div class="col-md-9">
                                         <select v-model="tipo_documento" class="form-control">
+                                            <option value="">Seleccione un documento</option>
                                             <option value="DNI">DNI</option>
                                             <option value="RUC">RUC</option>
-                                            <option value="PASS">PASS</option>
+                                            <option value="PASS">PASAPORTE</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Número</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Número de documento">
+                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.000000xx">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Dirección<span style="color:red;">(*Ingrese)</span></label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Ej. San Salvador, San Jacinto">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono<span style="color:red;">(*Ingrese)</span></label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                        <input type="int" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej.22202222 ó 77896543">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Email</label>
                                     <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Email">
+                                        <input type="email" v-model="email" class="form-control" placeholder="Ej.nombre@gmail.com">
                                     </div>
                                 </div>
 
@@ -138,9 +140,9 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarPersona()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarPersona()">Actualizar</button>
+                            <p>Si seleciona tipo de documento, es obligatorio que ingrese el Número de Documento.</p>                            <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrarPersona()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizarPersona()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -282,9 +284,76 @@
             this.errorPersona=0,
             this.errorMostrarMsjPersona =[];
 
-            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío");
+            if (this.nombre == '' || this.nombre == null)
+                {
+                    this.errorMostrarMsjPersona.push("El nombre del cliente no puede quedar vacío.");
+                } 
+                else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
+                    this.errorMostrarMsjPersona.push("El nombre del cliente no puede contener números");
+                }
+                else if( !/^[A-Z]/.test(this.nombre)){
+                    this.errorMostrarMsjPersona.push("El nombre del cliente debe iniciar con una letra mayúscula");
+                }
+
+            else if (this.direccion == '' || this.direccion == null) 
+            {
+                this.errorMostrarMsjPersona.push("La dirección del cliente no puede estar vacía.");
+            }
+
+            /*Validación del número de telefono*/
+            else if(this.telefono == '' || this.telefono == null){
+                this.errorMostrarMsjPersona.push("El teléfono del cliente  no puede estar vacío");
+            }
+            else if(!/^\d{8}$/.test(this.telefono)){
+                 this.errorMostrarMsjPersona.push("Ingresa un número de télefono valido, debe contener más de 7 digitos");
+            }
+
+           
+
+             /*Validación del tipo de documento*/
+                else if (!this.tipo_documento == '' ){
+                    if(this.num_documento == ''){
+                      this.errorMostrarMsjPersona.push("El número de documento del cliente no puede estar vacío.");
+                    }
+                    else if(!/^[0-9]+$/.test(this.num_documento)){
+                      this.errorMostrarMsjPersona.push("El número de documento del cliente no debe contener letras.");
+                    }
+                    else if(this.num_documento.length<=7){
+                      this.errorMostrarMsjPersona.push("El número de documento del cliente  no es valido, debe ser mas de 7 caracteres.");
+                    }
+                }
+                    else if(!this.num_documento == ''){
+                       if(this.tipo_documento == ''){
+                         this.errorMostrarMsjPersona.push("Seleccione un tipo de documento.");
+                        }
+                    }
+
+
             if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
             return this.errorPersona;
+        },
+
+        
+
+         validEmail (email) {
+            if (!this.email == ''){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+   
+            }else{
+                return true;
+            }
+       
+        },
+         validTelefono (telefono) {
+            if (!this.telefono == ''){
+               var  re = /^\d{8}$/;
+                return re.test(telefono);
+   
+            }else{
+                return true;
+            }
+       
         },
         cerrarModal(){
             this.modal=0;
@@ -309,7 +378,7 @@
                             this.modal = 1;
                             this.tituloModal = 'Registrar Ciente';
                             this.nombre='';
-                            this.tipo_documento='DNI';
+                            this.tipo_documento='';
                             this.num_documento='';
                             this.direccion='';
                             this.telefono='';

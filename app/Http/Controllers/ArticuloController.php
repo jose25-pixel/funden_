@@ -14,13 +14,11 @@ use App\DetalleIngreso;
 class ArticuloController extends Controller
 {
 
-  public function indexprueva(Request $request)
+    /*public function indexprueva(Request $request)
     {
-      //  if (!$request->ajax()) return redirect('/');
-
+      //  if (!$request->ajax()) return redirect('/')
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
         if ($buscar == '') {
            // $articulo =  Articulo::findOrfail($request->id);
             //tomar los datos de request
@@ -59,10 +57,8 @@ class ArticuloController extends Controller
                     'articulos.condicion'
                 )->where('articulos.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
         }
-
         return [ 'articulos' => $articulos];
-    }
-
+    }*/
 
     public function index(Request $request)
     {
@@ -91,32 +87,13 @@ class ArticuloController extends Controller
             $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id',)
                 ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
                 ->select(
-                    'articulos.id',
-                    'articulos.idcategoria',
-                    'articulos.idgramaje',
-                    'articulos.nombre',
+                    'articulos.id','articulos.idcategoria','articulos.idgramaje','articulos.nombre',
                     'gramajes.gramaje as nombre_gramaje',
                     'categorias.nombre as nombre_categoria',
-                    'articulos.concentracion',
-                    'articulos.administracion',
-                    'articulos.presentacion',
-                    'articulos.items',
+                    'articulos.concentracion','articulos.administracion','articulos.presentacion','articulos.items',
                     'articulos.condicion'
                 )->where('articulos.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
         }
-
-        /* if($buscar==''){
-            $articulos = Articulo::join('gramajes','articulos.idgramaje', '=', 'gramajes.id')->select(
-                'articulos.id','articulos.idgramaje',
-            )->orderBy('articulos.id','desc')->paginate(10);
-        }
-        else{
-            $articulos = Articulo::join('gramajes','articulos.idgramaje', '=', 'gramajes.id')->select(
-                'articulos.id','articulos.idgramaje',
-            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(10);
-        } */
-        //listar todos los registros
-        // $categorias = Categoria::paginate(3);
         return [
             'pagination' => [
                 'total' => $articulos->total(),
@@ -130,27 +107,19 @@ class ArticuloController extends Controller
         ];
     }
 
-   
-
-    public function listarPdf()
+/*funcion para descargar todos los productos en reporte*/
+    public function articulosTodos()
     {
         $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
-            ->select(
-                'articulos.id',
-                'articulos.idcategoria',
-                'articulos.codigo',
-                'articulos.nombre',
-                'categorias.nombre as nombre_categoria',
-                'articulos.precio_venta',
-                'articulos.stock',
-                'articulos.descripcion',
-                'articulos.condicion'
-            )->where('articulos.stock', '>', '0')
-            ->orderBy('articulos.id', 'desc')->get();
-
+            ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+            ->select('articulos.id','articulos.idcategoria','articulos.idgramaje','articulos.nombre',
+                'categorias.nombre as nombre_categoria','gramajes.gramaje as gramaje',
+                'articulos.concentracion','articulos.presentacion','articulos.administracion'
+                ,'articulos.items'
+            )->orderBy('articulos.id', 'desc')->get();
         $cont = Articulo::count();
         $pdf = \PDF::loadView('pdf.articulospdf', ['articulos' => $articulos, 'cont' => $cont]);
-        return $pdf->download('articulos.pdf');
+        return $pdf->download('Todos_Medicamentos.pdf');
     }
 
     public function store(Request $request)
@@ -170,22 +139,13 @@ class ArticuloController extends Controller
         //guardar el objeto en la tabla
         $articulo->save();
        // return $articulo->id;
-
-
-
-        $inventarios = new Inventario();
+       $inventarios = new Inventario();
         $inventarios->idproducto = $articulo->id;
         $inventarios->cantidad_tableta ='0'; //$request->cantidad_tableta;
         $inventarios->cantidad_blister = '0';//$request->cantidad_blister;
         $inventarios->condicion = '1';
         $inventarios->save();
-
-
-
-
     }
-
-
 
     public function update(Request $request)
     {
@@ -210,10 +170,8 @@ class ArticuloController extends Controller
         if (!$request->ajax()) return redirect('/');
         //buscar la categoria por el $id del request
         $articulo =  Articulo::findOrfail($request->id);
-
         //cambiar la condicion a 0
         $articulo->condicion = '0'; //desactivo
-
         //guardar el objeto en la tabla
         $articulo->save();
     }
@@ -223,37 +181,29 @@ class ArticuloController extends Controller
         if (!$request->ajax()) return redirect('/');
         //buscar la categoria por el $id del request
         $articulo =  Articulo::findOrfail($request->id);
-
         //cambiar la condicion a 1
         $articulo->condicion = '1'; //activo
-
         //guardar el objeto en la tabla
         $articulo->save();
     }
-/*function para selecionar medicamentos para el select de la vista de nventario para ingresar el producto*/
+
+   /*function para selecionar medicamentos para el select de la vista de iventario al ingresar el producto*/
     public function selectArticulo(Request $request){
 
         if (!$request->ajax()) return redirect('/'); 
-
         $articulos = Articulo::where('condicion', '=', '1')
-
         ->select('id','nombre')->orderBy('nombre','asc')->get();
-
-
-
         return ['articulos' => $articulos];
 
     }
 
-
-
-
-
-    public function pdf(Request $request, $id)
-    {
+    
+  /*funcion del pdf del kardex*/
+    public function pdf(Request $request, $id) {
         //if (!$request->ajax()) return redirect('/'); 
-        //$buscar = $request->desde;
-        //$criterio = $request->hasta;
+        $buscar = $request->desde;
+        $criterio = $request->hasta;
+          //datos del medicamento
         $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->join('inventarios', 'inventarios.idproducto', '=', 'inventarios.id')
@@ -264,6 +214,8 @@ class ArticuloController extends Controller
             ->where('articulos.id', '=', $id)
             ->orderBy('articulos.id', 'desc')->take(1)->get();
 
+  //stock del medicamento
+
         $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id')
         ->select('inventarios.cantidad_tableta','inventarios.cantidad_blister')
         ->where('inventarios.id', '=', $id)
@@ -273,19 +225,18 @@ class ArticuloController extends Controller
         ->select('detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
         ->where('detalle_inventarios.idinventarios', '=', $id)
         ->orderBy('detalle_inventarios.id', 'asc')->get();
-      //tiene modificacion con el orwhere
+          //datos de los ingresos del medicamento
 
       $detalle_ingresos= Kardex::join('detalle_ingresos','kardex.iddetalleingreso','=','detalle_ingresos.id')
       ->join('detalle_inventarios','kardex.iddetalleinventario','=','detalle_inventarios.id')
       ->join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
       ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
-     
         ->join('proveedores','ingresos.idproveedor','=','proveedores.id')
         ->select('kardex.acciones','ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
         'ingresos.fecha_compra','proveedores.nombre as proveedor', 'detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister',
         'detalle_ingresos.fecha_vencimiento','detalle_ingresos.lote',
         'detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
-       // ->whereBetween('ingresos.fecha_compra', [$buscar,$criterio])
+       ->whereBetween('ingresos.fecha_compra', [$buscar,$criterio])
          // ->whereBetween('ingresos.fecha_compra', [request()->$buscar,request()->$criterio], '=',$id)
         ->orwhere('detalle_inventarios.idinventarios', '=',$id)
          ->where('detalle_ingresos.idinventario','=',$id)
@@ -293,7 +244,7 @@ class ArticuloController extends Controller
         // ->whereBetween('votes', array(1, 100))->get();
          
          ->orderBy('detalle_ingresos.id', 'asc')->get();
-
+  //datos de venta del medicamento
          $detalle_ventas= DB::table('kardexventas')
          ->join('detalle_ventas','kardexventas.iddetalleventa','=','detalle_ventas.id')
          ->join('detalle_inventarios','kardexventas.iddetalleinventariov','=','detalle_inventarios.id')
@@ -306,6 +257,7 @@ class ArticuloController extends Controller
            'personas.nombre as cliente', 'detalle_ventas.cantidad','detalle_ventas.cantidad_blister','detalle_ventas.fecha_vencimiento',
            'detalle_ventas.lote',
            'detalle_inventarios.antiguo_tableta','detalle_inventarios.antiguo_blister')
+           ->whereBetween('ventas.fecha_salida', [$buscar,$criterio])
            ->orwhere('detalle_inventarios.idinventarios', '=',$id)
            ->where('detalle_ventas.idinventario','=',$id)
             //->where('detalle_ingresos.idingreso','=',$id)
@@ -313,9 +265,6 @@ class ArticuloController extends Controller
      // $users = DB::table('users')->get();
  
       //return view('user.index', ['users' => $users]);
-
-
-
 
        /* $detalle_ingresos = DetalleIngreso::join('ingresos','detalle_ingresos.idingreso','=','ingresos.id')
         ->join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
@@ -349,6 +298,7 @@ class ArticuloController extends Controller
                                                         'detalle_ingresos'=>$detalle_ingresos,'detalle_ventas'=>$detalle_ventas]);
         return $pdf->download('articulos-'.$numarticulo[0]->id.'.pdf');
     }
+
     public function obtenerProducto(Request $request) {
         if (!$request->ajax()) return redirect('/');
         $id = $request->id;
@@ -415,23 +365,6 @@ class ArticuloController extends Controller
             )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(7);
         }
     }
-
-
-        /*  if($buscar==''){
-            $articulos = Articulo::join('gramajes','articulos.idgramaje', '=', 'gramaje.id')->select(
-                'articulos.id','articulos.idgramaje',
-            )->orderBy('articulos.id','desc')->paginate(10);
-        }
-        else{
-            $articulos = Articulo::join('gramajes','articulos.idgramaje', '=', 'gramaje.id')->select(
-                'articulos.id','articulos.idgramaje',
-            )->where('articulos.'.$criterio,'like','%'.$buscar.'%')->orderBy('articulos.id','desc')->paginate(10);
-        } 
-        //listar todos los registros
-         return['articulos' => $articulos]; 
-    }*/
-
-   
 
     public function buscarArticuloVenta(Request $request)
     {

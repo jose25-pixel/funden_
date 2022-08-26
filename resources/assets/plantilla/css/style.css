@@ -1768,6 +1768,27 @@ fieldset[disabled] a.btn {
     background-color: #20a8d8;
     border-color: #20a8d8; }
 
+
+    .btn-outline-cafe {
+      color: #877a47;
+      background-color: transparent;
+      background-image: none;
+      border-color: #877a47; }
+      .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #877a47;
+        border-color:#877a47; }
+      .btn-outline-primary:focus, .btn-outline-primary.focus {
+        box-shadow: 0 0 0 3px rgba(124, 126, 107, 0.5); }
+      .btn-outline-primary.disabled, .btn-outline-primary:disabled {
+        color: #877a47;
+        background-color: transparent; }
+      .btn-outline-primary:active, .btn-outline-primary.active,
+      .show > .btn-outline-primary.dropdown-toggle {
+        color: #fff;
+        background-color: #877a47;
+        border-color: #877a47; }
+
 .btn-outline-secondary {
   color: #a4b7c1;
   background-color: transparent;
@@ -1927,6 +1948,28 @@ fieldset[disabled] a.btn {
     color: #536c79; }
     .btn-link:disabled:focus, .btn-link:disabled:hover {
       text-decoration: none; }
+
+
+      .btn-link-cafe{
+        font-weight: normal;
+        color: #877a47;
+        border-radius: 0; }
+        .btn-link, .btn-link:active, .btn-link.active, .btn-link:disabled {
+          background-color: transparent; }
+        .btn-link, .btn-link:focus, .btn-link:active {
+          border-color: transparent;
+          box-shadow: none; }
+        .btn-link:hover {
+          border-color: transparent; }
+        .btn-link:focus, .btn-link:hover {
+          color: #877a47;
+          text-decoration: underline;
+          background-color: transparent; }
+        .btn-link:disabled {
+          color: #536c79; }
+          .btn-link:disabled:focus, .btn-link:disabled:hover {
+            text-decoration: none; }
+
 
 .btn-lg, .btn-group-lg > .btn {
   padding: 0.5rem 1rem;
@@ -2924,7 +2967,7 @@ tbody.collapse.show {
   border-color: #20a8d8; }
 
 .page-item.disabled .page-link, .pagination-datatables li.disabled .page-link, .pagination li.disabled .page-link, .page-item.disabled .pagination-datatables li a, .pagination-datatables li .page-item.disabled a, .pagination-datatables li.disabled a, .page-item.disabled .pagination li a, .pagination li .page-item.disabled a, .pagination li.disabled a {
-  color: #536c79;
+  color: black;
   pointer-events: none;
   background-color: #fff;
   border-color: #ddd; }
@@ -2935,11 +2978,11 @@ tbody.collapse.show {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #20a8d8;
+  color: black;
   background-color: #fff;
   border: 1px solid #ddd; }
   .page-link:focus, .pagination-datatables li a:focus, .pagination li a:focus, .page-link:hover, .pagination-datatables li a:hover, .pagination li a:hover {
-    color: #167495;
+    color: #20a8d8;
     text-decoration: none;
     background-color: #c2cfd6;
     border-color: #ddd; }

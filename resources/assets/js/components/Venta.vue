@@ -26,7 +26,7 @@
                                     <input type="text" v-model="buscar" @keyup.enter="listarVenta(1, buscar, criterio)"
                                         class="form-control" placeholder="Texto a buscar" />
                                     <button type="submit" @click="listarVenta(1, buscar, criterio)"
-                                        class="btn btn-primary">
+                                        class="btn btn-cafe">
                                         <i class="fa fa-search"></i> Buscar
                                     </button>
                                 </div>
@@ -125,7 +125,7 @@
                                     <label>Tipo Comprobante<spam style="color: red">(*Seleccione)</spam></label>
                                     <select class="form-control" v-model="tipo_comprobante">
                                         <option value="0">Seleccione</option>
-                                        <option value="CCF">Credito Fiscal</option>
+                                        <option value="Credíto Fiscal">Credito Fiscal</option>
                                         <option value="FACTURA">Factura</option>
                                         <option value="TICKET">Ticket</option>
                                     </select>
@@ -402,7 +402,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-sm">
+                            <table class="table table-responsive table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
                                         <th>Opciones</th>
@@ -448,7 +448,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="cerrarModal()">
+                        <button type="button" class="btn btn-cafe" @click="cerrarModal()">
                             Cerrar
                         </button>
                         <button type="button" v-if="tipoAccion == 1" class="btn btn-primary"
@@ -885,7 +885,7 @@ export default {
         abrirModal() {
             this.arrayInventario = [];
             this.modal = 1;
-            this.tituloModal = "Seleccione uno o varios Medicamnetos";
+            this.tituloModal = "Seleccione uno o varios Medicamentos";
         },
         desactivarVenta(id) {
             swal({

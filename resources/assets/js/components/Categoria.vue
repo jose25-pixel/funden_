@@ -8,7 +8,7 @@
       <!-- Ejemplo de tabla Listado -->
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Casa Farmacéutica
+          <i class="fa fa-hospital-o" aria-hidden="true"></i> Casa Farmacéutica
           <button
             type="button"
             @click="abrirModal('categoria', 'registrar')"
@@ -33,7 +33,7 @@
                 />
                 <button
                   type="submit"
-                  class="btn btn-cafe"
+                  class="btn btn-outline-cafe"
                   @click="listarCategoria(1, buscar, criterio)"
                 >
                   <i class="fa fa-search"></i> Buscar
@@ -57,7 +57,7 @@
                     @click="abrirModal('categoria', 'actualizar', categoria)"
                     class="btn btn-warning btn-sm"
                   >
-                    <i class="icon-pencil"></i>
+                  <i class="icon-pencil"></i>
                   </button>
                   &nbsp;
                   <template v-if="categoria.condicion">
@@ -66,13 +66,13 @@
                       class="btn btn-danger btn-sm"
                       @click="desactivarCategoria(categoria.id)"
                     >
-                      <i class="icon-trash"></i>
+                     <i class="icon-trash"></i>
                     </button>
                   </template>
                   <template v-else>
                     <button
                       type="button"
-                      class="btn btn-info btn-sm"
+                      class="btn btn-secondary btn-sm"
                       @click="activarCategoria(categoria.id)"
                     >
                       <i class="icon-check"></i>
@@ -92,8 +92,8 @@
             </tbody>
           </table>
           <nav>
-            <ul class="pagination">
-              <li class="page-item" v-if="pagination.current_page > 1">
+            <ul class="pagination ">
+              <li class="page-item " v-if="pagination.current_page > 1">
                 <a
                   class="page-link"
                   href="#"
@@ -104,7 +104,7 @@
                 >
               </li>
               <li
-                class="page-item"
+                class="page-item "
                 v-for="page in pagesNumber"
                 :key="page"
                 :class="[page == isActived ? 'active' : '']"
@@ -117,7 +117,7 @@
                 ></a>
               </li>
               <li
-                class="page-item"
+                class="page-item "
                 v-if="pagination.current_page < pagination.last_page"
               >
                 <a

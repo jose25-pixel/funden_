@@ -22,55 +22,58 @@
                             <div class="input-group">
                                 <select class="form-control col-md-3" v-model="criterio">
                                     <option value="nombre">Nombre</option>
+                                    <option value="cantidad_tableta">Cantidad</option>
                                     <option value="cantidad_blister">Cantidad</option>
                                 </select>
                                 <input type="text" v-model="buscar" @keyup.enter="listarInventario(1, buscar, criterio)"
                                     class="form-control" placeholder="Texto a buscar">
                                 <button type="submit" @click="listarInventario(1, buscar, criterio)"
-                                    class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    class="btn btn-cafe"><i class="fa fa-search"></i> Buscar</button>
                             </div>
                         </div>
                     </div>
                     <table class="table table-bordered table-striped table-sm table-responsive">
-                        <thead>
+                        <thead style="background-color:">
                             <tr>
-                               
-                                <th>Opciones</th>
                                 <th>Id</th>
-                                <th>Producto</th>
+                                <th>Medicamento</th>
+                                <th>Farmacéutica</th>
+                                <th>Concentración</th>
+                                <th>Presentación</th>
+                                <th>Administración</th>
+                                <th>Items</th>
                                 <th>Stock Tableta</th>
                                 <th>Stock Blister</th>
-                                <th>condicio</th>
+                                <th>condicion</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="inventarios in arrayInventario" :key="inventarios.id">
-                              <td>
-                                  <button type="button" 
-                                        class="btn btn-warning btn-sm">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                </td>
                                 <td v-text="inventarios.id"></td>
-                                <td v-text="inventarios.nombre_articulo"></td>
+                                <td v-text="inventarios.medicamento"></td>
+                                <td v-text="inventarios.casa_farmaceutica"></td>
+                                <td v-text="inventarios.concentracion  + inventarios.gramaje" ></td>
+                                <td v-text="inventarios.presentacion"></td>
+                                <td v-text="inventarios.administracion"></td>
+                                    <td v-text="inventarios.items"></td>
                                 <td v-text="inventarios.cantidad_tableta"></td>
                                 <td v-text="inventarios.cantidad_blister"></td>
-                                 <td>
-                                    <div v-if="inventarios.condicion">
-                                        <span class="badge badge-success">Activo</span>
-                                    </div>
-                                    <div v-else>
-                                        <span class="badge badge-danger">Desactivado</span>
-                                    </div>
-
+                               <td>
+                                <div v-if="inventarios.condicion">
+                                <span class="badge badge-success">Activo</span>
+                                </div>
+                                <div v-else>
+                                <span class="badge badge-danger">Desactivado</span>
+                                </div>
                                 </td>
+                                
                             </tr>
                         </tbody>
                     </table>
                     <nav>
                         <ul class="pagination">
                             <li class="page-item" v-if="pagination.current_page > 1">
-                                <a class="page-link" href="#"
+                                <a class="page-link cafe" href="#"
                                     @click.prevent="cambiarPagina(pagination.current_page - 1, buscar, criterio)">Ant</a>
                             </li>
                             <li class="page-item" v-for="page in pagesNumber" :key="page"
@@ -79,7 +82,7 @@
                                     v-text="page"></a>
                             </li>
                             <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                <a class="page-link" href="#"
+                                <a class="page-link cafe" href="#"
                                     @click.prevent="cambiarPagina(pagination.current_page + 1, buscar, criterio)">Sig</a>
                             </li>
                         </ul>

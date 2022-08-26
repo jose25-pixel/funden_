@@ -26,7 +26,7 @@
                                       <option value="telefono_contacto">Teléfono_Contacto</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarProveedor(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary" @click="listarProveedor(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" class="btn btn-cafe" @click="listarProveedor(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
             <div class="modal fade"  tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header cafe">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
                             <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                               <span aria-hidden="true">×</span>
@@ -112,7 +112,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej.Luisa">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -121,44 +121,44 @@
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="DNI">DNI</option>
                                             <option value="RUC">RUC</option>
-                                            <option value="PASS">PASS</option>
+                                            <option value="PASS">PASAPORTE</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Número</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Número de documento">
+                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.000000xx">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Ej.San Salvador">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                        <input type="int" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej. 22202222 ó 77896543">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Email</label>
                                     <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Email">
+                                        <input type="email" v-model="email" class="form-control" placeholder="Ej.luisa@gmail.com">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Contacto</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="contacto" class="form-control" placeholder="Nombre del Contacto">
+                                        <input type="text" v-model="contacto" class="form-control" placeholder="Ej. Nombre de contacto">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Telefono de contacto</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Telefono del Contacto">
+                                        <input type="int" v-model="telefono_contacto" class="form-control" maxlength="8" placeholder="Ej. 77897654">
                                     </div>
                                 </div>
                                 <div v-show="errorProveedor" class="form-group row div-error">
@@ -170,9 +170,9 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProveedor()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProveedor()">Actualizar</button>
+                            <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrarProveedor()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizarProveedor()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
