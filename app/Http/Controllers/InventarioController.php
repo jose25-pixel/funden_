@@ -26,7 +26,7 @@ class InventarioController extends Controller
                     'categorias.nombre as casa_farmaceutica',
                      'gramajes.gramaje as gramaje',
                     'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',
-                )->orderBy('articulos.id', 'desc')->paginate(8);
+                )->orderBy('articulos.id', 'desc')->paginate(10);
         } else {
             $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id',)
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
@@ -37,7 +37,7 @@ class InventarioController extends Controller
                 'categorias.nombre as casa_farmaceutica',
                  'gramajes.gramaje as gramaje',
                 'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',)
-                ->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
+                ->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(10);
         }
         return [
             'pagination' => [

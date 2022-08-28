@@ -82,7 +82,7 @@ class ArticuloController extends Controller
                     'articulos.presentacion',
                     'articulos.items',
                     'articulos.condicion'
-                )->orderBy('articulos.id', 'desc')->paginate(8);
+                )->orderBy('articulos.id', 'desc')->paginate(10);
         } else {
             $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id',)
                 ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
@@ -92,7 +92,7 @@ class ArticuloController extends Controller
                     'categorias.nombre as nombre_categoria',
                     'articulos.concentracion','articulos.administracion','articulos.presentacion','articulos.items',
                     'articulos.condicion'
-                )->where('articulos.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(8);
+                )->where('articulos.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(10);
         }
         return [
             'pagination' => [
@@ -299,42 +299,7 @@ class ArticuloController extends Controller
         return $pdf->download('articulos-'.$numarticulo[0]->id.'.pdf');
     }
 
-    public function obtenerProducto(Request $request) {
-        if (!$request->ajax()) return redirect('/');
-        $id = $request->id;
-        $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
-        ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
-        ->select('articulos.id','articulos.idcategoria','articulos.idgramaje','articulos.nombre',
-        'gramajes.gramaje as nombre_gramaje','categorias.nombre as nombre_categoria',
-        'articulos.concentracion','articulos.administracion','articulos.presentacion',
-        'articulos.items','articulos.condicion')
-        ->where('articulos.id', '=', $id)
-        ->orderBy('articulos.id', 'desc')->take(1)->get();
-        return ['articulos' => $articulos];
-    }
 
-    public function Ingresos(Request $request) {
-        if (!$request->ajax()) return redirect('/');
-        $id = $request->id;
-        $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
-        ->join('users','ingresos.idusuario','=','users.id')
-        ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante','ingresos.num_comprobante',
-        'ingresos.fecha_compra','ingresos.fecha_vencimiento','ingresos.lote',
-        'personas.nombre','users.usuario')
-        ->where('ingresos.id', '=',$id)
-        ->orderBy('ingresos.id', 'desc')->take(1)->get();
-    return ['ingreso' => $ingresos];
-    }
-    public function obtenerIngresos(Request $request) {
-        if (!$request->ajax()) return redirect('/');
-        $id = $request->id;
-            $detalles =DetalleIngreso::select('detalle_ingresos.cantidad','detalle_ingresos.cantidad_blister',
-            'detalle_ingresos.precio')
-            ->where('detalle_ingresos.idingreso', '=',$id)
-            ->orderBy('detalle_ingresos.id', 'desc')->get();
-        return ['detalles' => $detalles];
-    }
-    
     public function buscarArticulo(Request $request){
         //if(!$request->ajax()) return redirect('/');
         $filtro = $request->filtro;

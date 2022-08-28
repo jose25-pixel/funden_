@@ -2988,10 +2988,10 @@ tbody.collapse.show {
   background-color: #fff;
   border: 1px solid #ddd; }
   .page-link:focus, .pagination-datatables li a:focus, .pagination li a:focus, .page-link:hover, .pagination-datatables li a:hover, .pagination li a:hover {
-    color: #20a8d8;
+    color: black;
     text-decoration: none;
-    background-color: #c2cfd6;
-    border-color: #ddd; }
+    background-color: #918143;
+    border-color:#8f8045; }
 
 .pagination-lg .page-link, .pagination-lg .pagination-datatables li a, .pagination-datatables li .pagination-lg a, .pagination-lg .pagination li a, .pagination li .pagination-lg a {
   padding: 0.75rem 1.5rem;

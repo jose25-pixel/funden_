@@ -27,7 +27,7 @@ class IngresoController extends Controller
             'ingresos.total','ingresos.estado',
             'proveedores.nombre',
             'users.usuario')
-            ->orderBy('ingresos.id', 'desc')->paginate(3);
+            ->orderBy('ingresos.id', 'desc')->paginate(10);
         }
         else{
             $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
@@ -37,7 +37,7 @@ class IngresoController extends Controller
             'ingresos.total','ingresos.estado','proveedores.nombre',
             'users.usuario')           
             ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('ingresos.id', 'desc')->paginate(3);
+            ->orderBy('ingresos.id', 'desc')->paginate(10);
         }
         
 

@@ -36216,7 +36216,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     validarCategoria: function validarCategoria() {
       this.errorCategoria = 0, this.errorMostrarMsjCategoria = [];
       if (this.nombre == '' || this.nombre == null) {
-        this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
+        this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no puede estar vacío");
         if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
       } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)) {
         this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no debe contener números");
@@ -36291,7 +36291,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary",
+              staticClass: "btn btn-cafe",
               attrs: { type: "button" },
               on: {
                 click: function($event) {
@@ -36376,7 +36376,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-outline-cafe",
+                    staticClass: "btn btn-cafe",
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
@@ -36446,7 +36446,7 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-secondary btn-sm",
+                                  staticClass: "btn btn-primary btn-sm",
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
@@ -36895,19 +36895,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_barcode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_barcode__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -40523,7 +40510,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-secondary",
+                staticClass: "btn btn-cafe",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -40535,32 +40522,10 @@ var render = function() {
                 _c("i", { staticClass: "icon-plus" }),
                 _vm._v(" Nuevo\n                ")
               ]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-info",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.abrirModal("articulo", "fecha")
-                  }
-                }
-              },
-              [
-                _c("i", { staticClass: "icon-doc" }),
-                _vm._v(" fecha\n                ")
-              ]
             )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-header" }, [
-            _c("i", {
-              staticClass: "fa fa-medkit",
-              attrs: { "aria-hidden": "true" }
-            }),
-            _vm._v(" Medicamentos\n                "),
             _c(
               "button",
               {
@@ -40677,7 +40642,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-cafe",
+                            staticClass: "btn btn-cafe",
                             attrs: { type: "submit" },
                             on: {
                               click: function($event) {
@@ -40789,12 +40754,7 @@ var render = function() {
                                             }
                                           }
                                         },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-trash-o",
-                                            attrs: { "aria-hidden": "true" }
-                                          })
-                                        ]
+                                        [_c("i", { staticClass: "icon-trash" })]
                                       )
                                     ]
                                   : [
@@ -47454,6 +47414,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -47467,7 +47430,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             /**/idproveedor: 0,
             proveedor: "",
             nombre: "",
-            /**/tipo_comprobante: "0",
+            /**/tipo_comprobante: "CCF",
             /**/serie_comprobante: "",
             /**/num_comprobante: "",
             /**/fecha_compra: "",
@@ -47700,7 +47663,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 me.listado = 1;
                 me.listarIngreso(1, "", "fecha_compra");
                 me.idproveedor = 0;
-                me.tipo_comprobante = "";
+                me.tipo_comprobante = "CCF";
                 me.serie_comprobante = "";
                 me.num_comprobante = "";
                 me.fecha_compra = "";
@@ -47735,7 +47698,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.listado = 0;
             /*dejara las variables vacias cuando el usuario ingres una compra pero no la registra se actualiza*/
             me.idproveedor = 0;
-            me.tipo_comprobante = "BOLETA";
+            me.tipo_comprobante = "CREDITO FÍSCAL";
             me.serie_comprobante = "";
             me.num_comprobante = "";
             me.fecha_compra = "";
@@ -48319,7 +48282,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-secondary",
+                staticClass: "btn btn-cafe",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -48654,13 +48617,17 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Proveedor")
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "label",
                             {
                               staticStyle: { color: "red" },
                               attrs: { for: "" }
                             },
-                            [_vm._v("Proveedor")]
+                            [_vm._v("(* Ingrese)")]
                           ),
                           _vm._v(" "),
                           _c("v-select", {
@@ -48682,6 +48649,12 @@ var render = function() {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [_vm._v("Tipo Comprobante")]),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          { staticStyle: { color: "red" }, attrs: { for: "" } },
+                          [_vm._v("(* Seleccionar)")]
+                        ),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -48716,11 +48689,9 @@ var render = function() {
                               _vm._v("Seleccione")
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "Credíto Fiscal" } },
-                              [_vm._v("Credito Fiscal")]
-                            ),
+                            _c("option", { attrs: { value: "CCF" } }, [
+                              _vm._v("Credito Fiscal")
+                            ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "FACTURA" } }, [
                               _vm._v("Factura")
@@ -48766,6 +48737,12 @@ var render = function() {
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [_vm._v("Número Comprobante")]),
                         _vm._v(" "),
+                        _c(
+                          "label",
+                          { staticStyle: { color: "red" }, attrs: { for: "" } },
+                          [_vm._v("(* Ingrese)")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -48793,6 +48770,12 @@ var render = function() {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [_vm._v("Fecha_Compra")]),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          { staticStyle: { color: "red" }, attrs: { for: "" } },
+                          [_vm._v("(* Selecciona)")]
+                        ),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -49529,12 +49512,12 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialog modal-primary modal-lg ",
             attrs: { role: "document" }
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
+              _c("div", { staticClass: "modal-header cafe col-md-12" }, [
                 _c("h4", {
                   staticClass: "modal-title",
                   domProps: { textContent: _vm._s(_vm.tituloModal) }
@@ -49649,7 +49632,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary",
+                          staticClass: "btn btn-cafe",
                           attrs: { type: "submit" },
                           on: {
                             click: function($event) {
@@ -49673,7 +49656,8 @@ var render = function() {
                   _c(
                     "table",
                     {
-                      staticClass: "table table-bordered table-striped table-sm"
+                      staticClass:
+                        "table  table-bordered table-striped table-sm"
                     },
                     [
                       _vm._m(14),
@@ -49773,7 +49757,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-secondary",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
@@ -49880,17 +49864,32 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Medicamento")]),
+        _c("th", [_vm._v("Medicamento ")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Precio")]),
+        _c("th", [
+          _vm._v("Precio "),
+          _c("label", { staticStyle: { color: "red" } }, [_vm._v("*")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Pastillas")]),
+        _c("th", [
+          _vm._v("Pastillas"),
+          _c("label", { staticStyle: { color: "red" } }, [_vm._v("*")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Blister")]),
+        _c("th", [
+          _vm._v("Blister "),
+          _c("label", { staticStyle: { color: "red" } }, [_vm._v("*")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Fecha_vencimiento")]),
+        _c("th", [
+          _vm._v("Fecha_vencimiento"),
+          _c("label", { staticStyle: { color: "red" } }, [_vm._v("*")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Lote")]),
+        _c("th", [
+          _vm._v("Lote"),
+          _c("label", { staticStyle: { color: "red" } }, [_vm._v("*")])
+        ]),
         _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
@@ -50133,9 +50132,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select_dist_vue_select_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_select_dist_vue_select_css__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
 //
 //
 //
@@ -51040,7 +51036,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-secondary",
+                staticClass: "btn btn-cafe",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -51363,16 +51359,17 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Cliente")
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "label",
-                            { attrs: { for: "" } },
-                            [
-                              _vm._v("Cliente"),
-                              _c("spam", { staticStyle: { color: "red" } }, [
-                                _vm._v("(*Ingrese)")
-                              ])
-                            ],
-                            1
+                            {
+                              staticStyle: { color: "red" },
+                              attrs: { for: "" }
+                            },
+                            [_vm._v("(* Ingrese)")]
                           ),
                           _vm._v(" "),
                           _c("v-select", {
@@ -51393,15 +51390,12 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Tipo Comprobante")]),
+                        _vm._v(" "),
                         _c(
                           "label",
-                          [
-                            _vm._v("Tipo Comprobante"),
-                            _c("spam", { staticStyle: { color: "red" } }, [
-                              _vm._v("(*Seleccione)")
-                            ])
-                          ],
-                          1
+                          { staticStyle: { color: "red" }, attrs: { for: "" } },
+                          [_vm._v("(* Seleccione)")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -51437,11 +51431,9 @@ var render = function() {
                               _vm._v("Seleccione")
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "Credíto Fiscal" } },
-                              [_vm._v("Credito Fiscal")]
-                            ),
+                            _c("option", { attrs: { value: "CCF" } }, [
+                              _vm._v("Credito Fiscal")
+                            ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "FACTURA" } }, [
                               _vm._v("Factura")
@@ -51457,15 +51449,12 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Número Comprobante>")]),
+                        _vm._v(" "),
                         _c(
                           "label",
-                          [
-                            _vm._v("Número Comprobante"),
-                            _c("spam", { staticStyle: { color: "red" } }, [
-                              _vm._v("(*Ingrese)")
-                            ])
-                          ],
-                          1
+                          { staticStyle: { color: "red" }, attrs: { for: "" } },
+                          [_vm._v("(* Ingrese)")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -51493,16 +51482,14 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Fecha Salida")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
-                        { attrs: { for: "" } },
-                        [
-                          _vm._v("Fecha Salida"),
-                          _c("spam", { staticStyle: { color: "red" } }, [
-                            _vm._v("(*Ingrese)")
-                          ])
-                        ],
-                        1
+                        { staticStyle: { color: "red" }, attrs: { for: "" } },
+                        [_vm._v("(* Seleccione)")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -52400,7 +52387,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
+              _c("div", { staticClass: "modal-header cafe" }, [
                 _c("h4", {
                   staticClass: "modal-title",
                   domProps: { textContent: _vm._s(_vm.tituloModal) }
@@ -52608,25 +52595,7 @@ var render = function() {
                               domProps: {
                                 textContent: _vm._s(inventario.cantidad_blister)
                               }
-                            }),
-                            _vm._v(" "),
-                            _c("td", [
-                              inventario.condicion
-                                ? _c("div", [
-                                    _c(
-                                      "span",
-                                      { staticClass: "badge badge-success" },
-                                      [_vm._v("Activo")]
-                                    )
-                                  ])
-                                : _c("div", [
-                                    _c(
-                                      "span",
-                                      { staticClass: "badge badge-danger" },
-                                      [_vm._v("Inactivo")]
-                                    )
-                                  ])
-                            ])
+                            })
                           ])
                         }),
                         0
@@ -52867,9 +52836,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("stock pastillas")]),
         _vm._v(" "),
-        _c("th", [_vm._v("stock superior")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
+        _c("th", [_vm._v("stock superior")])
       ])
     ])
   }
@@ -55759,7 +55726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.errorgramaje = 0, this.errorMostrarMsjgramaje = [];
 
             if (this.gramaje == '' || this.gramaje == null) {
-                this.errorMostrarMsjgramaje.push("La medida del gramaje no puede estar vacio");
+                this.errorMostrarMsjgramaje.push("La medida del gramaje no puede estar vacío");
                 if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
             } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.gramaje)) {
                 this.errorMostrarMsjgramaje.push("La medida del gramaje  no debe contener números");
@@ -55830,7 +55797,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary",
+              staticClass: "btn btn-cafe",
               attrs: { type: "button" },
               on: {
                 click: function($event) {
@@ -55918,7 +55885,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-outline-cafe",
+                    staticClass: "btn btn-cafe",
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
@@ -55979,11 +55946,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-trash-o fa-1x"
-                                  })
-                                ]
+                                [_c("i", { staticClass: "icon-trash" })]
                               )
                             ]
                           : [

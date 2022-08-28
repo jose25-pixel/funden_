@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Medidas
-                        <button type="button" @click="abrirModal('gramaje','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('gramaje','registrar')" class="btn btn-cafe">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -21,7 +21,7 @@
                                       <option value="gramaje">Medida</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listargramaje(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-outline-cafe" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" class="btn btn-cafe" @click="listargramaje(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                         </button> &nbsp;
                                         <template v-if="gramaje.condicion">
                                          <button type="button" class="btn btn-danger btn-sm" @click="desactivargramaje(gramaje.id)">
-                                           <i class="fa fa-trash-o fa-1x"></i>
+                                            <i class="icon-trash"></i>
                                         </button>  
                                         </template> 
                                         <template v-else>
@@ -323,7 +323,7 @@
             this.errorMostrarMsjgramaje =[];
 
              if (this.gramaje == '' || this.gramaje == null) {
-                this.errorMostrarMsjgramaje.push("La medida del gramaje no puede estar vacio");
+                this.errorMostrarMsjgramaje.push("La medida del gramaje no puede estar vacío");
                 if (this.errorMostrarMsjgramaje.length) this.errorgramaje = 1;
              }
               else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.gramaje)){

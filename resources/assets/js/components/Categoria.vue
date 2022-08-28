@@ -12,7 +12,7 @@
           <button
             type="button"
             @click="abrirModal('categoria', 'registrar')"
-            class="btn btn-secondary"
+            class="btn btn-cafe"
           >
             <i class="icon-plus"></i>&nbsp;Nuevo
           </button>
@@ -33,7 +33,7 @@
                 />
                 <button
                   type="submit"
-                  class="btn btn-outline-cafe"
+                  class="btn btn-cafe"
                   @click="listarCategoria(1, buscar, criterio)"
                 >
                   <i class="fa fa-search"></i> Buscar
@@ -72,7 +72,7 @@
                   <template v-else>
                     <button
                       type="button"
-                      class="btn btn-secondary btn-sm"
+                      class="btn btn-primary btn-sm"
                       @click="activarCategoria(categoria.id)"
                     >
                       <i class="icon-check"></i>
@@ -423,7 +423,7 @@ export default {
       this.errorMostrarMsjCategoria = [];
       if (this.nombre == '' || this.nombre == null)
       {
-        this.errorMostrarMsjCategoria.push("El nombre de la farmaceutica no puede estar vacío");
+        this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no puede estar vacío");
          if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1
       }
        else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){

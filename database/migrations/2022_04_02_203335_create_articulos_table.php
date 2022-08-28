@@ -17,7 +17,7 @@ class CreateArticulosTable extends Migration
             $table->increments('id');
             $table->integer('idcategoria')->unsigned();//fk
             $table->integer('idgramaje')->unsigned();//fk */
-            $table->string('nombre', 100)->unique();
+            $table->string('nombre', 100);
             $table->string('concentracion', 30);
             $table->string('administracion', 30);
             $table->string('presentacion', 50)->nullable();

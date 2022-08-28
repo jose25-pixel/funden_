@@ -12,22 +12,12 @@
                     <button
                         type="button"
                         @click="abrirModal('articulo', 'registrar')"
-                        class="btn btn-secondary"
+                        class="btn btn-cafe"
                     >
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
-
-                    
-                    <button
-                        type="button"
-                        @click="abrirModal('articulo', 'fecha')"
-                        class="btn btn-info"
-                    >
-                        <i class="icon-doc"></i>&nbsp;fecha
-                    </button>
                 </div>
                 <div class="card-header">
-                    <i class="fa fa-medkit" aria-hidden="true"></i> Medicamentos
                     <button
                         type="button"
                         @click="articulosTodos()"
@@ -64,7 +54,7 @@
                                     />
                                     <button
                                         type="submit"
-                                        class="btn btn-outline-cafe"
+                                        class="btn btn-cafe"
                                         @click="
                                             listarArticulo(1, buscar, criterio)
                                         "
@@ -139,10 +129,7 @@
                                                     )
                                                 "
                                             >
-                                                <i
-                                                    class="fa fa-trash-o"
-                                                    aria-hidden="true"
-                                                ></i>
+                                             <i class="icon-trash"></i>
                                             </button>
                                         </template>
                                         <template v-else>

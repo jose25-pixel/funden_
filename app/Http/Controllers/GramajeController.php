@@ -19,10 +19,10 @@ class GramajeController extends Controller
         $buscar = $request->buscar;
         $criterio = $request->criterio;
         if($buscar==''){
-                $gramajes = Gramaje::orderBy('id','desc')->paginate(7);
+                $gramajes = Gramaje::orderBy('id','desc')->paginate(10);
         }
             else{
-                $gramajes = Gramaje::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id','desc')->paginate(7);
+                $gramajes = Gramaje::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id','desc')->paginate(10);
         }
         //listar todos los registros
        // $categorias = Categoria::paginate(3);

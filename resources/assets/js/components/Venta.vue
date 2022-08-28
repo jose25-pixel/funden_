@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Ventas
-                    <button type="button" @click="mostrarDetalle()" class="btn btn-secondary">
+                    <button type="button" @click="mostrarDetalle()" class="btn btn-cafe">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -113,7 +113,8 @@
                         <div class="form-group row border">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="">Cliente<spam style="color: red">(*Ingrese)</spam></label>
+                                    <label for="">Cliente</label>
+                                    <label for="" style="color:red">(* Ingrese)</label>
                                     <v-select @search="selectCliente" label="nombre" :options="arrayCliente"
                                         placeholder="Buscar Clientes.." @input="getDatosCliente">
                                     </v-select>
@@ -122,10 +123,11 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Tipo Comprobante<spam style="color: red">(*Seleccione)</spam></label>
+                                    <label>Tipo Comprobante</label>
+                                    <label for="" style="color:red">(* Seleccione)</label>
                                     <select class="form-control" v-model="tipo_comprobante">
                                         <option value="0">Seleccione</option>
-                                        <option value="Credíto Fiscal">Credito Fiscal</option>
+                                        <option value="CCF">Credito Fiscal</option>
                                         <option value="FACTURA">Factura</option>
                                         <option value="TICKET">Ticket</option>
                                     </select>
@@ -133,13 +135,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Número Comprobante<spam style="color: red">(*Ingrese)</spam></label>
+                                    <label>Número Comprobante></label>
+                                    <label for="" style="color:red">(* Ingrese)</label>
                                     <input type="text" class="form-control" v-model="num_comprobante"
                                         placeholder="000xx" />
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label for="">Fecha Salida<spam style="color: red">(*Ingrese)</spam></label>
+                                <label for="">Fecha Salida</label>
+                                <label for="" style="color:red">(* Seleccione)</label>
                                 <input type="date" class="form-control" v-model="fecha_salida"
                                     placeholder="2020-7-12" />
                             </div>
@@ -376,7 +380,7 @@
             style="display: none" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header cafe">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
                         <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                             <span aria-hidden="true">×</span>
@@ -414,7 +418,7 @@
                                         <th>Presentacion</th>
                                         <th>stock pastillas</th>
                                         <th>stock superior</th>
-                                        <th>Estado</th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -434,14 +438,7 @@
                                         <td v-text="inventario.presentacion"></td>
                                         <td v-text="inventario.cantidad_tableta"></td>
                                         <td v-text="inventario.cantidad_blister"></td>
-                                        <td>
-                                            <div v-if="inventario.condicion">
-                                                <span class="badge badge-success">Activo</span>
-                                            </div>
-                                            <div v-else>
-                                                <span class="badge badge-danger">Inactivo</span>
-                                            </div>
-                                        </td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>

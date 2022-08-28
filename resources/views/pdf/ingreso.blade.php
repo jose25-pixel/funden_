@@ -125,10 +125,6 @@
                     fundel123@gmail.com
                 </p>
             </div>
-            <div id="fact">
-                <p>{{ $ing->tipo_comprobante }}<br>
-                    {{ $ing->serie_comprobante }}-{{ $ing->num_comprobante }}</p>
-            </div>
         </header>
         <br>
         <section>

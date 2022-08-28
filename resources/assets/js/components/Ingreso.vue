@@ -12,7 +12,7 @@
                     <button
                         type="button"
                         @click="mostrarDetalle()"
-                        class="btn btn-secondary"
+                        class="btn btn-cafe"
                     >
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
@@ -190,9 +190,8 @@
                         <div class="form-group row border">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="" style="color:red"
-                                        >Proveedor</label
-                                    >
+                                    <label for="" >Proveedor</label>
+                                    <label for="" style="color:red">(* Ingrese)</label>
                                     <v-select
                                         @search="selectProveedor"
                                         label="nombre"
@@ -206,13 +205,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Tipo Comprobante</label>
+                                    <label for="" style="color:red">(* Seleccionar)</label>
                                     <select
                                         class="form-control"
                                         v-model="tipo_comprobante"
                                     >
                                         <option value="0">Seleccione</option>
-                                        <option value="Credíto Fiscal"
-                                            >Credito Fiscal</option
+                                        <option value="CCF">Credito Fiscal</option
                                         >
                                         <option value="FACTURA">Factura</option>
                                         <option value="TICKET">Ticket</option>
@@ -233,6 +232,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Número Comprobante</label>
+                                    <label for="" style="color:red">(* Ingrese)</label>
                                     <input
                                         type="text"
                                         class="form-control"
@@ -244,6 +244,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Fecha_Compra</label>
+
+                                    <label for="" style="color:red">(* Selecciona)</label>
                                     <input
                                         type="date"
                                         class="form-control"
@@ -349,12 +351,12 @@
                                     <thead>
                                         <tr>
                                             <th>Opciones</th>
-                                            <th>Medicamento</th>
-                                            <th>Precio</th>
-                                            <th>Pastillas</th>
-                                            <th>Blister</th>
-                                            <th>Fecha_vencimiento</th>
-                                            <th>Lote</th>
+                                            <th>Medicamento </th>
+                                            <th>Precio <label  style="color:red">*</label></th>
+                                            <th>Pastillas<label  style="color:red">*</label></th>
+                                            <th>Blister <label  style="color:red">*</label></th>
+                                            <th>Fecha_vencimiento<label  style="color:red">*</label></th>
+                                            <th>Lote<label  style="color:red">*</label></th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -408,6 +410,7 @@
                                                     v-model="
                                                         detalle.fecha_vencimiento
                                                     "
+                                                  
                                                     class="form-control"
                                                 />
                                             </td>
@@ -594,9 +597,9 @@
             style="display: none"
             aria-hidden="true"
         >
-            <div class="modal-dialog modal-primary modal-lg" role="document">
+            <div class="modal-dialog modal-primary modal-lg " role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header cafe col-md-12">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
                         <button
                             type="button"
@@ -639,7 +642,7 @@
                                     />
                                     <button
                                         type="submit"
-                                        class="btn btn-primary"
+                                        class="btn btn-cafe"
                                         @click="
                                             listarArticuloinventario(
                                                 buscarA,
@@ -654,7 +657,7 @@
                         </div>
                         <div class="table-responsive">
                             <table
-                                class="table table-bordered table-striped table-sm"
+                                class="table  table-bordered table-striped table-sm"
                             >
                                 <thead>
                                     <tr>
@@ -732,7 +735,7 @@
                     <div class="modal-footer">
                         <button
                             type="button"
-                            class="btn btn-secondary"
+                            class="btn btn-dark"
                             @click="cerrarModal()"
                         >
                             Cerrar
@@ -774,7 +777,7 @@ export default {
             /**/ idproveedor: 0,
             proveedor: "",
             nombre: "",
-            /**/ tipo_comprobante: "0",
+            /**/ tipo_comprobante: "CCF",
             /**/ serie_comprobante: "",
             /**/ num_comprobante: "",
             /**/ fecha_compra: "",
@@ -1048,7 +1051,7 @@ export default {
                     me.listado = 1;
                     me.listarIngreso(1, "", "fecha_compra");
                     me.idproveedor = 0;
-                    me.tipo_comprobante = "";
+                    me.tipo_comprobante = "CCF";
                     me.serie_comprobante = "";
                     me.num_comprobante = "";
                     me.fecha_compra = "";
@@ -1093,7 +1096,7 @@ export default {
             this.listado = 0;
             /*dejara las variables vacias cuando el usuario ingres una compra pero no la registra se actualiza*/
             me.idproveedor = 0;
-            me.tipo_comprobante = "BOLETA";
+            me.tipo_comprobante = "CREDITO FÍSCAL";
             me.serie_comprobante = "";
             me.num_comprobante = "";
             me.fecha_compra = "";

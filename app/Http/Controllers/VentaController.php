@@ -25,7 +25,7 @@ class VentaController extends Controller
             ->select('ventas.id','ventas.fecha_salida','ventas.tipo_comprobante','ventas.num_comprobante',
             'ventas.total','ventas.descripcion','ventas.estado','personas.nombre',
             'users.usuario')
-            ->orderBy('ventas.id', 'desc')->paginate(3);
+            ->orderBy('ventas.id', 'desc')->paginate(10);
         }
         else{
             $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
@@ -89,7 +89,7 @@ class VentaController extends Controller
 
         $detalles = DetalleVenta::join('inventarios','detalle_ventas.idinventario','=','inventarios.id')
         ->join('articulos','inventarios.idproducto','=','articulos.id')
-        ->select('detalle_ventas.cantidad','detalle_ventas.precio','detalle_ventas.fecha_vencimiento','detalle-ventas.lote',
+        ->select('detalle_ventas.cantidad','detalle_ventas.precio','detalle_ventas.fecha_vencimiento','detalle_ventas.lote',
         'articulos.nombre as articulo')
         ->where('detalle_ventas.idventa', '=', $id)
         ->orderBy('detalle_ventas.id', 'desc')->get();

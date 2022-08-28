@@ -15,6 +15,23 @@
             line-height: 1.5;
             color: #151b1e;
         }
+        .encabezado{
+            padding: 3px 10px;
+            border: rgb(23, 25, 26) 5px double;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            }
+
+        .logo{
+        width: 300px;
+        }
+
+
+        img {
+        float: left;
+        width: 300px;
+        height: 140px;
+        }
 
         .table {
             display: table;
@@ -26,13 +43,14 @@
         }
 
         .table-bordered {
-            border: 1px solid #c2cfd6;
+            border: 1px solid #151616;
         }
 
         thead {
             display: table-header-group;
             vertical-align: middle;
             border-color: inherit;
+            background-color: #b6a25f;
         }
 
         tr {
@@ -102,12 +120,24 @@
 </head>
 
 <body>
-    <div>
-        <h3>Lista de productos <span class="derecha">{{ now() }}</span></h3>
+  <section class="encabezado">
+    <div class="logo">
+        <img src="img/reporte.jpg" alt="">
     </div>
-    <div>
 
-        <table class="table table-bordered table-striped table-sm">
+    <div class="texto">
+        <h4>FUNDACIÓN DE DESARROLLLO LATINOÁMERICANO</h4>
+        <i> Calle, al Mirador Pje.11 #122 Col.Escalón <br> 
+            San Salvador, El Salvador </i> <br>
+       <i>Telefono:(+503)734475859</i> <br>
+        <i> Email:fundel123@gmail.com</i>
+    </div>
+  </section>
+
+  <section>
+        <h4>Lista de Medicamentos</h4>
+    <div>
+        <table class="table table-responsive table-borderless table-sm">
             <thead>
                 <tr>
                     <th scope="col">Medicamento</th>
@@ -138,6 +168,8 @@
     <div class="izquierda">
         <p><strong>Total de registros: </strong>{{ $cont }}</p>
     </div>
+</section>
+    <span class="derecha">{{ now() }}</span>
 </body>
 
 </html>
