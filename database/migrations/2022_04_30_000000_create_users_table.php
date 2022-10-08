@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
         });
         DB::table('users')->insert(array('id'=>'1',
-        'usuario'=>'administrador', 
+        'usuario'=>'Administrador', 
         'password'=>'$2y$10$H8v7yYZImp8T5H35DdkHUueMq7bxFqsbbANYajQ/f.49fCMLpdnpO',
         'condicion'=>'1',
         'idrol'=>'1'));

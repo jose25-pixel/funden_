@@ -1,47 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+ <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte de productos</title>
+    <title>Reporte de kardex</title>
+ </head>
     <style>
+
         body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 0.875rem;
-            font-weight: normal;
-            line-height: 1.5;
-            color: #151b1e;
-        }
-        .encabezado{
-            padding: 3px 10px;
-            border: rgb(23, 25, 26) 5px double;
-            border-top-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        background-color: darkseagreen;   
+        margin-top:180px;
+        margin-bottom: 41px;
+        padding: 5px;
+        padding-bottom: 2px;
+       
+    }
+
+    @page {
+      margin: 0.5cm;
+
             }
+    
 
-        .logo{
-        width: 250px;
-        }
+    .header{
+        position:fixed;
+        top: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 4cm;
+      background-color: tan;
+    }
 
+    .container {
+        width: 100%;
+        height: 70px;
+        border-bottom: rgb(95, 94, 94) 0.2cm double;
+        background-color: #a1cbe2;
+    }
 
-        img {
+    .contenedor1 {
+        width: 30%;
         float: left;
-        width: 250px;
-        height: 140px;
-        }
+    }
+
+    img {
+        width: 70%;
+        height: 65px;
+        margin-top: 3px;
+        margin-left: 80px;
+    }
+
+    .contenedor2 {
+        width: 65%;
+        height: 70px;
+        text-align: center;
+        float: right;
+        background-color: darkcyan;
+
+    }
+    .titulo{
+        background-color: #b4a36b;
+        margin: 15px;
+    }
+    .nombre{
+        margin: 5px 5px 3px 2px;
+        background-color:aquamarine;
+    }
+
+    .medicamentos{
+        width: 98%;
+        height: 60px;
+        background-color: #a2a7a7;
+        text-align: center;
+        margin: 2px;
+    }
+
+    
+
         .table {
-            
             display:table;
             width: 100%;
             max-width: 100%;
             margin-bottom: 9px;
             background-color: transparent;
             border-collapse: collapse;
-            border: 1px solid #151616;
-
+            border: 1px solid #a2a7a7;
         }
         .tables {
             
@@ -51,19 +98,15 @@
             margin-bottom: 9px;
             background-color: transparent;
             border-collapse: collapse;
-        
 
-        }
-
-        .table-bordered {
-            border: 1px solid #151616;
         }
 
         thead {
             display: table-header-group;
             vertical-align: middle;
             border-color: inherit;
-            background-color: #aea27d;
+            background-color: #b4a36b;
+            border: 1px solid #a2a7a7;
         }
 
         tr {
@@ -76,12 +119,12 @@
         .table td {
             padding: 1px;
             vertical-align: top;
-            border-top: 1px solid #121213;
+            border-top: 1px solid #a1a5a7;
         }
 
         .table thead th {
             vertical-align: bottom;
-            border-bottom: 2px solid #19191a;
+            border-top: 1px solid #bec6c9;
         }
 
         .table-bordered thead th,
@@ -91,7 +134,7 @@
 
         .table-bordered th,
         .table-bordered td {
-            border: 1px solid #0a0a0a;
+            border: 1px solid #c2cfd6;
         }
 
         th,
@@ -122,61 +165,64 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .izquierda {
-            float: left;
+        footer {
+            position: fixed;
+            bottom: 0cm;
+            left: 0cm;
+            right: 0cm;
+            height: 1cm;
+            color: BLACK;
+            background-color: #b4a36b;
+            text-align: center;
+            line-height: 0.5cm;
         }
 
-        .derecha {
-            float: right;
-        }
-
-        
+        .pag:after { 
+            content: counter(page, disc);
+         }
     </style>
-</head>
+
 
 <body>
-    <section class="encabezado">
-        <div class="logo">
-            <img src="img/reporte.jpg" alt="">
+    <div class="header">
+        <div class="container">
+            <div class="contenedor1">
+                <img src="img/reporte.jpg" alt="">
+            </div>
+    
+            <div class="contenedor2">
+                <h3 class="titulo">FUNDACIÓN DE DESARROLLO LATINOAMERICANO</h3>
+                <p class="nombre">km</p>
+            </div>
         </div>
     
-        <div class="texto">
-            <h4>FUNDACIÓN DE DESARROLLLO LATINOÁMERICANO</h4>
-            <i> Calle, al Mirador Pje.11 #122 Col.Escalón <br> 
-                San Salvador, El Salvador </i> <br>
-           <i>Telefono:(+503)734475859</i> <br>
-            <i> Email:fundel123@gmail.com</i>
+        
+        <div class="medicamentos">         
+            <div>
+                <h4>CONTROL INTERNO SOBRE EL INVENTARIO DE MEDICAMENTO</h4>
+                @foreach ($articulos as $a)
+                <table class="tables table-responsive table-borderless ">
+                    <tr>
+                        <td scope="col"> <b >Medicamento: </b><label>{{ $a->nombre }}</label></td>
+                        <td scope="col"><b >Presentación: </b><label for="">{{ $a->presentacion }}</label></td>
+                        <td ><b >Casa Farmacéutica: </b><label for="">{{ $a->nombre_categoria }}</label></td>
+                    </tr>
+                    <tr>
+                        <td><b >Concentración: </b><label for="">{{ $a->concentracion }}{{ $a->nombre_gramaje}}</label></td>
+                        <td><b >Cantidad de ítems: </b><label for="">{{ $a->items}}</label></td>
+                        <td><b >Administración: </b><label for="">{{ $a->administracion}}</label></td>
+                    </tr>
+                </table>
+                @endforeach
+            </div>
         </div>
-      </section>
-      <br>
-   <section>
-    
-    <h3 style="text-align: center">CONTROL INTERNO SOBRE EL INVENTARIO DEL MEDICAMENTO KARDEX</h3>
-    <div>
-        @foreach ($articulos as $a)
-        <table class="tables table-responsive table-borderless table-sm">
-            <tr>
-                <td scope="col"> <b >Nombre:</b><label>{{ $a->nombre }}</label></td>
-                <td scope="col"><b >Presentación:</b><label for="">{{ $a->presentacion }}</label></td>
-                <td ><b >Farmacéutica:</b><label for="">{{ $a->nombre_categoria }}</label></td>
-            </tr>
-            <tr>
-                <td><b >Concentración:</b><label for="">{{ $a->concentracion }}{{ $a->nombre_gramaje}}</label></td>
-                <td><b >Cantidad de items:</b><label for="">{{ $a->items}}</label></td>
-                <td><b >Administración</b><label for="">{{ $a->administracion}}</label></td>
-            </tr>
-        </table>
-        @endforeach
     </div>
-</section>
-
-
-    <br>
-   
-    <h4 style="text-align: center">REGISTROS DE ENTRADAS</h4>
-    <section>
+    
+ <main>
+    <div class="entrada">
+    <h4 style="text-align: center">Registros de Entradas</h4>
         <div>
-            <table class="table table-responsive table-borderless table-sm">
+            <table class="table table-responsive table-borderless">
                 <thead>
                     <tr>
                         <th scope="col">F_Compras</th>
@@ -185,6 +231,7 @@
                         <th scope="col">Número</th>
                         <th scope="col">Lote</th>
                         <th scope="col">Vencimiento</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Entradas</th>
                         <th scope="col">saldo</th>
                     </tr>
@@ -199,6 +246,7 @@
                         <td>{{ $ing->num_comprobante }}</td>
                         <td>{{ $ing->lote }}</td>
                         <td>{{ $ing->fecha_vencimiento }}</td>
+                        <td>{{ $ing->estado }}</td>
                         <td>{{ $ing->cantidad . '/' . $ing->cantidad_blister }}</td>
                         <td>
                             {{ $ing->antiguo_tableta . '/' . $ing->antiguo_blister }}
@@ -208,10 +256,10 @@
                 </tbody>
             </table>
         </div>
-    </section>
+    </div>
 
-    <h4 style="text-align: center">REGISTROS DE SALIDAS</h4>
-    <section>
+    <div class="salida">
+    <h4 style="text-align: center">Registros de Salidas</h4>
         <div>
             <table class="table table-responsive table-borderless table-sm">
                 <thead>
@@ -243,20 +291,19 @@
                     </tr>
                     @endforeach
 
-
                 </tbody>
             </table>
         </div>
-    </section>
-    <br>
-    <h4 style="text-align: center">SALDO ACTUAL DEL MEDICAMNETO</h4>
-    <section>
+    </div>
+    
+    <section class="saldo">
         <div>
+            <h4 style="text-align: center">Saldo Actual del Medicamento</h4>
             <table class="table table-responsive table-borderless table-sm">
-                <thead>
+                <thead >
                     <tr>
-                        <th scope="col">Cantidad de Tabletas</th>
-                        <th scope="col">Cantidad de blister</th>
+                        <th scope="col" style="text-align: center" >Cantidad de Tabletas</th>
+                        <th scope="col" style="text-align: center" >Cantidad de blister</th>
 
                     </tr>
                 </thead>
@@ -271,6 +318,10 @@
             </table>
         </div>
     </section>
+ </main>
+    <footer>
+        <P class="pag">CONTROL INTERNO SOBRE EL INVENTARIO DE MEDICAMENTO-<?php echo date("Y");?>    Pagína </P> 
+    </footer>
 </body>
 
 </html>

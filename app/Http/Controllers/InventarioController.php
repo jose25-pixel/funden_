@@ -65,7 +65,7 @@ class InventarioController extends Controller
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  
-            'articulos.concentracion','articulos.administracion','articulos.presentacion',
+            'articulos.concentracion','articulos.administracion','articulos.presentacion','articulos.items',
             'inventarios.cantidad_tableta','inventarios.cantidad_blister','articulos.condicion')
             ->where('articulos.condicion','=','1')
             ->orderBy('articulos.id','desc')->paginate(7);
@@ -97,7 +97,7 @@ class InventarioController extends Controller
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',  
-            'articulos.concentracion','articulos.administracion','articulos.presentacion','inventarios.cantidad_tableta',
+            'articulos.concentracion','articulos.administracion','articulos.presentacion','articulos.items','inventarios.cantidad_tableta',
             'inventarios.cantidad_blister','articulos.condicion') 
             ->where('cantidad_tableta', '>', '0')
             ->where('articulos.condicion', '=', '1')
@@ -109,7 +109,7 @@ class InventarioController extends Controller
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje',
-            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta',
+            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','articulos.items','inventarios.cantidad_tableta',
             'inventarios.cantidad_blister','articulos.condicion'
             ) ->where('cantidad_tableta', '>', '0')
             ->where('articulos.'.$criterio,'like','%'.$buscar.'%')
@@ -125,7 +125,7 @@ class InventarioController extends Controller
         $filtro = $request->filtro;
         $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
         ->where('articulos.nombre', '=', $filtro)
-        ->select('inventarios.id','articulos.nombre',)
+        ->select('inventarios.id','articulos.nombre','articulos.presentacion')
         ->where('cantidad_tableta', '>', '0')->take(1)->get();
         return ['inventarios' => $inventarios];  
     }
@@ -173,30 +173,28 @@ class InventarioController extends Controller
         $inventarios->save();
     }
 
-    public function desactivar(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-        //buscar la categoria por el $id del request
-        $inventarios=  Inventarios::findOrfail($request->id);
+    public function pdf(Request $request, $id) {
+      $buscar = $request->buscar;
+        $criterio = $request->criterio;
+        
+            $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id')
+            ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+            ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
+            ->select('inventarios.id','inventarios.idproducto',
+                    'articulos.nombre as medicamento','articulos.concentracion','articulos.presentacion','articulos.administracion',
+                    'articulos.items',
+                    'categorias.nombre as casa_farmaceutica',
+                     'gramajes.gramaje as gramaje',
+                    'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion')
+                    ->where('inventarios.id', '=', $id)
+                    ->orderBy('articulos.id', 'desc')
+                    ->take(1)->get();
 
-        //cambiar la condicion a 0
-        $inventarios->condicion = '0'; //desactivo
+        $nombre=Inventario::select('cantidad_tableta')->where('id',$id)->get();
+        $pdf = \PDF::loadView('pdf.medicamento_inventariopdf',['inventarios'=>$inventarios]);
+        return $pdf
+        ->stream('Inventario-'.$nombre.'.pdf');
 
-        //guardar el objeto en la tabla
-        $inventarios->save();
+    
     }
-
-    public function activar(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-        //buscar la categoria por el $id del request
-        $articulo =  Inventarios::findOrfail($request->id);
-
-        //cambiar la condicion a 1
-        $articulo->condicion = '1'; //activo
-
-        //guardar el objeto en la tabla
-        $articulo->save();
-    }
-
 }

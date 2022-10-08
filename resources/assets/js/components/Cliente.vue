@@ -88,9 +88,11 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre
+                                        <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
+                                    </label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej. Elías">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ingrese el nombre del cliente">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -99,7 +101,7 @@
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="">Seleccione un documento</option>
                                             <option value="DNI">DNI</option>
-                                            <option value="RUC">RUC</option>
+                                            <option value="DNI">NIT</option>
                                             <option value="PASS">PASAPORTE</option>
                                         </select>
                                     </div>
@@ -111,15 +113,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Dirección
+                                        <span style="color:red"  v-show="direccion==0" >(*Ingrese) </span>
+                                    </label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Ej. San Salvador, San Jacinto">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono
+                                    </label>
                                     <div class="col-md-9">
-                                        <input type="int" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej.22202222 ó 77896543">
+                                        <input type="text" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej.22202222 ó 77896543">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -301,23 +306,19 @@
             }
 
             /*Validación del número de telefono*/
-            else if(this.telefono == '' || this.telefono == null){
-                this.errorMostrarMsjPersona.push("El teléfono del cliente  no puede estar vacío");
-            }
-            else if(!/^\d{8}$/.test(this.telefono)){
-                 this.errorMostrarMsjPersona.push("Ingresa un número de télefono valido, debe contener más de 7 digitos");
-            }
+            
 
-           
+            /*Validación del email*/
+            if (!this.validEmail(this.email)) {
+                this.errorMostrarMsjPersona.push('El correo electrónico debe ser válido.');
+            }
 
              /*Validación del tipo de documento*/
                 else if (!this.tipo_documento == '' ){
                     if(this.num_documento == ''){
                       this.errorMostrarMsjPersona.push("El número de documento del cliente no puede estar vacío.");
                     }
-                    else if(!/^[0-9]+$/.test(this.num_documento)){
-                      this.errorMostrarMsjPersona.push("El número de documento del cliente no debe contener letras.");
-                    }
+                    
                     else if(this.num_documento.length<=7){
                       this.errorMostrarMsjPersona.push("El número de documento del cliente  no es valido, debe ser mas de 7 caracteres.");
                     }
@@ -327,13 +328,9 @@
                          this.errorMostrarMsjPersona.push("Seleccione un tipo de documento.");
                         }
                     }
-
-
             if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
             return this.errorPersona;
         },
-
-        
 
          validEmail (email) {
             if (!this.email == ''){
@@ -345,16 +342,7 @@
             }
        
         },
-         validTelefono (telefono) {
-            if (!this.telefono == ''){
-               var  re = /^\d{8}$/;
-                return re.test(telefono);
-   
-            }else{
-                return true;
-            }
        
-        },
         cerrarModal(){
             this.modal=0;
             this.tituloModal='';

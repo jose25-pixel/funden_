@@ -5,33 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte de articulos</title>
+    <title>Reporte de Medicamentos</title>
     <style>
         body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 0.875rem;
-            font-weight: normal;
-            line-height: 1.5;
-            color: #151b1e;
-        }
-        .encabezado{
-            padding: 3px 10px;
-            border: rgb(23, 25, 26) 5px double;
-            border-top-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            }
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+    }
 
-        .logo{
-        width: 300px;
-        }
+    .container {
+        width: 98%;
+        height: 68px;
+        border-bottom: rgb(95, 94, 94) 4px double;
+    }
 
-
-        img {
+    .contenedor1 {
+        width: 30%;
         float: left;
-        width: 300px;
-        height: 140px;
+    }
+
+    img {
+        width: 70%;
+        height: 65px;
+        margin-left: 80px;
+    }
+
+    .contenedor2 {
+        width: 65%;
+        height: 150px;
+        text-align: center;
+        margin: 0px 0px 0px 4px;
+        float: right;
+    }
+
+        .titulo{
+        margin: 4px  0px 5px;
         }
+     section {
+        clear: unset;
+        
+    }
+        
 
         .table {
             display: table;
@@ -40,17 +53,14 @@
             margin-bottom: 1rem;
             background-color: transparent;
             border-collapse: collapse;
+            border: 1px solid #a2a7a7;
         }
-
-        .table-bordered {
-            border: 1px solid #151616;
-        }
-
         thead {
             display: table-header-group;
             vertical-align: middle;
             border-color: inherit;
-            background-color: #b6a25f;
+            background-color: #b4a36b;
+            border: 1px solid #a2a7a7;
         }
 
         tr {
@@ -63,12 +73,12 @@
         .table td {
             padding: 0.75rem;
             vertical-align: top;
-            border-top: 1px solid #c2cfd6;
+            border-top: 1px solid #a1a5a7;
         }
 
         .table thead th {
             vertical-align: bottom;
-            border-bottom: 2px solid #c2cfd6;
+            border-top: 1px solid #bec6c9;
         }
 
         .table-bordered thead th,
@@ -108,40 +118,41 @@
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: rgba(0, 0, 0, 0.05);
         }
-
-        .izquierda {
-            float: left;
-        }
-
-        .derecha {
-            float: right;
-        }
+        footer {
+        position: fixed;
+        bottom: 0cm;
+        left: 0cm;
+        right: 0cm;
+        line-height: 1px;
+        color: rgb(17, 16, 16);
+        text-align: center;
+        font-size: 10px;
+    }
     </style>
 </head>
 
 <body>
-  <section class="encabezado">
-    <div class="logo">
-        <img src="img/reporte.jpg" alt="">
+    <div class="container">
+       
+        <div class="contenedor1">
+            <img src="img/reporte.jpg" alt="">
+        </div>
+
+        <div class="contenedor2">
+            <h3 class="titulo">FUNDACIÓN DE DESARROLLO LATINOAMERICANO</h3>
+            <b>(FUNDEL)</b>
+        </div>
+    </div>
     </div>
 
-    <div class="texto">
-        <h4>FUNDACIÓN DE DESARROLLLO LATINOÁMERICANO</h4>
-        <i> Calle, al Mirador Pje.11 #122 Col.Escalón <br> 
-            San Salvador, El Salvador </i> <br>
-       <i>Telefono:(+503)734475859</i> <br>
-        <i> Email:fundel123@gmail.com</i>
-    </div>
-  </section>
-
-  <section>
-        <h4>Lista de Medicamentos</h4>
+  <section class="contenido">
+        <h3 style="text-align: center">Lista de Medicamentos</h3>
     <div>
         <table class="table table-responsive table-borderless table-sm">
             <thead>
                 <tr>
                     <th scope="col">Medicamento</th>
-                    <th scope="col">Casa_Farmacéutica</th>
+                    <th scope="col">Farmacéutica</th>
                     <th scope="col">Concentración</th>
                     <th scope="col">Presentación </th>
                     <th scope="col">Administración</th>
@@ -169,7 +180,12 @@
         <p><strong>Total de registros: </strong>{{ $cont }}</p>
     </div>
 </section>
-    <span class="derecha">{{ now() }}</span>
+
+<footer>
+    <h3>(FUNDEL)--REPORTE  DE MEDICAMENTOS {{ now() }}<h3>
+    </h1>
+</footer>
+
 </body>
 
 </html>

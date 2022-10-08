@@ -35,6 +35,7 @@
                     <table class="table table-bordered table-striped table-sm table-responsive">
                         <thead style="background-color:">
                             <tr>
+                                <th>PDF</th>
                                 <th>Id</th>
                                 <th>Medicamento</th>
                                 <th>Farmacéutica</th>
@@ -49,6 +50,16 @@
                         </thead>
                         <tbody>
                             <tr v-for="inventarios in arrayInventario" :key="inventarios.id">
+                                <td> <button
+                                    type="button"
+                                    @click="pdfInventario(inventarios.id)"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                    <i
+                                        class="fa fa-file-pdf-o"
+                                        aria-hidden="true"
+                                    ></i>
+                                </button></td>
                                 <td v-text="inventarios.id"></td>
                                 <td v-text="inventarios.medicamento"></td>
                                 <td v-text="inventarios.casa_farmaceutica"></td>
@@ -205,6 +216,9 @@ export default {
         }
     },
     methods: {
+        pdfInventario(id) {
+            window.open("/inventario/pdf/" + id + "," + "_blank");
+        },
         listarInventario(page, buscar, criterio) {
             let me = this;
             var url = '/inventario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;

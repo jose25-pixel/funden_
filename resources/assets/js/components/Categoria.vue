@@ -166,16 +166,11 @@
               class="form-horizontal"
             >
               <div class="form-group row">
-                <label class="col-md-3 form-control-label" for="text-input">
-                Casa Farmaceutica<spam style="color: red"> (*)</spam>
+                <label class="col-md-3 form-control-label" for="text-input"> Casa Farmaceutica
+                  <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
                 </label>
                 <div class="col-md-9">
-                  <input
-                    type="text"
-                    v-model="nombre"
-                    class="form-control"
-                    placeholder="Nombre de Casa Farmacéutica"
-                  />
+                  <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de Casa Farmacéutica"/>
                 </div>
               </div>
               <div v-show="errorCategoria" class="form-group row div-error">

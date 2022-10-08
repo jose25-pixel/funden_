@@ -20,7 +20,7 @@ class CreateVentasTable extends Migration
             $table->integer('idusuario')->unsigned();
             $table->foreign('idusuario')->references('id')->on('users');
             $table->string('tipo_comprobante', 20);
-            $table->string('num_comprobante', 10);
+            $table->string('num_comprobante', 20);
             $table->date('fecha_salida');
             $table->decimal('total', 11,2);
             $table->string('descripcion', 250);  

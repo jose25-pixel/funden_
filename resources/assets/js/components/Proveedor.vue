@@ -39,7 +39,7 @@
                                     <th>Número</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
-                                    <th>email</th>
+                                    <th>Email</th>
                                     <th>Contacto</th>
                                     <th>Tel:Contacto</th>
                                     <th>Estado</th>
@@ -110,57 +110,83 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej.Luisa">
+                                    <div class="form-group col-md-6">
+                                    <label class="col-md-6 form-control-label" for="text-input">Nombre
+                                    <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
+                                    </label>
+                                    <div>
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ej.Nombre de proveedor">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
-                                    <div class="col-md-9">
-                                        <select v-model="tipo_documento" class="form-control">
-                                            <option value="DNI">DNI</option>
-                                            <option value="RUC">RUC</option>
-                                            <option value="PASS">PASAPORTE</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Número</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.000000xx">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
-                                    <div class="col-md-9">
+
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-6 form-control-label" for="email-input">Dirección
+                                        <span style="color:red"  v-show="direccion==0" >(*Ingrese) </span>
+                                    </label>
+                                    
+                                    <div>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Ej.San Salvador">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
-                                    <div class="col-md-9">
-                                        <input type="int" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej. 22202222 ó 77896543">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
+                                <div >
+                                    <input type="text" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej. 22202222 ó 77896543">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 form-control-label" for="email-input">Email</label>
+                                <div>
+                                    <input type="email" v-model="email" class="form-control" placeholder="Ej.example@gmail.com">
+                                </div>
+                            </div>
+                        </div>
+
+
+                                <div  class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label class="col-md-6 form-control-label" for="text-input">Tipo Documento</label>
+                                    <div>
+                                        <select v-model="tipo_documento" class="form-control">
+                                            <option value="">Seleccione</option>
+                                            <option value="DNI">DNI</option>
+                                            <option value="RUC">RUC</option>
+                                            <option value="NIT">NIT</option>
+                                            <option value="PASAPORTE">PASAPORTE</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Email</label>
-                                    <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Ej.luisa@gmail.com">
+ 
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 form-control-label" for="text-input">Número</label>
+                                    <div >
+                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.000000xx">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Contacto</label>
-                                    <div class="col-md-9">
+                            </div>
+                               
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label class="col-md-6 form-control-label" for="email-input">Contacto
+                                    <span style="color:red"  v-show="contacto==0" >(*Ingrese) </span>
+                                    </label>
+                                    <div>
                                         <input type="text" v-model="contacto" class="form-control" placeholder="Ej. Nombre de contacto">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Telefono de contacto</label>
-                                    <div class="col-md-9">
-                                        <input type="int" v-model="telefono_contacto" class="form-control" maxlength="8" placeholder="Ej. 77897654">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-9 form-control-label" for="email-input">Telefono de contacto
+                                    <span style="color:red"  v-show="telefono_contacto==0" >(*Ingrese) </span>
+                                    </label>
+                                    <div>
+                                        <input type="text" v-model="telefono_contacto" class="form-control" maxlength="16" placeholder="Ej. 77897654">
                                     </div>
                                 </div>
+                            </div>
                                 <div v-show="errorProveedor" class="form-group row div-error">
                                  <div class="text-center text-error">
                                  <div v-for="error in errorMostrarMsjProveedor" :key="error" v-text="error">
@@ -170,6 +196,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
+                            <p>Si seleciona tipo de documento, es obligatorio que ingrese el Número de Documento.</p>
                             <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
                             <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrarProveedor()">Guardar</button>
                             <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizarProveedor()">Actualizar</button>
@@ -313,15 +340,77 @@
             this.errorProveedor=0,
             this.errorMostrarMsjProveedor =[];
 
-            if (!this.nombre) this.errorMostrarMsjProveedor.push("El nombre de la persona no puede estar vacío");
+            /*Validación del nombre del proveedor*/
+            if (this.nombre == '' || this.nombre == null) 
+            {
+              this.errorMostrarMsjProveedor.push("El nombre del proveedor no puede estar vacío");
+            } 
+            else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
+                    this.errorMostrarMsjProveedor.push("El nombre del proveedor no puede contener números");
+            }
+            else if( !/^[A-Z]/.test(this.nombre)){
+                this.errorMostrarMsjProveedor.push("El nombre del cliente debe iniciar con una letra mayúscula");
+            }
+
+             /*Validación de la dirección*/
+             else if (this.direccion == '' || this.direccion == null) 
+            {
+                this.errorMostrarMsjProveedor.push("La dirección del cliente no puede estar vacía.");
+            }
+
+              /*Validación del email*/
+              if (!this.validEmail(this.email)) {
+                this.errorMostrarMsjProveedor.push('El correo electrónico debe ser válido.');
+            }
+
+             /*Validación del tipo de documento*/
+             else if (!this.tipo_documento == '' ){
+                    if(this.num_documento == ''){
+                      this.errorMostrarMsjProveedor.push("El número de documento del cliente no puede estar vacío.");
+                    }
+                    
+                    else if(this.num_documento.length<=7){
+                      this.errorMostrarMsjProveedor.push("El número de documento del cliente  no es valido, debe ser mas de 7 caracteres.");
+                    }
+                }
+                    else if(!this.num_documento == ''){
+                       if(this.tipo_documento == ''){
+                     this.errorMostrarMsjProveedor.push("Seleccione un tipo de documento.");
+                        }
+                    }
+        
+
+             /*Validación del nombre del contacto*/
+             if (this.contacto == '' || this.contacto == null) 
+            {
+              this.errorMostrarMsjProveedor.push("El nombre del contacto no puede estar vacío");
+            } 
+            else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.contacto)){
+                    this.errorMostrarMsjProveedor.push("El nombre del contacto no puede contener números");
+            }
+            else if( !/^[A-Z]/.test(this.contacto)){
+                this.errorMostrarMsjProveedor.push("El nombre del cliente debe iniciar con una letra mayúscula");
+            }
+
             if (this.errorMostrarMsjProveedor.length) this.errorProveedor = 1;
             return this.errorProveedor;
+        },
+
+        validEmail (email) {
+            if (!this.email == ''){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+   
+            }else{
+                return true;
+            }
+       
         },
         cerrarModal(){
             this.modal=0;
             this.tituloModal='';
             this.nombre='';
-            this.tipo_documento='RUC';
+            this.tipo_documento='';
             this.num_documento='';
             this.direccion='';
             this.telefono='';
@@ -340,7 +429,7 @@
                             this.modal = 1;
                             this.tituloModal = 'Registrar Proveedor';
                             this.nombre='';
-                            this.tipo_documento='RUC';
+                            this.tipo_documento='';
                             this.num_documento='';
                             this.direccion='';
                             this.telefono='';

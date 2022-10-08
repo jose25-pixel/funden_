@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth']], function(){
         return view('contenido/contenido');
     })->name('main');
 
-    Route::group(['middleware' => ['Almacenero']], function(){
+    Route::group(['middleware' => ['Usuario']], function(){
 
         //listar todos los datos de la tabla
         Route::get('/categoria', 'CategoriaController@index');
@@ -192,7 +192,9 @@ Route::group(['middleware' => ['auth']], function(){
          //activar registros en la tabla
          Route::put('/articulo/activar', 'ArticuloController@activar');
          Route::get('/articulo/articulosTodos', 'ArticuloController@articulosTodos')->name('articulos_pdf');
-         Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articulos_pdf');
+         Route::get('/articulo/pdf/{id}', 'ArticuloController@pdf')->name('articuloskardex_pdf');
+        Route::get('/articulo/reporte_resultados/{id}/{desde}/{hasta}', 'ArticuloController@reporte_resultados')->name('reporte_resultados');
+        // Route::get('/articulo/pdf/{id},{yy-mm-dd},{yy-mm-dd}', 'ArticuloController@pdf')->name('articulos_pdf');
          //buscar articulo
         // Route::get('/articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
          //Route::get('/articulo/listarArticulo', 'ArticuloController@listarArticulo');
@@ -211,6 +213,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/inventario/buscarArticuloInventarioventa', 'InventarioController@listarArticuloinventarioV');
         //rutas para mostrar datos e ingresar datos a inventario
         Route::get('/inventario', 'InventarioController@index');
+        Route::get('/inventario/pdf/{id}', 'InventarioController@pdf')->name('inventarios_pdf');
      
  
  
@@ -251,12 +254,17 @@ Route::group(['middleware' => ['auth']], function(){
         //rutas de los ingresos
         Route::get('/ingreso', 'IngresoController@index');
         Route::post('/ingreso/registrar', 'IngresoController@store');
+        Route::post('/ingreso/update', 'IngresoController@update');
         //desactivar el registro en la tabla
         Route::put('/ingreso/desactivar', 'IngresoController@desactivar');
         Route::get('/ingreso/obtenerCabecera', 'IngresoController@obtenerCabecera');
         Route::get('/ingreso/obtenerDetalles', 'IngresoController@obtenerDetalles');
+         //actualzar datos
+        Route::get('/ingreso/obtenerEditar', 'IngresoController@EditarCabecera');
+        Route::get('/ingreso/editarDetalles', 'IngresoController@EditarDetalles');
         Route::get('/ingreso/pdf/{id}', 'IngresoController@pdfIngreso')->name('ingreso_pdf');
 
+        Route::delete('/ingreso/eliminar', 'IngresoController@destroy');
 
          //rutas de las ventas
         Route::get('/venta', 'VentaController@index');

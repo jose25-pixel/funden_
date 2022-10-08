@@ -3,193 +3,175 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Reporte de Venta</title>
+<title>Reporte de Compra</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-    }
-
-    #logo {
-        float: left;
-        margin-top: 1%;
-        margin-left: 2%;
-        margin-right: 2%;
-        border-radius: 150px;
-    }
-
-    #imagen {
-        width: 100px;
-    }
-
-    #datos {
-        float: left;
-        margin-top: 0%;
-        margin-left: 2%;
-        margin-right: 2%;
-        /*text-align: justify;*/
-    }
-
-    #encabezado {
-        text-align: center;
-        margin-left: 10%;
-        margin-right: 35%;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 15px;
     }
 
-    #fact {
-        /*position: relative;*/
+    .container {
+        width: 98%;
+        height: 68px;
+        border-bottom: rgb(95, 94, 94) 4px double;
+    }
+
+    .contenedor1 {
+        width: 30%;
+        float: left;
+    }
+
+    img {
+        width: 70%;
+        height: 65px;
+        margin-left: 80px;
+    }
+
+    .contenedor2 {
+        width: 65%;
+        height: 150px;
+        text-align: center;
+        margin: 0px 0px 0px 4px;
         float: right;
-        margin-top: 2%;
-        margin-left: 2%;
-        margin-right: 2%;
-        font-size: 20px;
     }
 
+    .titulo {
+        margin: 14px 1 0px 5px;
+    }
+    
     section {
-        clear: left;
+        clear: unset;
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 
-    #cliente {
-        text-align: left;
-    }
-
-    #facliente {
-        width: 40%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin-bottom: 15px;
-    }
-
-    #fac,
-    #fv,
-    #fa {
-        color: #FFFFFF;
+    #cc,
+    #cm{
+        color: #121212;
         font-size: 15px;
     }
 
-    #facliente thead {
+
+    #vendedor {
+        width: 100%;
+        border: 1px solid #a2a7a7;
+        border-spacing: 0;
+        text-align: center;
+    }
+
+   
+
+    #vendedor thead {
         padding: 20px;
-        background: #795300;
+        background-color: #b4a36b;
         text-align: left;
         border-bottom: 1px solid #FFFFFF;
     }
 
-    #facvendedor {
+    #medicamento{
         width: 100%;
         border-collapse: collapse;
+        border: 1px solid #a2a7a7;
         border-spacing: 0;
-        text-align: center;
         margin-bottom: 15px;
+        text-align: center;
     }
 
-    #facvendedor thead {
+ 
+    #medicamento thead {
         padding: 20px;
-        background: #795300;
+        background: #b4a36b;
         text-align: center;
         border-bottom: 1px solid #FFFFFF;
     }
-
-    #facarticulo {
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin-bottom: 15px;
-    }
-
-    /*  Aqui te dejo la ruta */
-
-    /* /inventario/pdf/{id} */
-
-    #facarticulo thead {
-        padding: 20px;
-        background: #795300;
+    
+    footer {
+        position: fixed;
+        bottom: 0cm;
+        left: 0cm;
+        right: 0cm;
+        line-height: 1px;
+        color: rgb(17, 16, 16);
         text-align: center;
-        border-bottom: 1px solid #FFFFFF;
+        font-size: 10px;
     }
 
-    #gracias {
-        text-align: center;
-    }
+   
 </style>
 
 <body>
-    @foreach ($ingreso as $ing)
-        <header>
-            <div id="logo">
-                <img src="img/fundel.png" id="imagen">
-            </div>
-            <div id="datos">
-                <p id="encabezado">
-                    <b>Fundel</b><br>Karla fundel, Santa Tecla,El Salvador<br>Telefono:(+503)734475859<br>Email:
-                    fundel123@gmail.com
-                </p>
-            </div>
-        </header>
-        <br>
-        <section>
-            <div>
-                <table id="facliente">
-                    <thead>
-                        <tr>
-                            <th id="fac">Proveedor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                <p id="datosprovee">
-                                    <b>Sr(a).</b> {{ $ing->nombre }}<br>
-                                    <b>Tipo de documento:</b> {{ $ing->tipo_documento }}<br>
-                                    <b>Número de documento:</b> {{ $ing->num_documento }}<br>
-                                    <b>Dirección:</b> {{ $ing->direccion }}<br>
-                                    <b>Teléfono:</b> {{ $ing->telefono }}<br>
-                                    <b>Email:</b> {{ $ing->email }}
-                                </p>
-                            </th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    @endforeach
-    <br>
+    <div class="container">
+        <div class="contenedor1">
+            <img src="img/reporte.jpg" alt="">
+        </div>
+
+        <div class="contenedor2">
+            <h3 class="titulo">FUNDACIÓN DE DESARROLLO LATINOAMERICANO</h3>
+            <b>(FUNDEL)</b>
+        </div>
+    </div>
+    <section class="contenido">
+        <div class="proveedor">
+            <h4 style="text-align:center">REPORTE DE DETALLE DE COMPRA</h4>
+            @foreach ($ingreso as $ing)
+                <H4>PROVEEDOR</H4>
+                <b>Proveedor:</b><label>{{ $ing->nombre }} </label><br>
+                <b>Tipo de documento:</b> <label>{{ $ing->tipo_documento }}</label><br>
+                <b>Número de documento:</b> <label>{{ $ing->num_documento }}</label><br>
+                <b>Dirección:</b><label> {{ $ing->direccion }}<label><br>
+                        <b>Teléfono:</b><label> {{ $ing->telefono }}<label><br>
+                                <b>Email:</b><label> {{ $ing->email }}<label>
+            @endforeach
+        </div>
+    </section>
+
+
     <section>
         <div>
-            <table id="facvendedor">
+            <table id="vendedor">
                 <thead>
-                    <tr id="fv">
-                        <th>VENDEDOR</th>
-                        <th>FECHA</th>
+                    <tr id="cv">
+                        <th>Comprobante</th>
+                        <th>Serie</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="text-center">{{ $ing->usuario }}</td>
-                        <td class="text-center">{{ $ing->created_at }}</td>
+                        <td>{{ $ing->tipo_comprobante }}</td>
+                        <td>{{ $ing->serie_comprobante }} Y Número: {{ $ing->num_comprobante }}</td>
+                        <td>{{ $ing->usuario }}</td>
+                        <td>{{ $ing->fecha_compra }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
-    <br>
+
     <section>
         <div>
-            <table id="facarticulo">
+            <table id="medicamento">
                 <thead>
-                    <tr id="fa">
-                        <th>CANTIDAD</th>
-                        <th>DESCRIPCION</th>
-                        <th>PRECIO UNITARIO</th>
-                        <th>PRECIO TOTAL</th>
+                    <tr id="cm">
+                        <th>Medicamento</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Blister</th>
+                        <th>Vencimiento</th>
+                        <th>Lote</th>
+                        <th>TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($detalles as $det)
                         <tr>
-                            <td>{{ $det->cantidad }}</td>
                             <td>{{ $det->articulo }}</td>
                             <td>{{ $det->precio }}</td>
+                            <td>{{ $det->cantidad }}</td>
+                            <td>{{ $det->cantidad_blister }}</td>
+                            <td>{{ $det->fecha_vencimiento }}</td>
+                            <td>{{ $det->lote }}</td>
                             <td>{{ $det->precio * $det->cantidad }}</td>
                         </tr>
                     @endforeach
@@ -198,22 +180,24 @@
                     @foreach ($ingreso as $ing)
                         <tr>
                             <th></th>
-                            <th></th>+
-                            <th>TOTAL COMPRA</th>
-                            <td>$ {{ $ing->total }}</td>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="background-color: #bdb795">TOTAL DE LA</th>
+                            <th style="background-color: #bdb795"> COMPRA</th>
+                            <td style="background-color: #bdb795">$ {{ $ing->total }}</td>
                         </tr>
                     @endforeach
                 </tfoot>
             </table>
-        </div>
+        </div>        
     </section>
-    <br>
-    <br>
+
     <footer>
-        <div id="gracias">
-            <p><b>GRACIAS POR SU PREFERENCIA DE PARTE DE FUNDEL</b></p>
-        </div>
+        <h3>(FUNDEL)--REPORTE  DE COMPRA {{ now() }}<h3>
+        </h1>
     </footer>
+
 </body>
 
 </html>

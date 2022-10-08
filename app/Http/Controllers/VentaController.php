@@ -11,6 +11,7 @@ use App\Venta;
 use Carbon\Carbon;
 use Exception;
 
+
 class VentaController extends Controller
 {
     public function index(Request $request)
@@ -76,12 +77,14 @@ class VentaController extends Controller
             ->orderBy('detalle_ventas.id', 'desc')->get();
         return ['detalles' => $detalles ];
     }
+   
     
     public function pdf(Request $request, $id){
         $venta = Venta::join('personas','ventas.idcliente','=','personas.id')
         ->join('users','ventas.idusuario','=','users.id')
-        ->select('ventas.id','ventas.created_at',
-        'ventas.fecha_salida','ventas.tipo_comprobante','ventas.num_comprobante','ventas.total','ventas.descripcion','ventas.estado',
+        ->select('ventas.id',
+        'ventas.fecha_salida','ventas.tipo_comprobante','ventas.num_comprobante',
+        'ventas.total','ventas.descripcion','ventas.estado',
         'personas.nombre','personas.tipo_documento','personas.num_documento','personas.direccion','personas.email','personas.telefono',
         'users.usuario')
         ->where('ventas.id', '=', $id)
@@ -89,15 +92,15 @@ class VentaController extends Controller
 
         $detalles = DetalleVenta::join('inventarios','detalle_ventas.idinventario','=','inventarios.id')
         ->join('articulos','inventarios.idproducto','=','articulos.id')
-        ->select('detalle_ventas.cantidad','detalle_ventas.precio','detalle_ventas.fecha_vencimiento','detalle_ventas.lote',
+        ->select('detalle_ventas.cantidad','detalle_ventas.cantidad_blister','detalle_ventas.precio','detalle_ventas.fecha_vencimiento','detalle_ventas.lote',
         'articulos.nombre as articulo')
         ->where('detalle_ventas.idventa', '=', $id)
         ->orderBy('detalle_ventas.id', 'desc')->get();
 
-        $numventa=Venta::select('fecha_salida')->where('id',$id)->get();
-
+        $numventa=Venta::select('fecha_salida')->where('id',$id)->get();        
         $pdf = \PDF::loadView('pdf.venta',['venta'=>$venta, 'detalles'=>$detalles]);
-        return  $pdf->download('venta-'.$numventa[0]->fecha_salida.'.pdf');
+        return  $pdf
+        ->stream('venta-'.$numventa[0]->fecha_salida.'.pdf');
     }
 
     public function store(Request $request)

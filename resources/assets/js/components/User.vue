@@ -51,7 +51,7 @@
                                         </button>&nbsp;
                                         <template v-if="users.condicion">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(users.id)">
-                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                <i class="icon-trash"></i>
                                             </button>
                                         </template>
                                         <template v-else>
@@ -102,13 +102,17 @@
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
                                  <div class="form-group col-md-6">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-9 form-control-label" for="text-input">Nombre
+                                        <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
+                                    </label>
                                      <div>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Ej.Nombre">                                        
                                      </div>
                                   </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-3 form-control-label" for="email-input">Email<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-9 form-control-label" for="email-input">Email
+                                        <span style="color:red"  v-show="email==0" >(*Ingrese) </span>
+                                    </label>
                                     <div>
                                         <input type="email" v-model="email" class="form-control" placeholder="Ej.name@example.com">
                                     </div>
@@ -117,14 +121,18 @@
 
                              <div class="form-group row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-9 form-control-label" for="email-input">Teléfono
+                                        <span style="color:red"  v-show="telefono==0" >(*Ingrese) </span>
+                                    </label>
                                     <div>
-                                        <input type="tel" v-model="telefono" class="form-control" maxlength="8" placeholder="Ej.22223333 ó 77778888">
+                                        <input type="tel" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej.22223333 ó 77778888">
                                     </div>
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Dirección
+                                        
+                                    </label>
                                     <div>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Ej.San Salvador, El Salvador">
                                     </div>
@@ -137,7 +145,7 @@
                                     <div>
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="">Seleccione</option>
-                                            <option value="DNI">DUI</option>
+                                            <option value="DNI">DNIT</option>
                                             <option value="NIT">NIT</option>
                                             <option value="PASS">PASAPORTE</option>
                                         </select>                                    
@@ -154,7 +162,9 @@
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                    <label class="col-md-6 form-control-label" for="email-input">Rol<span style="color:red;">(*Seleccione)</span></label>
+                                    <label class="col-md-9 form-control-label" for="email-input">Rol
+                                        <span style="color:red"  v-show="idrol==0" >(*Ingrese) </span>
+                                    </label>
                                     <div>
                                         <select class="form-control" v-model="idrol">
                                             <option value="0">Seleccione un rol</option>
@@ -165,13 +175,17 @@
                                 </div>
                                 
                                  <div class="form-group col-md-4">
-                                    <label class="col-md-6 form-control-label" for="email-input">Usuario<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-9 form-control-label" for="email-input">Usuario
+                                        <span style="color:red"  v-show="usuario==0" >(*Ingrese) </span>
+                                    </label>
                                     <div>
                                         <input type="text" v-model="usuario" id="validationDefaultUsername" class="form-control" placeholder="Ej.Ernesto10" required>
                                     </div>
                                 </div>
                                  <div class="form-group col-md-4">
-                                    <label class="col-md-6 form-control-label" for="email-input">Password<span style="color:red;">(*Ingrese)</span></label>
+                                    <label class="col-md-9 form-control-label" for="email-input">Password
+                                        <span style="color:red"  v-show="password==0" >(*Ingrese) </span>
+                                    </label>
                                     <div>
                                         <input type="password" v-model="password" class="form-control" placeholder="********" required>
                                     </div>
@@ -374,10 +388,7 @@
                 else if(!/^\d{8}$/.test(this.telefono)){
                     this.errorMostrarMsjUsuario.push("Ingresa un número de télefono valido");
                 }
-                else if (this.direccion == '' || this.direccion == null) 
-            {
-                this.errorMostrarMsjUsuario.push("La dirección del usuario no puede estar vacía.");
-            }
+              
                 
                 
                 /*Validación del  rol*/

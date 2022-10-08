@@ -6,7 +6,7 @@
         </ol>
         <div class="container-fluid">
             <!-- Ejemplo de tabla Listado -->
-            <div class="card">
+            <div class="card ">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Ventas
                     <button type="button" @click="mostrarDetalle()" class="btn btn-cafe">
@@ -20,8 +20,10 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                        <option value="fecha_salida">fecha_venta</option>
-                                        <option value="nombre">nombre_cliente</option>
+                                        <option value="tipo_comprobante">Tipo_Comprobante</option>
+                                        <option value="num_comprobante">Número de Comprobante</option>
+                                        <option value="fecha_salida">Fecha de venta</option>
+                                        <option value="descripcion">Descripción</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarVenta(1, buscar, criterio)"
                                         class="form-control" placeholder="Texto a buscar" />
@@ -36,26 +38,25 @@
                             <table class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Opciones</th>
+                                    <th>Opciones</th>
                                         <th>Usuario</th>
-                                        <th>Cliente</th>
-                                        <th>Fecha salida</th>
+                                        <th>Nombre_de_Cliente</th>
+                                        <th>Fecha_de_salida</th>
                                         <th>Tipo_Comprobante</th>
-                                        <th>Num_Comprobante</th>
+                                        <th>Número_Comprobante</th>
                                         <th>Total</th>
-                                        <th>Descripción</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="venta in arrayVenta" :key="venta.id">
+                                    <tr v-for="venta in arrayVenta" :key="venta.id"> 
                                         <td>
                                             <button type="button" @click="verVenta(venta.id)"
                                                 class="btn btn-success btn-sm">
                                                 <i class="icon-eye"></i>
                                             </button>
                                             &nbsp;
-
+                        
                                             <button type="button" @click="pdfVenta(venta.id)"
                                                 class="btn btn-danger btn-sm">
                                                   <i class="fa fa-file-pdf-o"></i>
@@ -68,10 +69,10 @@
                                         <td v-text="venta.tipo_comprobante"></td>
                                         <td v-text="venta.num_comprobante"></td>
                                         <td v-text="venta.total"></td>
-                                        <td v-text="venta.descripcion"></td>
-                                         <div v-if="venta.estado">
-                      <span class="badge badge-success">Registrada</span>
-                    </div>
+                                        <div v-if="venta.estado">
+                                        <span class="badge badge-success">Registrada</span>
+                                        </div>
+                                       
                                     </tr>
                                 </tbody>
                             </table>
@@ -114,7 +115,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Cliente</label>
-                                    <label for="" style="color:red">(* Ingrese)</label>
+                                    <span style="color:red"  v-show="arrayCliente==0" >(*Seleccione) </span>
                                     <v-select @search="selectCliente" label="nombre" :options="arrayCliente"
                                         placeholder="Buscar Clientes.." @input="getDatosCliente">
                                     </v-select>
@@ -124,32 +125,35 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Tipo Comprobante</label>
-                                    <label for="" style="color:red">(* Seleccione)</label>
+                                    <span style="color:red"  v-show="tipo_comprobante==0" >(*Seleccione) </span>
                                     <select class="form-control" v-model="tipo_comprobante">
                                         <option value="0">Seleccione</option>
                                         <option value="CCF">Credito Fiscal</option>
                                         <option value="FACTURA">Factura</option>
                                         <option value="TICKET">Ticket</option>
+                                        <option value="DESCARGO">Descargo</option>
+
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Número Comprobante></label>
-                                    <label for="" style="color:red">(* Ingrese)</label>
+                                    <label>Número Comprobante</label>
+                                    <span style="color:red"  v-show="num_comprobante==0" >(*Ingrese) </span>
                                     <input type="text" class="form-control" v-model="num_comprobante"
                                         placeholder="000xx" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Fecha Salida</label>
-                                <label for="" style="color:red">(* Seleccione)</label>
+                                <span style="color:red"  v-show="fecha_salida==0" >(*Seleccione) </span>
                                 <input type="date" class="form-control" v-model="fecha_salida"
                                     placeholder="2020-7-12" />
                             </div>
 
                             <div class="col-md-4">
-                                <label for="">Descripción<spam style="color: red">(*Ingrese)</spam></label>
+                                Descripción
+                                <span style="color:red"  v-show="descripcion==0" >(*Ingrese) </span>
                                 <textarea class="form-control" v-model="descripcion" placeholder="Descripción" name=""
                                     id="" cols="53" rows="3"></textarea>
                                 <br />
@@ -164,52 +168,20 @@
                             </div>
                         </div>
                         <div class="form-group row border">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Meidacamento
-                                        <spam style="color: red" v-show="idinventario == 0">(*Seleccione)</spam>
+                                    <label>Medicamento
+                                        <spam style="color: red" v-show="arrayInventario== 0">(*Seleccione)</spam>
                                     </label>
                                     <div class="form-inline">
+                                               <!--
                                         <input type="text" class="form-control" v-model="nombre"
-                                            @keyup.enter="buscarArticulo()" placeholder="Ingrese Medicamento" />
+                                            @keyup.enter="buscarArticulo()" placeholder="Visualizar medicamentos" />-->
                                         <button @click="abrirModal()" class="btn btn-primary">
                                             Seleccionar
                                         </button>
                                         <input type="text" class="form-control" readonly v-model="inventario" />
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Precio
-                                        <spam style="color: red" v-show="precio == 0">(*)</spam>
-                                    </label>
-                                    <input type="number" value="0" step="any" class="form-control" v-model="precio" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Cantidad_pastillas<spam style="color: red" v-show="cantidad == 0">(*)
-                                        </spam>
-                                    </label>
-                                    <input type="number" value="0" class="form-control" v-model="cantidad" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>cantidad_blister
-                                        <spam style="color: red" v-show="cantidad_blister == 0">(*)</spam>
-                                    </label>
-                                    <input type="number" value="0" class="form-control" v-model="cantidad_blister" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar">
-                                        <i class="icon-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -220,11 +192,11 @@
                                         <tr>
                                             <th>Opciones</th>
                                             <th>Medicamento</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Cantidad_blister</th>
-                                            <th>Fecha_vencimiento</th>
-                                            <th>Lote</th>
+                                            <th>Precio  </th>
+                                            <th>Cantidad </th>
+                                            <th>Cantidad_blister </th>
+                                            <th>Fecha_vencimiento  </th>
+                                            <th>Lote </th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -238,30 +210,41 @@
                                             </td>
                                             <td v-text="detalle.articulo"></td>
                                             <td>
-                                                <input type="number" v-model="detalle.precio" class="form-control" />
+                                                <span style="color:red"  v-show="detalle.precio==0" >(*Promedio) </span>
+                                                <input  type="number" v-model="detalle.precio"  class="form-control"  placeholder="Precio Unidad" >
+                                                
                                             </td>
                                             <td>
-                                                <span style="color: red" v-show="detalle.cantidad > detalle.stock">
+                                                <span style="color:red; font-size:18px"  v-show="detalle.cantidad==0" >(*Ingrese) </span>
+                                                <span style="color:blue; font-size:20px"  v-text="detalle.presentacionv"></span>
+                                                <span style="color:purple; font-size:20px"  v-text="detalle.stock"></span>
+                                                <span style="color: red; font-size:30px" v-show="detalle.cantidad > detalle.stock">
                                                     Stock:{{ detalle.stock }}
                                                 </span>
-                                                <input type="number" v-model="detalle.cantidad" class="form-control" />
+                                                <input type="number" v-model="detalle.cantidad" class="form-control" placeholder="Ingrese Pastillas"/>
                                             </td>
                                             <td>
-                                                <span style="color: red"
+                                                <span style="color:red; font-size:18px"  v-show="detalle.cantidad_blister==''" >(*Ingrese) </span>
+                                               
+                                                <span style="color:blue; font-size:20px"  v-text="detalle.itemsv"></span>
+                                                <span style="color:purple; font-size:20px"  v-text="detalle.stockk"></span>
+                                                <span style="color: red; font-size:30px"
                                                     v-show="detalle.cantidad_blister > detalle.stockk">Stock:{{
                                                             detalle.stockk
                                                     }}
                                                 </span>
+                                                
                                                 <input type="number" v-model="detalle.cantidad_blister"
-                                                    class="form-control" />
+                                                    class="form-control"  placeholder="Ingrese Blister"/>
                                             </td>
                                             <td>
-                                              
+                                                <span style="color:red"  v-show="detalle.fecha_vencimiento==0" >(*Seleccione) </span>
                                                 <input type="date" v-model="detalle.fecha_vencimiento"
                                                     class="form-control" />
                                             </td>
                                             <td>
-                                                <input type="number" v-model="detalle.lote" class="form-control" />
+                                                <span style="color:red"  v-show="detalle.lote==0" >(*Ingrese) </span>
+                                                <input type="text" v-model="detalle.lote" class="form-control" />
                                             </td>
 
                                             <td>
@@ -306,18 +289,28 @@
                                     <p v-text="cliente"></p>
                                 </div>
                                </div>
-                                <div class="col-md-4">
-                                <label for=""><b>Usuario</b></label>
-                                <p v-text="usuario"></p>
-                            </div>
+                               
                             <div class="col-md-4">
                                 <label for=""><b>Tipo_Comprobante</b></label>
                                 <p v-text="tipo_comprobante"></p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label><b>Num_Comprobante</b></label>
+                                    <label><b>Número de Comprobante</b></label>
                                     <p v-text="num_comprobante"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label><b>Fecha  de venta</b></label>
+                                    <p v-text="fecha_salida"></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label><b>Descripción</b></label>
+                                    <p v-text="descripcion"></p>
                                 </div>
                             </div>
                         </div>
@@ -392,8 +385,9 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterioA">
                                         <option value="nombre">Nombre</option>
-                                        <option value="concentracion">concentracion</option>
+                                        <option value="concentracion">concentración</option>
                                         <option value="presentacion">Presentación</option>
+                                        <option value="items">Items</option>
                                     </select>
                                     <input type="text" v-model="buscarA"
                                         @keyup.enter="listarArticuloinventario(buscarA, criterioA)" class="form-control"
@@ -411,13 +405,13 @@
                                     <tr>
                                         <th>Opciones</th>
                                         <th>Nombre</th>
-                                        <th>Concentracion</th>
-
+                                        <th>Concentración</th>
                                         <th>C.Farmaceutica</th>
-                                        <th>Administracion</th>
-                                        <th>Presentacion</th>
-                                        <th>stock pastillas</th>
-                                        <th>stock superior</th>
+                                        <th>Administración</th>
+                                        <th>Presentación</th>
+                                        <th>Items</th>
+                                        <th>Stock pastillas</th>
+                                        <th>Stock superior</th>
                                       
                                     </tr>
                                 </thead>
@@ -436,6 +430,7 @@
                                         <td v-text="inventario.nombre_categoria"></td>
                                         <td v-text="inventario.administracion"></td>
                                         <td v-text="inventario.presentacion"></td>
+                                        <td v-text="inventario.items"></td>
                                         <td v-text="inventario.cantidad_tableta"></td>
                                         <td v-text="inventario.cantidad_blister"></td>
                                         
@@ -502,7 +497,7 @@ export default {
                 to: 0,
             },
             offset: 3,
-            criterio: "fecha_salida",
+            criterio: "tipo_comprobante",
             buscar: "",
             criterioA: "nombre",
             buscarA: "",
@@ -519,6 +514,8 @@ export default {
             stockk: 0,
             fecha_vencimiento: "",
             lote: 0,
+            presentacionv:"",
+            itemsv:""
         };
     },
     components: {
@@ -615,6 +612,8 @@ export default {
                         me.idinventario = me.arrayInventario[0]["id"];
                         me.stock = me.arrayInventario[0]["cantidad_tableta"];
                         me.stockk = me.arrayInventario[0]["cantidad_blister"];
+                        me.presentacionv = me.arrayInventario[0]["presentacion"];
+                        me.itemsv = me.arrayInventario[0]["items"];
                     } else {
                         me.inventario = "No existen Medicamentos";
                         me.idinventario = 0;
@@ -716,11 +715,13 @@ export default {
                 me.arrayDetalle.push({
                     idinventario: data["id"],
                     articulo: data["nombre"],
-                    cantidad: 1,
-                    cantidad_blister: 1,
+                    cantidad: '',
+                    cantidad_blister: '',
                     stock: data["cantidad_tableta"],
                     stockk: data["cantidad_blister"],
-                    precio: 0,
+                    presentacionv:data["presentacion"],
+                    itemsv:data["items"],
+                    precio:0,
                     fecha_vencimiento: "",
                     lote: 0,
                 });
@@ -751,6 +752,21 @@ export default {
             if (this.validarVenta()) {
                 return;
             }
+            swal({
+        title:
+          "Esta seguro de registrar el medicamento?  Verifique los datos ingresados!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar!",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
 
             let me = this;
 
@@ -783,11 +799,23 @@ export default {
                     me.fecha_vencimiento = "";
                     me.lote = "";
                     me.arrayDetalle = [];
+                    swal(
+                "Medicamentos Ingresados!",
+                "El ingreso se realizo con éxito.",
+                "success"
+              );
                     //window.open('/venta/pdf/'+ response.data.id + ',' + '_blank');
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+            } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swal("Cancelled", "Your imaginary file is safe :)", "error");
+        }
+      });
         },
         validarVenta() {
             let me = this;
@@ -805,13 +833,13 @@ export default {
             if (this.idcliente == 0)
                 this.errorMostrarMsjVenta.push("Seleccione un Cliente .");
             if (this.tipo_comprobante == 0)
-                this.errorMostrarMsjVenta.push("Seleccione el comprobante.");
+                this.errorMostrarMsjVenta.push("Seleccione el tipo de comprobante.");
             if (!this.num_comprobante)
                 this.errorMostrarMsjVenta.push("Ingrese el número de comprobante.");
             if (this.fecha_salida == 0)
                 this.errorMostrarMsjVenta.push("Seleccione el fecha.");
             if (this.descripcion == 0)
-                this.errorMostrarMsjVenta.push("Ingrese descripción.");
+                this.errorMostrarMsjVenta.push("Ingrese una descripción.");
             if (this.arrayDetalle.length <= 0)
                 this.errorMostrarMsjVenta.push("Ingrese detalles.");
 
@@ -852,6 +880,7 @@ export default {
                     me.cliente = arrayVentaT[0]["nombre"];
                     me.tipo_comprobante = arrayVentaT[0]["tipo_comprobante"];
                     me.num_comprobante = arrayVentaT[0]["num_comprobante"];
+                    me.descripcion = arrayVentaT[0]["descripcion"];
                     me.fecha_salida = arrayVentaT[0]["fecha_salida"];
                     me.total = arrayVentaT[0]["total"];
                 })

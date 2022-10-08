@@ -9,20 +9,12 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-medkit" aria-hidden="true"></i> Medicamentos
-                    <button
-                        type="button"
-                        @click="abrirModal('articulo', 'registrar')"
-                        class="btn btn-cafe"
-                    >
+                    <button type="button" @click="abrirModal('articulo', 'registrar')" class="btn btn-cafe">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
                 <div class="card-header">
-                    <button
-                        type="button"
-                        @click="articulosTodos()"
-                        class="btn btn-secondary"
-                    >
+                    <button type="button" @click="articulosTodos()" class="btn btn-secondary">
                         <i class="icon-doc"></i>&nbsp;Reporte Medicamentos
                     </button>
                 </div>
@@ -31,42 +23,21 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <select
-                                        class="form-control col-md-3"
-                                        v-model="criterio"
-                                    >
+                                    <select class="form-control col-md-3" v-model="criterio">
                                         <option value="nombre">Nombre</option>
-                                        <option value="concentracion"
-                                            >Concentración</option
-                                        >
-                                        <option value="presentacion"
-                                            >Presentación</option
-                                        >
+                                        <option value="concentracion">Concentración</option>
+                                        <option value="presentacion">Presentación</option>
+                                        <option value="items">Items</option>
                                     </select>
-                                    <input
-                                        type="text"
-                                        v-model="buscar"
-                                        @keyup.enter="
-                                            listarArticulo(1, buscar, criterio)
-                                        "
-                                        class="form-control"
-                                        placeholder="Texto a buscar"
-                                    />
-                                    <button
-                                        type="submit"
-                                        class="btn btn-cafe"
-                                        @click="
-                                            listarArticulo(1, buscar, criterio)
-                                        "
-                                    >
+                                    <input type="text" v-model="buscar" @keyup.enter="listarArticulo(1, buscar, criterio)" class="form-control"
+                                        placeholder="Texto a buscar"/>
+                                    <button type="submit" class="btn btn-cafe" @click=" listarArticulo(1, buscar, criterio) ">
                                         <i class="fa fa-search"></i> Buscar
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <table
-                            class="table table-responsive table-bordered table-striped table-sm"
-                        >
+                        <table class="table table-responsive table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
@@ -80,91 +51,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr
-                                    v-for="articulo in arrayArticulo"
-                                    :key="articulo.id"
-                                >
+                                <tr v-for="articulo in arrayArticulo" :key="articulo.id" >
                                     <td>
-                                        <button
-                                            type="button"
-                                            @click="pdfArticulo(articulo.id)"
-                                            class="btn btn-outline-danger btn-sm"
-                                        >
-                                            <i
-                                                class="fa fa-file-pdf-o"
-                                                aria-hidden="true"
-                                            ></i>
+                                        <button type="button" @click="pdfArticulo(articulo.id)" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         </button>
                                         &nbsp;
-                                         <button
-                                            type="button"
-                                            @click="abrirModalfecha('articulo','fecha',articulo)"
-                                            class="btn btn-success btn-sm"
-                                        >
-                                            <i class="icon-eye"></i>
+                                         <button type="button" @click="abrirModalfecha('articulo','fecha',articulo)" class="btn btn-success btn-sm">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            @click="
-                                                abrirModal(
-                                                    'articulo',
-                                                    'actualizar',
-                                                    articulo
-                                                )
-                                            "
-                                            class="btn btn-warning btn-sm"
-                                        >
-                                            <i class="icon-pencil"></i>
+                                        <button type="button" @click="abrirModal('articulo','actualizar', articulo)"
+                                            class="btn btn-warning btn-sm"><i class="icon-pencil"></i>
                                         </button>
                                         &nbsp;
 
                                         <template v-if="articulo.condicion">
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger btn-sm"
-                                                @click="
-                                                    desactivarArticulo(
-                                                        articulo.id
-                                                    )
-                                                "
-                                            >
+                                            <button type="button" class="btn btn-danger btn-sm" @click=" desactivarArticulo(articulo.id)">
                                              <i class="icon-trash"></i>
                                             </button>
                                         </template>
                                         <template v-else>
-                                            <button
-                                                type="button"
-                                                class="btn btn-info btn-sm"
-                                                @click="
-                                                    activarArticulo(articulo.id)
-                                                "
-                                            >
+                                            <button type="button" class="btn btn-info btn-sm" @click=" activarArticulo(articulo.id)">
                                                 <i class="icon-check"></i>
                                             </button>
                                         </template>
                                     </td>
                                     <td v-text="articulo.nombre"></td>
                                     <td v-text="articulo.nombre_categoria"></td>
-                                    <td
-                                        v-text="
-                                            articulo.concentracion +
-                                                articulo.nombre_gramaje
-                                        "
-                                    ></td>
+                                    <td v-text="articulo.concentracion + articulo.nombre_gramaje"> </td>
                                     <td v-text="articulo.presentacion"></td>
                                     <td v-text="articulo.administracion"></td>
                                     <td v-text="articulo.items"></td>
                                     <td>
                                         <div v-if="articulo.condicion">
-                                            <span class="badge badge-success"
-                                                >Activo</span
-                                            >
+                                            <span class="badge badge-success">Activo</span>
                                         </div>
                                         <div v-else>
-                                            <span class="badge badge-danger"
-                                                >Desactivado</span
-                                            >
+                                            <span class="badge badge-danger">Desactivado</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -172,49 +96,14 @@
                         </table>
                         <nav>
                             <ul class="pagination">
-                                <li
-                                    class="page-item "
-                                    v-if="pagination.current_page > 1"
-                                >
-                                    <a
-                                        class="page-link"
-                                        href="#"
-                                        @click.prevent="
-                                            cambiarPagina(
-                                                pagination.current_page - 1,
-                                                buscar,
-                                                criterio
-                                            )
-                                        "
-                                        >Ant</a
-                                    >
+                                <li class="page-item " v-if="pagination.current_page > 1">
+                                    <a class="page-link" href="#" @click.prevent=" cambiarPagina(pagination.current_page - 1,
+                                                buscar, criterio) ">Ant</a>
                                 </li>
-                                <li
-                                    class="page-item"
-                                    v-for="page in pagesNumber"
-                                    :key="page"
-                                    :class="[page == isActived ? 'active' : '']"
-                                >
-                                    <a
-                                        class="page-link"
-                                        href="#"
-                                        @click.prevent="
-                                            cambiarPagina(
-                                                page,
-                                                buscar,
-                                                criterio
-                                            )
-                                        "
-                                        v-text="page"
-                                    ></a>
+                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="  cambiarPagina(page,buscar, criterio)" v-text="page"></a>
                                 </li>
-                                <li
-                                    class="page-item"
-                                    v-if="
-                                        pagination.current_page <
-                                            pagination.last_page
-                                    "
-                                >
+                                <li class="page-item" v-if=" pagination.current_page <pagination.last_page ">
                                     <a
                                         class="page-link"
                                         href="#"
@@ -236,76 +125,7 @@
             <!-- Fin ejemplo de tabla Listado -->
         </div>
 
-        <!--<template v-if="listado == 2">
-      <div class="card-body">
-        <div class="form-group row border">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Proveedor</label>
-              <p v-text="proveedor"></p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Tipo Comprobante</label>
-              <p v-text="tipo_comprobante"></p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Serie Comprobante</label>
-              <p v-text="serie_comprobante"></p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Número Comprobante</label>
-              <p v-text="num_comprobante"></p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Fecha_Compra</label>
-              <p v-text="fecha_compra"></p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Fecha_vencimiento</label>
-              <p v-text="fecha_vencimiento"></p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Lote</label>
-              <p v-text="lote"></p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Total</label>
-              <p v-text="total"></p>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-12">
-            <button
-              type="button"
-              @click="ocultarDetalle()"
-              class="btn btn-secondary"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </template> -->
+     
 
         <!--Inicio del modal agregar/actualizar-->
         <div
@@ -338,20 +158,16 @@
                             class="form-horizontal"
                         >
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Casa Farmaceutica
-                                    <spam style="color: red">(*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input" >Casa Farmacéutica
+                                    <span style="color:red"  v-show="idcategoria==0" >(*Seleccione) </span>
                                 </label>
 
                                 <div class="col-md-9">
-                                    <select
-                                        class="form-control"
+                                    <select class="form-control"
                                         v-model="idcategoria"
                                     >
                                         <option value="0" disabled>
-                                            Seleccione una casa farmaceutica
+                                            Seleccione una casa farmacéutica
                                         </option>
                                         <option
                                             v-for="categoria in arrayCategoria"
@@ -364,52 +180,28 @@
                             </div>
 
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Nombre
-                                    <spam style="color: red"> (*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre
+                                    <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="text"
-                                        v-model="nombre"
-                                        class="form-control"
-                                        placeholder="Nombre del medicamento"
-                                    />
+                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre del medicamento"/>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Concentración
-                                    <spam style="color: red">(*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input">Concentración
+                                    <span style="color:red"  v-show="concentracion==0" >(*Ingrese) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="text"
-                                        v-model="concentracion"
-                                        class="form-control"
-                                        placeholder="Ingrese concentración del medicamento"
-                                    />
+                                    <input type="text" v-model="concentracion" class="form-control" placeholder="Ingrese concentración del medicamento"/>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Gramaje
-                                    <spam style="color: red">(*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input" >Gramaje
+                                    <span style="color:red"  v-show="idgramaje==0" >(*Selecione) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <select
-                                        class="form-control"
-                                        v-model="idgramaje"
-                                    >
-                                        <option value="0" disabled
-                                            >Seleccione un Gramaje</option
-                                        >
+                                    <select class="form-control" v-model="idgramaje">
+                                        <option value="0" disabled>Seleccione un Gramaje</option>
                                         <option
                                             v-for="gramaje in arraygramaje"
                                             :key="gramaje.id"
@@ -420,75 +212,40 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Tipo Administración
-                                    <spam style="color: red">(*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input">Tipo Administración
+                                    <span style="color:red"  v-show="administracion==0" >(*Seleccione) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <select
-                                        class="form-control"
-                                        v-model="administracion"
-                                    >
-                                        <option value="0" disabled
-                                            >Seleccione</option
-                                        >
-                                        <option value="Vía oral">Oral</option>
-                                        <option value="Vía Inyectables"
-                                            >Inyectables</option
-                                        >
-                                        <option value="Vía Ocular"
-                                            >Ocular</option
-                                        >
+                                    <select class="form-control" v-model="administracion" >
+                                        <option value="0" disabled>Seleccione</option>
+                                        <option value="Vía Oral">Oral</option>
+                                        <option value="Vía Inyectables" >Inyectables</option >
+                                        <option value="Vía Ocular">Ocular</option>
                                         <option value="Vía Ótica">Ótica</option>
-                                        <option value="Vía Tópica"
-                                            >Tópica</option
-                                        >
+                                        <option value="Vía Tópica">Tópica</option>
                                         <option value="Vía Nasal">Nasal</option>
-                                        <option value="Vía Inhalatoria"
-                                            >Inhalatoria</option
-                                        >
+                                        <option value="Vía Inhalatoria">Inhalatoria</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Presentación
-                                    <spam style="color: red">(*)</spam>
+                                <label class="col-md-3 form-control-label" for="text-input">Presentación
+                                    <span style="color:red"  v-show="presentacion==0" >(*Ingrese) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="text"
-                                        v-model="presentacion"
-                                        class="form-control"
-                                        placeholder="Ingrese presentación del medicamento"
-                                    />
+                                    <input type="text" v-model="presentacion" class="form-control" placeholder="Ingrese presentación del medicamento" />
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="email-input"
-                                >
-                                    <spam style="color: black">C.Items</spam>
+                                <label class="col-md-3 form-control-label" for="email-input">Items
+                                <span style="color:black"  v-show="items==0" >(*Cantidad) </span>
                                 </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="email"
-                                        v-model="items"
-                                        class="form-control"
-                                        placeholder="Ingrese la cantidad de items"
-                                    />
+                                    <input type="email" v-model="items" class="form-control" placeholder="Ingrese la cantidad de items"/>
                                 </div>
                             </div>
-                            <div
-                                v-show="errorArticulo"
-                                class="form-group row div-error"
-                            >
+                            <div v-show="errorArticulo" class="form-group row div-error">
                                 <div class="text-center text-error">
                                     <div
                                         v-for="error in errorMostrarMsjArticulo"
@@ -531,7 +288,7 @@
             <!-- /.modal-dialog -->
         </div>
 
-        <!--modal de prueva modificar listado-->
+        <!--modal de rago de  fechas-->
          <div
             class="modal fade"
             tabindex="-1"
@@ -561,21 +318,35 @@
                             enctype="multipart/form-data"
                             class="form-horizontal"
                         >
+                        <div class="form-group row">
+                            <label
+                                class="col-md-3 form-control-label"
+                                for="text-input"
+                                >id
+                            </label>
+                            <div class="col-md-9">
+                                <input
+                                    type="text"
+                                    v-model="articulo_id"
+                                    class="form-control"
+                                    placeholder="Ingrese presentación del medicamento"
+                                />
+                            </div>
+                        </div>
                            
                            
                             <div class="form-group row">
                                 <label
                                     class="col-md-3 form-control-label"
                                     for="text-input"
-                                    >desde
-                                    <spam style="color: red">(*)</spam>
+                                    >Desde
                                 </label>
                                 <div class="col-md-9">
                                     <input
                                         type="date"
                                         v-model="desde"
                                         class="form-control"
-                                        placeholder="Ingrese presentación del medicamento"
+                                    
                                     />
                                 </div>
                             </div>
@@ -592,7 +363,7 @@
                                         type="date"
                                         v-model="hasta"
                                         class="form-control"
-                                        placeholder="Ingrese la cantidad de items"
+                                      
                                     />
                                 </div>
                             </div>
@@ -623,7 +394,7 @@
                             type="button"
                             v-if="tipoAccion1 == 1"
                             class="btn btn-cafe"
-                            @click="listarArticulofeha(id,desde,hasta)"
+                            @click="listarArticulofeha(articulo_id,desde,hasta)"
                         >
                             ver fecha
                         </button>
@@ -680,7 +451,8 @@ export default {
             hasta: "",
             buscar: "",
             arrayCategoria: [],
-            arraygramaje: []
+            arraygramaje: [],
+            arrayArticulofecha:[]
         };
     },
     components: {
@@ -718,23 +490,27 @@ export default {
         pdfArticulo(id) {
             window.open("/articulo/pdf/" + id + "," + "_blank");
         },
-        listarArticulofeha(id,desde, hasta) {
+      /*  listarArticulofehas(id,desde, hasta) {
             //let me = this;
             //var url =
-             window.open("/articulo/pdf/" +id+ desde+ hasta + "," + "_blank");
-            // "/articulo?page=" +page +"&buscar=" + buscar +"&criterio=" +criterio;
-         
+             window.open("/articulo/pdf/"+id+"/"+ desde + "/" +hasta); 
             // window.open("/articulo/pdf/" + response.data.id + ','+ "_blank" );
         },
+Fecha(id) {
+
+window.open("/articulo/reporte_resultados/" + id + "," + "__blank");
+
+},*/
+
+listarArticulofeha(id, desde, hasta) {
+window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+"," + "__blank");
+//console.log(desde + hasta);
+//me.listarArticulo(1, "", "nombre");
+},
+
         listarArticulo(page, buscar, criterio) {
             let me = this;
-            var url =
-                "/articulo?page=" +
-                page +
-                "&buscar=" +
-                buscar +
-                "&criterio=" +
-                criterio;
+            var url ="/articulo?page=" +page + "&buscar=" +buscar +"&criterio=" +criterio;
             axios
                 .get(url)
                 .then(function(response) {
@@ -746,6 +522,8 @@ export default {
                     console.log(error);
                 });
         },
+
+
         articulosTodos() {
             window.open("articulo/articulosTodos", "_blank");
         },
@@ -788,7 +566,6 @@ export default {
             if (this.validarArticulo()) {
                 return;
             }
-
             let me = this;
 
             axios
@@ -813,9 +590,7 @@ export default {
             if (this.validarArticulo()) {
                 return;
             }
-
             let me = this;
-
             axios
                 .put("/articulo/actualizar", {
                     idcategoria: this.idcategoria,
@@ -1037,14 +812,7 @@ export default {
                             this.items = data["items"];
                             break;
                         }
-                        /*case "fecha": {
-              this.modal = 1;
-              this.tituloModal = "fecha";
-              this.tipoAccion = 3;
-              this.desde = "";
-              this.hasta = "";
-              break;
-            }*/
+            
                     }
                 }
             }
@@ -1059,7 +827,7 @@ export default {
                         case "fecha": {
                               console.log(data);
                             this.modal1 = 1;
-                            this.tituloModal = "rango de fecha";
+                            this.tituloModal = "Rango de fecha";
                             this.articulo_id = data["id"];
                             this.desde = "";
                             this.hasta = "";
@@ -1070,42 +838,7 @@ export default {
                 }
             }
         },
-        verKardex(id) {
-            let me = this;
-            this.listado = 2;
-            //Obtener los datos del ingreso++++
-            var arrayIngresoT = [];
-            var url = "/articulo/Ingresos?id=" + id;
-            axios
-                .get(url)
-                .then(function(response) {
-                    var respuesta = response.data;
-                    arrayArticuloT = respuesta.articulo;
-                    me.tipo_comprobante = arrayIngresoT[0]["tipo_comprobante"];
-                    me.serie_comprobante =
-                        arrayIngresoT[0]["serie_comprobante"];
-                    me.num_comprobante = arrayIngresoT[0]["num_comprobante"];
-                    me.fecha_compra = arrayIngresoT[0]["fecha_compra"];
-                    me.fecha_vencimiento =
-                        arrayIngresoT[0]["fecha_vencimiento"];
-                    me.lote = arrayIngresoT[0]["lote"];
-                    me.total = arrayIngresoT[0]["total"];
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            //Obtener los datos del detalle++++
-            var url = "/articulo/obtenerIngresos?id=" + id;
-            axios
-                .get(url)
-                .then(function(response) {
-                    var respuesta = response.data;
-                    me.arrayDetalle = respuesta.detalles;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
+      
         ocultarDetalle() {
             this.listado = 1;
         },
@@ -1116,6 +849,7 @@ export default {
     },
     mounted() {
         this.listarArticulo(1, this.buscar, this.criterio);
+        //this.listarArticulofeha(articulo, this.desde, this.hasta);
     }
 };
 </script>

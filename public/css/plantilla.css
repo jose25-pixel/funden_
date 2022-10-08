@@ -2819,9 +2819,9 @@ tbody.collapse.show {
 
 .card {
   position: relative;
-  display: -ms-flexbox;
+  display: -sm-flexbox;
   display: flex;
-  -ms-flex-direction: column;
+  -sm-flex-direction: column;
       flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
@@ -2832,7 +2832,7 @@ tbody.collapse.show {
 .card-body, .card-block {
   -ms-flex: 1 1 auto;
       flex: 1 1 auto;
-  padding: 1.25rem; }
+    padding: 10px; }
 
 .card-title {
   margin-bottom: 0.75rem; }
@@ -2862,7 +2862,7 @@ tbody.collapse.show {
   border-top: 1px solid #c2cfd6; }
 
 .card-header-tabs {
-  margin-right: -0.625rem;
+  margin-right: -0.625rem;;
   margin-bottom: -0.75rem;
   margin-left: -0.625rem;
   border-bottom: 0; }

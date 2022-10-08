@@ -69,8 +69,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click='menu=13'class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-book-open"></i> Ayuda <span class="badge badge-danger">PDF</span></a>
+                    <li class="nav-item nav-dropdown negro borde-b">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i> Ayuda </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="window.open('http://127.0.0.1:8000/manuales/Manual_Administrador.pdf');">
+                                <i class="icon-bag"></i>Manual-Administrador<span class="badge badge-danger">PDF</span></a>
+                            </li>
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#" onclick="window.open('http://127.0.0.1:8000/manuales/Manual_Usuario.pdf');">
+                                <i class="icon-bag"></i>Usuario<span class="badge badge-danger">PDF</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li @click='menu=14'class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-info"></i> Acerca de...<span class="badge badge-info">IT</span></a>
