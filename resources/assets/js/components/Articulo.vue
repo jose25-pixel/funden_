@@ -319,14 +319,9 @@
                             class="form-horizontal"
                         >
                         <div class="form-group row">
-                            <label
-                                class="col-md-3 form-control-label"
-                                for="text-input"
-                                >id
-                            </label>
                             <div class="col-md-9">
                                 <input
-                                    type="text"
+                                    type="hidden"
                                     v-model="articulo_id"
                                     class="form-control"
                                     placeholder="Ingrese presentación del medicamento"

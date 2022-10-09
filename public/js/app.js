@@ -37309,11 +37309,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -41387,15 +41382,6 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("id\n                        ")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
                         _c("input", {
                           directives: [
@@ -41408,7 +41394,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "text",
+                            type: "hidden",
                             placeholder: "Ingrese presentación del medicamento"
                           },
                           domProps: { value: _vm.articulo_id },
