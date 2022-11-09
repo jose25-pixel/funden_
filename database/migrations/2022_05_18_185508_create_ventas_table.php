@@ -23,6 +23,7 @@ class CreateVentasTable extends Migration
             $table->string('num_comprobante', 20);
             $table->date('fecha_salida');
             $table->decimal('total', 11,2);
+        
             $table->string('descripcion', 250);  
             $table->string('estado', 20);
             $table->timestamps();

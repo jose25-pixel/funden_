@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Clientes
-                        <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-cafe">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -19,7 +19,8 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
-                                      <option value="num_documento">Documento</option>
+                                      <option value="tipo_documento">Documento</option>
+                                      <option value="num_documento">Num_Documento</option>
                                       <option value="email">Email</option>
                                       <option value="telefono">Teléfono</option>
                                     </select>
@@ -46,6 +47,10 @@
                                         <button type="button" @click="abrirModal('persona','actualizar', persona)" class="btn btn-warning btn-sm">
                                         <i class="icon-pencil"></i>
                                         </button>
+                                        &nbsp;
+                                        <button type="button" @click="abrirModalfechaC('persona','fecha',persona)" class="btn btn-success btn-sm">
+                                           <i class="fa fa-calendar" aria-hidden="true"></i>
+                                       </button>
                                     </td>
                                      
                                     <td v-text="persona.nombre"> </td>
@@ -155,9 +160,120 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
-            <!-- Inicio del modal Eliminar -->
-            
-            <!-- Fin del modal Eliminar -->
+
+             <!--modal de rago de  fechas-->
+         <div
+         class="modal fade"
+         tabindex="-1"
+         :class="{ mostrar: modal1 }"
+         role="dialog"
+         aria-labelledby="myModalLabel"
+         style="display: none"
+         aria-hidden="true"
+     >
+         <div class="modal-dialog modal-primary modal-lg" role="document">
+             <div class="modal-content">
+                 <div class="modal-header cafe">
+                     <h4 class="modal-title" v-text="tituloModalC"></h4>
+                     <button
+                         type="button"
+                         class="close"
+                         @click="cerrarModalfechaC()"
+                         aria-label="Close"
+                     >
+                         <span aria-hidden="true">×</span>
+                     </button>
+                 </div>
+                 <div class="modal-body ">
+                     <form
+                         action=""
+                         method="post"
+                         enctype="multipart/form-data"
+                         class="form-horizontal"
+                     >
+                     <div class="form-group row">
+                         <div class="col-md-9">
+                             <input
+                                 type="hidden"
+                                 v-model="persona_id"
+                                 class="form-control"
+                                 placeholder="Ingrese presentación del medicamento"
+                             />
+                         </div>
+                     </div>
+                        
+                        
+                         <div class="form-group row">
+                             <label
+                                 class="col-md-3 form-control-label"
+                                 for="text-input"
+                                 >Desde
+                             </label>
+                             <div class="col-md-9">
+                                 <input
+                                     type="date"
+                                     v-model="desde"
+                                     class="form-control"
+                                 
+                                 />
+                             </div>
+                         </div>
+
+                         <div class="form-group row">
+                             <label
+                                 class="col-md-3 form-control-label"
+                                 for="email-input"
+                             >
+                                 <spam style="color: black">Hasta</spam>
+                             </label>
+                             <div class="col-md-9">
+                                 <input
+                                     type="date"
+                                     v-model="hasta"
+                                     class="form-control"
+                                   
+                                 />
+                             </div>
+                         </div>
+
+                         <div
+                             v-show="errorPersona"
+                             class="form-group row div-error"
+                         >
+                             <div class="text-center text-error">
+                                 <div
+                                     v-for="error in errorMostrarMsjPersona"
+                                     :key="error"
+                                     v-text="error"
+                                 ></div>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button
+                         type="button"
+                         class="btn btn-dark"
+                         @click="cerrarModalfechaC()"
+                     >
+                         Cerrar
+                     </button>
+                     <button
+                         type="button"
+                         v-if="tipoAccionC == 1"
+                         class="btn btn-cafe"
+                         @click="listarClientefeha(persona_id,desde,hasta)"
+                     >
+                        Ver Ventas
+                     </button>
+                 
+                 </div>
+             </div>
+
+             <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
+     </div>
             
         </main>
 </template>
@@ -175,8 +291,11 @@
                 email: '',
                 arrayPersona:[],
                 modal: 0,
+                modal1:0,
                 tituloModal: '',
+                tituloModalC: '',
                 tipoAccion: 0,
+                tipoAccionC: 0,
                 errorPersona: 0,
                 errorMostrarMsjPersona: [],
                 pagination : {
@@ -189,7 +308,9 @@
                 },
                 offset:3,
                 criterio: 'nombre',
-                buscar: ''
+                buscar: '',
+                desde:'',
+                hasta:''
             }
         },
         computed:{
@@ -218,6 +339,15 @@
         },
 
         methods: {
+
+
+
+
+            listarClientefeha(id, desde, hasta) {
+window.open("/cliente/reporte_clientes/" + id + "/" + desde + "/" + hasta+"," + "__blank");
+//console.log(desde + hasta);
+//me.listarArticulo(1, "", "nombre");
+},
             //listar clientes
             listarPersona(page, buscar, criterio){
                 
@@ -343,6 +473,16 @@
        
         },
        
+
+        cerrarModalfechaC() {
+            this.modal1 = 0;
+            this.tituloModalC = "";
+             this.persona_id ="";
+             this.desde = "";
+            this.hasta = "";
+        },
+
+
         cerrarModal(){
             this.modal=0;
             this.tituloModal='';
@@ -353,9 +493,29 @@
             this.telefono='';
             this.email='';
             this.errorPersona=0;
-
-
         },
+
+
+
+        abrirModalfechaC(modelo1, accion1, data = []) {
+            switch (modelo1) {
+                case "persona": {
+                    switch (accion1) {
+                        case "fecha": {
+                              console.log(data);
+                            this.modal1 = 1;
+                            this.tituloModalC = "Rango de fecha de ventas por clientes";
+                            this.persona_id = data["id"];
+                            this.desde = "";
+                            this.hasta = "";
+                            this.tipoAccionC = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
         abrirModal(modelo, accion, data = []){
             switch (modelo){
                 case "persona":

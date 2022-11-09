@@ -8,7 +8,7 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card ">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Ventas
+                    <i class="fa fa-align-justify"></i> Salidas
                     <button type="button" @click="mostrarDetalle()" class="btn btn-cafe">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
@@ -51,17 +51,28 @@
                                 <tbody>
                                     <tr v-for="venta in arrayVenta" :key="venta.id"> 
                                         <td>
-                                            <button type="button" @click="verVenta(venta.id)"
-                                                class="btn btn-success btn-sm">
-                                                <i class="icon-eye"></i>
-                                            </button>
-                                            &nbsp;
-                        
                                             <button type="button" @click="pdfVenta(venta.id)"
                                                 class="btn btn-danger btn-sm">
                                                   <i class="fa fa-file-pdf-o"></i>
                                             </button>
                                             &nbsp;
+                                            <button type="button" @click="verVenta(venta.id)"
+                                            class="btn btn-success btn-sm">
+                                            <i class="icon-eye"></i>
+                                           
+                                         
+                                        </button>
+                                        &nbsp;
+                                        <template v-if="venta.estado=='Registrado'">
+                                            <button
+                                              type="button"
+                                              class="btn btn-secondary btn-sm"
+                                              @click="desactivarVenta(venta.id)"
+                                            >
+                    
+                                          <i class="icon-trash"></i>
+                                            </button>
+                                          </template>
                                         </td>
                                         <td v-text="venta.usuario"></td>
                                         <td v-text="venta.nombre"></td>
@@ -69,9 +80,12 @@
                                         <td v-text="venta.tipo_comprobante"></td>
                                         <td v-text="venta.num_comprobante"></td>
                                         <td v-text="venta.total"></td>
-                                        <div v-if="venta.estado">
+                                        <td v-text="venta.estado"></td>
+
+                                
+                                     <!--     <div v-if="venta.estado">
                                         <span class="badge badge-success">Registrada</span>
-                                        </div>
+                                        </div>-->
                                        
                                     </tr>
                                 </tbody>
@@ -360,6 +374,8 @@
                                 <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">
                                     Cerrar
                                 </button>
+
+                                
                             </div>
                         </div>
                     </div>
@@ -721,9 +737,9 @@ export default {
                     stockk: data["cantidad_blister"],
                     presentacionv:data["presentacion"],
                     itemsv:data["items"],
-                    precio:0,
+                    precio:"",
                     fecha_vencimiento: "",
-                    lote: 0,
+                    lote: "",
                 });
             }
         },
@@ -901,6 +917,46 @@ export default {
                     console.log(error);
                 });
         },
+
+        desactivarVenta(id) {
+      swal({
+        title: "Esta seguro de anular esta salidad?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          let me = this;
+
+          axios
+            .put("/venta/desactivar", {
+              id: id,
+            })
+            .then(function (response) {
+              me.listarIngreso(1, "", "num_comprobante");
+              swal(
+                "Anulado!",
+                "La salidad ha sido anulado con éxito.",
+                "success"
+              );
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+        }
+      });
+    },
         ocultarDetalle() {
             this.listado = 1;
         },

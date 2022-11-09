@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="icon-user"></i> Usuarios
-                        <button type="button" @click="abrirModal('users','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('users','registrar')" class="btn btn-cafe">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -19,9 +19,10 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
-                                      <option value="num_documento">Documento</option>
+                                      <option value="num_documento">Num_Documento</option>
                                       <option value="email">Email</option>
                                       <option value="telefono">Teléfono</option>
+                                      <option value="usuario">Usuario</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarUsuario(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" @click="listarUsuario(1,buscar,criterio)" class="btn btn-cafe">
@@ -125,7 +126,7 @@
                                         <span style="color:red"  v-show="telefono==0" >(*Ingrese) </span>
                                     </label>
                                     <div>
-                                        <input type="tel" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej.22223333 ó 77778888">
+                                        <input type="text" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej.22223333 ó 77778888">
                                     </div>
                                 </div>
 
@@ -145,7 +146,7 @@
                                     <div>
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="">Seleccione</option>
-                                            <option value="DNI">DNIT</option>
+                                            <option value="DNI">DNI</option>
                                             <option value="NIT">NIT</option>
                                             <option value="PASS">PASAPORTE</option>
                                         </select>                                    
@@ -364,10 +365,10 @@
                     this.errorMostrarMsjUsuario.push("El nombre de la persona no puede estar vacío.");
                 } 
                 else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
-                    this.errorMostrarMsjUsuario.push("El nombre del usuario no debe contener números");
+                    this.errorMostrarMsjUsuario.push("El nombre de la persona  no debe contener números");
                 }
                 else if( !/^[A-Z]/.test(this.nombre)){
-                    this.errorMostrarMsjUsuario.push("El nombre del usuario debe iniciar con una letra mayúscula");
+                    this.errorMostrarMsjUsuario.push("El nombre de la persona debe iniciar con una letra mayúscula");
                 }
 
                 /*Validación del correo*/
@@ -385,11 +386,7 @@
                 else if(this.telefono == '' || this.telefono == null){
                      this.errorMostrarMsjUsuario.push("El teléfono del usuario no puede estar vacío");
                 }
-                else if(!/^\d{8}$/.test(this.telefono)){
-                    this.errorMostrarMsjUsuario.push("Ingresa un número de télefono valido");
-                }
-              
-                
+                    
                 
                 /*Validación del  rol*/
                 else if(this.idrol==0){
@@ -407,13 +404,13 @@
                       this.errorMostrarMsjUsuario.push("La contraseña debe de contener mas de 7 caracteres");
                     }
                 /*Validación del tipo de documento*/
-                else if (!this.tipo_documento == '' ){
+                if (!this.tipo_documento == '' ){
                     if(this.num_documento == ''){
                       this.errorMostrarMsjUsuario.push("El número de documento del usuario no puede estar vacío.");
                     }
-                    else if(!/^[0-9]+$/.test(this.num_documento)){
+                    /*else if(!/^[0-9]+$/.test(this.num_documento)){
                       this.errorMostrarMsjUsuario.push("El número de documento del usuario no debe contener letras.");
-                    }
+                    }*/
                     else if(this.num_documento.length<=7){
                       this.errorMostrarMsjUsuario.push("El número de documento del usuario no es valido, debe ser mas de 7 caracteres.");
                     }
@@ -432,23 +429,12 @@
             if (!this.email == ''){
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
-   
             }else{
                 return true;
             }
-       
         }, 
 
-         validTelefono (telefono) {
-            if (!this.telefono == ''){
-               var  re = /^\d{8}$/;
-                return re.test(telefono);
-   
-            }else{
-                return true;
-            }
-       
-        },
+
 
         cerrarModal(){
                 this.modal=0;

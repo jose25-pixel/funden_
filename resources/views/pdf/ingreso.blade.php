@@ -38,7 +38,7 @@
     .titulo {
         margin: 14px 1 0px 5px;
     }
-    
+
     section {
         clear: unset;
         margin-top: 20px;
@@ -46,7 +46,7 @@
     }
 
     #cc,
-    #cm{
+    #cm {
         color: #121212;
         font-size: 15px;
     }
@@ -59,7 +59,7 @@
         text-align: center;
     }
 
-   
+
 
     #vendedor thead {
         padding: 20px;
@@ -68,35 +68,38 @@
         border-bottom: 1px solid #FFFFFF;
     }
 
-    #medicamento{
+    #medicamento {
         width: 100%;
-        border-collapse: collapse;
+
         border: 1px solid #a2a7a7;
         border-spacing: 0;
         margin-bottom: 15px;
         text-align: center;
     }
 
- 
+
     #medicamento thead {
         padding: 20px;
         background: #b4a36b;
         text-align: center;
         border-bottom: 1px solid #FFFFFF;
     }
-    
+
     footer {
         position: fixed;
         bottom: 0cm;
         left: 0cm;
         right: 0cm;
-        line-height: 1px;
-        color: rgb(17, 16, 16);
+        height: 1cm;
+        color: black;
+
         text-align: center;
-        font-size: 10px;
+        line-height: 0.5cm;
     }
 
-   
+    .pag:after {
+        content: counter(page, disc);
+    }
 </style>
 
 <body>
@@ -114,14 +117,14 @@
         <div class="proveedor">
             <h4 style="text-align:center">REPORTE DE DETALLE DE COMPRA</h4>
             @foreach ($ingreso as $ing)
-                <H4>PROVEEDOR</H4>
-                <b>Proveedor:</b><label>{{ $ing->nombre }} </label><br>
-                <b>Tipo de documento:</b> <label>{{ $ing->tipo_documento }}</label><br>
-                <b>Número de documento:</b> <label>{{ $ing->num_documento }}</label><br>
-                <b>Dirección:</b><label> {{ $ing->direccion }}<label><br>
-                        <b>Teléfono:</b><label> {{ $ing->telefono }}<label><br>
-                                <b>Email:</b><label> {{ $ing->email }}<label>
-            @endforeach
+            <H4>PROVEEDOR</H4>
+            <b>Proveedor:</b><label>{{ $ing->nombre }} </label><br>
+            <b>Tipo de documento:</b> <label>{{ $ing->tipo_documento }}</label><br>
+            <b>Número de documento:</b> <label>{{ $ing->num_documento }}</label><br>
+            <b>Dirección:</b><label> {{ $ing->direccion }}<label><br>
+                    <b>Teléfono:</b><label> {{ $ing->telefono }}<label><br>
+                            <b>Email:</b><label> {{ $ing->email }}<label>
+                                    @endforeach
         </div>
     </section>
 
@@ -132,7 +135,7 @@
                 <thead>
                     <tr id="cv">
                         <th>Comprobante</th>
-                        <th>Serie</th>
+                        <th>Serie y Número</th>
                         <th>Usuario</th>
                         <th>Fecha</th>
                     </tr>
@@ -140,9 +143,9 @@
                 <tbody>
                     <tr>
                         <td>{{ $ing->tipo_comprobante }}</td>
-                        <td>{{ $ing->serie_comprobante }} Y Número: {{ $ing->num_comprobante }}</td>
+                        <td>{{ $ing->serie_comprobante }} núm.{{ $ing->num_comprobante }}</td>
                         <td>{{ $ing->usuario }}</td>
-                        <td>{{ $ing->fecha_compra }}</td>
+                        <td>{{ \Carbon\Carbon::parse($ing->fecha_compra)->formatLocalized("%d/%B/%Y")}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -165,37 +168,39 @@
                 </thead>
                 <tbody>
                     @foreach ($detalles as $det)
-                        <tr>
-                            <td>{{ $det->articulo }}</td>
-                            <td>{{ $det->precio }}</td>
-                            <td>{{ $det->cantidad }}</td>
-                            <td>{{ $det->cantidad_blister }}</td>
-                            <td>{{ $det->fecha_vencimiento }}</td>
-                            <td>{{ $det->lote }}</td>
-                            <td>{{ $det->precio * $det->cantidad }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ $det->articulo }}</td>
+                        <td>{{ $det->precio }}</td>
+                        <td>{{ $det->cantidad }}</td>
+                        <td>{{ $det->cantidad_blister }}</td>
+                        <td>{{  \Carbon\Carbon::parse($det->fecha_vencimiento)->formatLocalized("%d  %B %Y") }}</td>
+                        <td>{{ $det->lote }}</td>
+                        <td>{{ $det->precio * $det->cantidad }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     @foreach ($ingreso as $ing)
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th style="background-color: #bdb795">TOTAL DE LA</th>
-                            <th style="background-color: #bdb795"> COMPRA</th>
-                            <td style="background-color: #bdb795">$ {{ $ing->total }}</td>
-                        </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style="background-color: #bdb795">TOTAL DE LA</th>
+                        <th style="background-color: #bdb795"> COMPRA</th>
+                        <td style="background-color: #bdb795">$ {{ $ing->total }}</td>
+                    </tr>
                     @endforeach
                 </tfoot>
             </table>
-        </div>        
+        </div>
     </section>
 
     <footer>
-        <h3>(FUNDEL)--REPORTE  DE COMPRA {{ now() }}<h3>
-        </h1>
+        <p class="pag">REPORTE DE DETALLE DE COMPRA
+            <?php echo date("d-m-Y"  );?>
+            Pagína
+        </p>
     </footer>
 
 </body>

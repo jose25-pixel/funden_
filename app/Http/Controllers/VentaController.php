@@ -19,14 +19,13 @@ class VentaController extends Controller
         //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        
         if ($buscar==''){
             $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
             ->join('users','ventas.idusuario','=','users.id')
             ->select('ventas.id','ventas.fecha_salida','ventas.tipo_comprobante','ventas.num_comprobante',
             'ventas.total','ventas.descripcion','ventas.estado','personas.nombre',
             'users.usuario')
-            ->orderBy('ventas.id', 'desc')->paginate(10);
+            ->orderBy('ventas.id', 'desc')->paginate(15);
         }
         else{
             $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
@@ -35,7 +34,7 @@ class VentaController extends Controller
             'ventas.total','ventas.descripcion','ventas.estado','personas.nombre',
             'users.usuario')
             ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('ventas.id', 'desc')->paginate(10);
+            ->orderBy('ventas.id', 'desc')->paginate(15);
         }
         
         return [

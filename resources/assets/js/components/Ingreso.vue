@@ -60,33 +60,23 @@
                 <tbody>
                   <tr v-for="ingreso in arrayIngreso" :key="ingreso.id">
                     <td>
+                     
                       <button
-                        type="button"
-                        @click="verIngreso(ingreso.id)"
-                        class="btn btn-success btn-sm"
-                      >
-                        <i class="icon-eye"></i>
-                      </button>
-                      &nbsp;
-                      <button
-                        type="button"
-                        @click="EditarIngreso(ingreso.id)"
-                        class="btn btn-danger btn-sm"
-                      >
-                        <i class="icon-eye"></i>
-                      </button>
-                      &nbsp;
-                      <button
-                        type="button"
-                        @click="pdfIngreso(ingreso.id)"
-                        class="btn btn-danger btn-sm"
-                      >
-                        <i class="fa fa-file-pdf-o"></i>
-                      </button>
-
-                
-
-                      &nbsp;
+                      type="button"
+                      @click="pdfIngreso(ingreso.id)"
+                      class="btn btn-danger btn-sm"
+                    >
+                      <i class="fa fa-file-pdf-o"></i>
+                    </button>
+                    <button
+                    type="button"
+                    @click="verIngreso(ingreso.id)"
+                    class="btn btn-success btn-sm"
+                  >
+                    <i class="icon-eye"></i>
+                  </button>
+                  &nbsp;
+                     
                       <template v-if="ingreso.estado=='Registrado'">
                         <button
                           type="button"
@@ -94,18 +84,8 @@
                           @click="desactivarIngreso(ingreso.id)"
                         >
 
-                        
                       <i class="icon-trash"></i>
                         </button>
-                        <button
-                        type="button"
-                        class="btn btn-secondary btn-sm"
-                        @click="AnularIngreso(ingreso.id)"
-                      >
-
-                      
-                    <i class="icon-trash"></i>
-                      </button>
                       </template>
                     </td>
                     <td v-text="ingreso.usuario"></td>
@@ -464,12 +444,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label><b>Fecha Compra</b></label>
-                  <input
-                    type="text"
-                    v-model="fecha_compra"
-                    class="form-control"
-                    placeholder="Ingrese presentación del medicamento"
-                  />
+                  <p v-text="fecha_compra"></p>
                 </div>
               </div>
               <div class="col-md-4">
@@ -501,7 +476,7 @@
                       <td v-text="detalle.cantidad_blister"></td>
                       <td v-text="detalle.fecha_vencimiento"></td>
                       <td v-text="detalle.lote"></td>
-                      <td>${{ detalle.precio * detalle.cantidad }}</td>
+                      <td>${{detalle.precio * detalle.cantidad }}</td>
                     </tr>
                     <tr style="background-color: #dfdf9c">
                       <td colspan="6" align="right">
@@ -659,13 +634,13 @@
                           class="form-control"
                         />
                       </td>
-                      <td>${{ detalle.precio * detalle.cantidad }}</td>
+                      <td>${{ totalParcial=(detalle.precio * detalle.cantidad).toFixed(2) }}</td>
                     </tr>
                     <tr style="background-color: #dfdf9c">
                       <td colspan="6" align="right">
                         <strong>Total Neto:</strong>
                       </td>
-                      <td>$ {{ total }}</td>
+                      <td>$ {{total=calcularTotal}}</td>
                     </tr>
                   </tbody>
                   <tbody v-else>
@@ -825,6 +800,7 @@
 <script>
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+
 
 export default {
   data() {

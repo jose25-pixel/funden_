@@ -57,7 +57,7 @@
                                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         </button>
                                         &nbsp;
-                                         <button type="button" @click="abrirModalfecha('articulo','fecha',articulo)" class="btn btn-success btn-sm">
+                                         <button type="button" @click="abrirModalfecha('articulo','fecha',articulo)" class="btn btn-outline-dark btn-sm">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
                                         </button>
 
@@ -66,7 +66,7 @@
                                         </button>
                                         &nbsp;
 
-                                        <template v-if="articulo.condicion">
+                                        <template v-if="articulo.condicion ">
                                             <button type="button" class="btn btn-danger btn-sm" @click=" desactivarArticulo(articulo.id)">
                                              <i class="icon-trash"></i>
                                             </button>
@@ -187,6 +187,15 @@
                                     <input type="text" v-model="nombre" class="form-control" placeholder="Nombre del medicamento"/>
                                 </div>
                             </div>
+                          <!--
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Imagen
+                                    <span style="color:red"  v-show="imagen==0" >(*Ingrese) </span>
+                                </label>
+                                <div class="col-md-9">
+                                    <input @change=" ObtenerImagen" type="file" />
+                                </div>
+                            </div>-->
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Concentración
                                     <span style="color:red"  v-show="concentracion==0" >(*Ingrese) </span>
@@ -239,7 +248,7 @@
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="email-input">Items
-                                <span style="color:black"  v-show="items==0" >(*Cantidad) </span>
+                                <span style="color:black"  v-show="items==0">(*Cantidad) </span>
                                 </label>
                                 <div class="col-md-9">
                                     <input type="email" v-model="items" class="form-control" placeholder="Ingrese la cantidad de items"/>
@@ -427,6 +436,8 @@ export default {
             listado: 1,
             modal: 0,
             modal1:0,
+            imagen:'',
+            imagenminiatura:'',
             tituloModal: "",
             tipoAccion: 0,
              tipoAccion1: 0,
@@ -482,6 +493,25 @@ export default {
         }
     },
     methods: {
+
+
+        ObtenerImagen(e){
+            let file=e.target.files[0];
+            console.log(file)
+            this.imagen=file;
+            this.cargarImagen(file);
+           
+        },
+
+        cargarImagen(file){
+            let reader=new FileReader();
+            reader.onload=(e) =>
+
+            {
+            this.imagenminiatura=e.target.result;
+        }
+            reader.readAsDataURL(file);  
+        },
         pdfArticulo(id) {
             window.open("/articulo/pdf/" + id + "," + "_blank");
         },
@@ -572,6 +602,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                     administracion: this.administracion,
                     concentracion: this.concentracion,
                     items: this.items
+                    //imagen:this.imagen
                 })
                 .then(function(response) {
                     me.cerrarModal();
@@ -607,7 +638,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
         },
         desactivarArticulo(id) {
             swal({
-                title: "Esta seguro de desactivar este artículo?",
+            title: "Esta seguro de desactivar este medicamento?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -646,7 +677,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
         },
         activarArticulo(id) {
             swal({
-                title: "Esta seguro de activar este artículo?",
+                title: "Esta seguro de activar este medicamento?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -822,7 +853,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                         case "fecha": {
                               console.log(data);
                             this.modal1 = 1;
-                            this.tituloModal = "Rango de fecha";
+                            this.tituloModal = "Rango por fechas de entradas y salidas";
                             this.articulo_id = data["id"];
                             this.desde = "";
                             this.hasta = "";

@@ -86,18 +86,24 @@
     .descripcion p {
         padding: 3px;
         width: 98%;
-      text-align: left;
+        text-align: left;
     }
+
 
     footer {
         position: fixed;
         bottom: 0cm;
         left: 0cm;
         right: 0cm;
-        line-height: 1px;
-        color: rgb(17, 16, 16);
+        height: 1cm;
+        color: black;
+
         text-align: center;
-        font-size: 10px;
+        line-height: 0.5cm;
+    }
+
+    .pag:after {
+        content: counter(page, disc);
     }
 </style>
 
@@ -114,15 +120,15 @@
     </div>
     <section class="contenido">
         <div class="cliente">
-        <h4 style="text-align:center">REPORTE DE DETALLE DE VENTA REALIZADO</h4>
+            <h4 style="text-align:center">REPORTE DE DETALLE DE VENTA REALIZADO</h4>
 
             @foreach ($venta as $v)
-                <h4>CLIENTE</h4>
-                <b>Nombre: </b><label>{{ $v->nombre }}</label><br>
-                <b>Documento: </b><label>{{ $v->tipo_comprobante }} ----{{ $v->num_documento }}</label><br>
-                <b>Dirección: </b><label>{{ $v->direccion }}</label><br>
-                <b>Teléfono: </b><label>{{ $v->telefono }}</label><br>
-                <b>Email: </b><label>{{ $v->email }}</label>
+            <h4>CLIENTE</h4>
+            <b>Nombre: </b><label>{{ $v->nombre }}</label><br>
+            <b>Documento: </b><label>{{ $v->tipo_documento }} <b>Número:</b> {{ $v->num_documento }}</label><br>
+            <b>Dirección: </b><label>{{ $v->direccion }}</label><br>
+            <b>Teléfono: </b><label>{{ $v->telefono }}</label><br>
+            <b>Email: </b><label>{{ $v->email }}</label>
             @endforeach
         </div>
     </section>
@@ -141,7 +147,7 @@
                     <tr>
                         <td>{{ $v->tipo_comprobante }}--{{ $v->num_comprobante }}</td>
                         <td>{{ $v->usuario }}</td>
-                        <td>{{ $v->fecha_salida }}</td>
+                        <td>{{ \Carbon\Carbon::parse($v->fecha_salida)->formatLocalized("%d/%B/%Y") }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -164,28 +170,28 @@
                 </thead>
                 <tbody>
                     @foreach ($detalles as $det)
-                        <tr>
-                            <td>{{ $det->articulo }}</td>
-                            <td>{{ $det->precio }}</td>
-                            <td>{{ $det->cantidad }}</td>
-                            <td>{{ $det->cantidad_blister }}</td>
-                            <td>{{ $det->fecha_vencimiento }}</td>
-                            <td>{{ $det->lote }}</td>
-                            <td>{{ $det->precio * $det->cantidad }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ $det->articulo }}</td>
+                        <td>{{ $det->precio }}</td>
+                        <td>{{ $det->cantidad }}</td>
+                        <td>{{ $det->cantidad_blister }}</td>
+                        <td>{{ \Carbon\Carbon::parse($det->fecha_vencimiento)->formatLocalized("%d/%B/%Y") }}</td>
+                        <td>{{ $det->lote }}</td>
+                        <td>{{ $det->precio * $det->cantidad }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     @foreach ($venta as $v)
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th style="background-color: #bdb795">TOTAL</th>
-                            <td style="background-color: #bdb795">$ {{ $v->total }}</td>
-                        </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style="background-color: #bdb795">TOTAL</th>
+                        <td style="background-color: #bdb795">$ {{ $v->total }}</td>
+                    </tr>
                     @endforeach
                 </tfoot>
             </table>
@@ -197,9 +203,12 @@
         </div>
     </section>
 
+
     <footer>
-        <h3>(FUNDEL)--REPORTE  DE VENTA {{ now() }}<h3>
-        </h1>
+        <p class="pag">REPORTE DE DETALLE DE VENTA
+            <?php echo date("d-m-Y"  );?>
+            Pagína
+        </p>
     </footer>
 </body>
 

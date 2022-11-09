@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Proveedores
-                        <button type="button" @click="abrirModal('proveedor','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('proveedor','registrar')" class="btn btn-cafe">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -19,7 +19,8 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
-                                      <option value="num_documento">Documento</option>
+                                      <option value="tipo_documento">Documento</option>
+                                      <option value="num_documento">Núm_Documento</option>
                                       <option value="email">Email</option>
                                       <option value="telefono">Teléfono</option>
                                       <option value="contacto">contacto</option>
@@ -51,16 +52,22 @@
                                         <button type="button" @click="abrirModal('proveedor','actualizar', proveedor)" class="btn btn-warning btn-sm">
                                         <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <template v-if="proveedor.condicion">
-                                         <button type="button" class="btn btn-danger btn-sm" @click="desactivarProveedor(proveedor.id)">
+                                        <template v-if="proveedor.condicion==1">
+                                            <button
+                                              type="button"
+                                              class="btn btn-secondary btn-sm"
+                                              @click="desactivarProveedor(proveedor.id)"
+                                            >
+                    
                                           <i class="icon-trash"></i>
-                                        </button>  
-                                        </template> 
-                                        <template v-else>
-                                         <button type="button" class="btn btn-info btn-sm" @click="activarProveedor(proveedor.id)">
-                                          <i class="icon-check"></i>
-                                        </button> 
-                                        </template> 
+                                            </button>
+                                          </template>
+                                          <template v-else>
+                                            <button type="button" class="btn btn-info btn-sm" @click="activarProveedor(proveedor.id)">
+                                                <i class="icon-check"></i>
+                                            </button>
+                                        </template>
+                                       
                                     </td>
                                     <td v-text="proveedor.nombre"> </td>
                                     <td v-text="proveedor.tipo_documento"> </td>
@@ -349,13 +356,13 @@
                     this.errorMostrarMsjProveedor.push("El nombre del proveedor no puede contener números");
             }
             else if( !/^[A-Z]/.test(this.nombre)){
-                this.errorMostrarMsjProveedor.push("El nombre del cliente debe iniciar con una letra mayúscula");
+                this.errorMostrarMsjProveedor.push("El nombre del proveedor debe iniciar con una letra mayúscula");
             }
 
              /*Validación de la dirección*/
              else if (this.direccion == '' || this.direccion == null) 
             {
-                this.errorMostrarMsjProveedor.push("La dirección del cliente no puede estar vacía.");
+                this.errorMostrarMsjProveedor.push("La dirección del proveedor no puede estar vacía.");
             }
 
               /*Validación del email*/
@@ -366,11 +373,14 @@
              /*Validación del tipo de documento*/
              else if (!this.tipo_documento == '' ){
                     if(this.num_documento == ''){
-                      this.errorMostrarMsjProveedor.push("El número de documento del cliente no puede estar vacío.");
+                      this.errorMostrarMsjProveedor.push("El número de documento del proveedor no puede estar vacío.");
                     }
                     
-                    else if(this.num_documento.length<=7){
-                      this.errorMostrarMsjProveedor.push("El número de documento del cliente  no es valido, debe ser mas de 7 caracteres.");
+                    else if(this.num_documento.length<=7 ){
+                      this.errorMostrarMsjProveedor.push("El número de documento del proveedor  no es valido, debe ser mas de 7 caracteres.");
+                    }
+                    else if (this.num_documento.length>=14){
+                      this.errorMostrarMsjProveedor.push("El número de documento del proveedor  no es valido, debe ser menos de 14 caracteres.");
                     }
                 }
                     else if(!this.num_documento == ''){
@@ -389,8 +399,13 @@
                     this.errorMostrarMsjProveedor.push("El nombre del contacto no puede contener números");
             }
             else if( !/^[A-Z]/.test(this.contacto)){
-                this.errorMostrarMsjProveedor.push("El nombre del cliente debe iniciar con una letra mayúscula");
+                this.errorMostrarMsjProveedor.push("El nombre del contacto debe iniciar con una letra mayúscula");
             }
+
+            if (this.telefono_contacto == '' || this.telefono_contacto == null) 
+            {
+              this.errorMostrarMsjProveedor.push("El telefono del contacto del proveedor no pude estar vacío");
+            } 
 
             if (this.errorMostrarMsjProveedor.length) this.errorProveedor = 1;
             return this.errorProveedor;

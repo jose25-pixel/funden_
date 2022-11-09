@@ -18,14 +18,14 @@ class ProveedorController extends Controller
             $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
             'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
             'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')
-            ->orderBy('proveedores.id', 'desc')->paginate(7);
+            ->orderBy('proveedores.id', 'desc')->paginate(12);
         }
         else{
             $proveedores = Proveedor::select('proveedores.id','proveedores.nombre','proveedores.tipo_documento',
             'proveedores.num_documento','proveedores.direccion','proveedores.telefono',
             'proveedores.email','proveedores.contacto','proveedores.telefono_contacto','condicion')            
             ->where('proveedores.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('proveedores.id', 'desc')->paginate(7);
+            ->orderBy('proveedores.id', 'desc')->paginate(12);
         }
         return [
             'pagination' => [
@@ -43,7 +43,6 @@ class ProveedorController extends Controller
     //Función para listar el prveedor en el ingreso
     public function selectProveedor(Request $request){
         //if (!$request->ajax()) return redirect('/');
-
         $filtro = $request->filtro;
         $proveedores = Proveedor::where('proveedores.nombre', 'like', '%'. $filtro . '%')
         ->where('proveedores.condicion', '=','1')
@@ -86,7 +85,6 @@ class ProveedorController extends Controller
             $proveedor->telefono_contacto = $request->telefono_contacto;
             $proveedor->condicion = 1; //desactivo
             $proveedor->save();
-
     }
 
     //Función para desactivar el proveedor
@@ -100,7 +98,7 @@ class ProveedorController extends Controller
         $proveedor->save();
     }
 
-    //Función para actvar el registro de proveedor
+    //Función para actviar el registro de proveedor
     public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

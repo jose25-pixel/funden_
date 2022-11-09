@@ -20,7 +20,7 @@ class UserController extends Controller
             'users.num_documento','users.direccion','users.telefono',
             'users.email','users.usuario','users.password',
             'users.condicion','users.idrol','roles.nombre as rol')
-            ->orderBy('users.id', 'desc')->paginate(5);
+            ->orderBy('users.id', 'desc')->paginate(10);
         }
         else{
             $users = User::join('roles','users.idrol','=','roles.id')
@@ -29,7 +29,7 @@ class UserController extends Controller
             'users.email','users.usuario','users.password',
             'users.condicion','users.idrol','roles.nombre as rol')            
             ->where('users.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('users.id', 'desc')->paginate(5);
+            ->orderBy('users.id', 'desc')->paginate(10);
         }
         return [
             'pagination' => [

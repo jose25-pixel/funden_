@@ -63,3 +63,9 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## acerca del codígo
+ en relacion a los seeeder solo se pueden ingresar solo los que estan en el codigo debido que los demas tablas se usa triggers en la base de datos para ingresar a otras tablas o modificar al insertar ingresos o ventas.
+
+ las tabla qu tienen triggers son ingresos ventas inventarios 

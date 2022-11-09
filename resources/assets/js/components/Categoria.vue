@@ -8,12 +8,9 @@
       <!-- Ejemplo de tabla Listado -->
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-hospital-o" aria-hidden="true"></i> Casa Farmacéutica
-          <button
-            type="button"
-            @click="abrirModal('categoria', 'registrar')"
-            class="btn btn-cafe"
-          >
+          <i class="fa fa-hospital-o" aria-hidden="true"></i> Casa
+          Farmacéutica
+          <button type="button" @click="abrirModal('categoria', 'registrar')" class="btn btn-cafe">
             <i class="icon-plus"></i>&nbsp;Nuevo
           </button>
         </div>
@@ -24,18 +21,12 @@
                 <select class="form-control col-md-3" v-model="criterio">
                   <option value="nombre">Nombre</option>
                 </select>
-                <input
-                  type="text"
-                  v-model="buscar"
-                  @keyup.enter="listarCategoria(1, buscar, criterio)"
-                  class="form-control "
-                  placeholder="Texto a buscar"
-                />
-                <button
-                  type="submit"
-                  class="btn btn-cafe"
-                  @click="listarCategoria(1, buscar, criterio)"
-                >
+                <input type="text" v-model="buscar" @keyup.enter="
+                  listarCategoria(1, buscar, criterio)
+                " class="form-control" placeholder="Texto a buscar" />
+                <button type="submit" class="btn btn-cafe" @click="
+                  listarCategoria(1, buscar, criterio)
+                ">
                   <i class="fa fa-search"></i> Buscar
                 </button>
               </div>
@@ -52,29 +43,29 @@
             <tbody>
               <tr v-for="categoria in arrayCategoria" :key="categoria.id">
                 <td>
-                  <button
-                    type="button"
-                    @click="abrirModal('categoria', 'actualizar', categoria)"
-                    class="btn btn-warning btn-sm"
-                  >
-                  <i class="icon-pencil"></i>
+                  <button type="button" @click="
+                    abrirModal(
+                      'categoria',
+                      'actualizar',
+                      categoria
+                    )
+                  " class="btn btn-warning btn-sm">
+                    <i class="icon-pencil"></i>
                   </button>
                   &nbsp;
                   <template v-if="categoria.condicion">
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-sm"
-                      @click="desactivarCategoria(categoria.id)"
-                    >
-                     <i class="icon-trash"></i>
+                    <button type="button" class="btn btn-danger btn-sm" @click="
+                      desactivarCategoria(
+                        categoria.id
+                      )
+                    ">
+                      <i class="icon-trash"></i>
                     </button>
                   </template>
                   <template v-else>
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      @click="activarCategoria(categoria.id)"
-                    >
+                    <button type="button" class="btn btn-primary btn-sm" @click="
+                      activarCategoria(categoria.id)
+                    ">
                       <i class="icon-check"></i>
                     </button>
                   </template>
@@ -92,42 +83,33 @@
             </tbody>
           </table>
           <nav>
-            <ul class="pagination ">
-              <li class="page-item " v-if="pagination.current_page > 1">
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="
-                    cambiarPagina(pagination.current_page - 1, buscar, criterio)
-                  "
-                  >Ant</a
-                >
+            <ul class="pagination">
+              <li class="page-item" v-if="pagination.current_page > 1">
+                <a class="page-link" href="#" @click.prevent="
+                  cambiarPagina(
+                    pagination.current_page - 1,
+                    buscar,
+                    criterio
+                  )
+                ">Ant</a>
               </li>
-              <li
-                class="page-item "
-                v-for="page in pagesNumber"
-                :key="page"
-                :class="[page == isActived ? 'active' : '']"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(page, buscar, criterio)"
-                  v-text="page"
-                ></a>
+              <li class="page-item" v-for="page in pagesNumber" :key="page"
+                :class="[page == isActived ? 'active' : '']">
+                <a class="page-link" href="#" @click.prevent="
+                  cambiarPagina(page, buscar, criterio)
+                " v-text="page"></a>
               </li>
-              <li
-                class="page-item "
-                v-if="pagination.current_page < pagination.last_page"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="
-                    cambiarPagina(pagination.current_page + 1, buscar, criterio)
-                  "
-                  >Sig</a
-                >
+              <li class="page-item" v-if="
+                pagination.current_page <
+                pagination.last_page
+              ">
+                <a class="page-link" href="#" @click.prevent="
+                  cambiarPagina(
+                    pagination.current_page + 1,
+                    buscar,
+                    criterio
+                  )
+                ">Sig</a>
               </li>
             </ul>
           </nav>
@@ -136,50 +118,31 @@
       <!-- Fin ejemplo de tabla Listado -->
     </div>
     <!--Inicio del modal agregar/actualizar-->
-    <div
-      class="modal fade"
-      tabindex="-1"
-      :class="{ mostrar: modal }"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      style="display: none"
-      aria-hidden="true"
-    >
+    <div class="modal fade" tabindex="-1" :class="{ mostrar: modal }" role="dialog" aria-labelledby="myModalLabel"
+      style="display: none" aria-hidden="true">
       <div class="modal-dialog modal-primary modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header cafe">
             <h4 class="modal-title" v-text="tituloModal"></h4>
-            <button
-              type="button"
-              class="close"
-              @click="cerrarModal()"
-              aria-label="Close"
-            >
+            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">
-            <form
-              action=""
-              method="post"
-              enctype="multipart/form-data"
-              class="form-horizontal"
-            >
+            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
               <div class="form-group row">
-                <label class="col-md-3 form-control-label" for="text-input"> Casa Farmaceutica
-                  <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
+                <label class="col-md-3 form-control-label" for="text-input">
+                  Casa Farmaceutica
+                  <span style="color: red" v-show="nombre == 0">(*Ingrese)
+                  </span>
                 </label>
                 <div class="col-md-9">
-                  <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de Casa Farmacéutica"/>
+                  <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de Casa Farmacéutica" />
                 </div>
               </div>
               <div v-show="errorCategoria" class="form-group row div-error">
                 <div class="text-center text-error">
-                  <div
-                    v-for="error in errorMostrarMsjCategoria"
-                    :key="error"
-                    v-text="error"
-                  ></div>
+                  <div v-for="error in errorMostrarMsjCategoria" :key="error" v-text="error"></div>
                 </div>
               </div>
             </form>
@@ -188,17 +151,10 @@
             <button type="button" class="btn btn-dark" @click="cerrarModal()">
               Cerrar
             </button>
-            <button type="button" v-if="tipoAccion == 1" class="btn cafe"
-              @click="registrarCategoria()"
-            >
+            <button type="button" v-if="tipoAccion == 1" class="btn cafe" @click="registrarCategoria()">
               Guardar
             </button>
-            <button
-              type="button"
-              v-if="tipoAccion == 2"
-              class="btn cafe"
-              @click="actualizarCategoria()"
-            >
+            <button type="button" v-if="tipoAccion == 2" class="btn cafe" @click="actualizarCategoria()">
               Actualizar
             </button>
           </div>
@@ -232,11 +188,11 @@ export default {
         per_page: 0,
         last_page: 0,
         from: 0,
-        to: 0,
+        to: 0
       },
       offset: 3,
       criterio: "nombre",
-      buscar: "",
+      buscar: ""
     };
   },
   computed: {
@@ -261,7 +217,7 @@ export default {
         from++;
       }
       return pagesArray;
-    },
+    }
   },
 
   methods: {
@@ -302,7 +258,7 @@ export default {
 
       axios
         .post("/categoria/registrar", {
-          nombre: this.nombre,
+          nombre: this.nombre
         })
         .then(function (response) {
           me.cerrarModal();
@@ -321,7 +277,7 @@ export default {
       axios
         .put("/categoria/actualizar", {
           nombre: this.nombre,
-          id: this.categoria_id,
+          id: this.categoria_id
         })
         .then(function (response) {
           me.cerrarModal();
@@ -343,14 +299,14 @@ export default {
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
         buttonsStyling: false,
-        reverseButtons: true,
-      }).then((result) => {
+        reverseButtons: true
+      }).then(result => {
         if (result.value) {
           let me = this;
 
           axios
             .put("/categoria/desactivar", {
-              id: id,
+              id: id
             })
             .then(function (response) {
               me.listarCategoria(1, "", "nombre");
@@ -367,14 +323,19 @@ export default {
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
-          swal("Cancelled", "Your imaginary file is safe :)", "error");
+          swal(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
         }
       });
     },
 
     activarCategoria(id) {
       swal({
-        title: "Esta seguro de activar el registro de  la casa farmacéutica?",
+        title:
+          "Esta seguro de activar el registro de  la casa farmacéutica?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "green",
@@ -384,14 +345,14 @@ export default {
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
         buttonsStyling: false,
-        reverseButtons: true,
-      }).then((result) => {
+        reverseButtons: true
+      }).then(result => {
         if (result.value) {
           let me = this;
 
           axios
             .put("/categoria/activar", {
-              id: id,
+              id: id
             })
             .then(function (response) {
               me.listarCategoria(1, "", "nombre");
@@ -408,29 +369,42 @@ export default {
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
-          swal("Cancelled", "Your imaginary file is safe :)", "error");
+          swal(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
         }
       });
     },
 
     validarCategoria() {
-      this.errorCategoria = 0,
-      this.errorMostrarMsjCategoria = [];
-      if (this.nombre == '' || this.nombre == null)
-      {
-        this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no puede estar vacío");
-         if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1
+      (this.errorCategoria = 0), (this.errorMostrarMsjCategoria = []);
+      if (this.nombre == "" || this.nombre == null) {
+        this.errorMostrarMsjCategoria.push(
+          "El nombre de la casa farmacéutica no puede estar vacío"
+        );
+        if (this.errorMostrarMsjCategoria.length)
+          this.errorCategoria = 1;
+      } else if (
+        !/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
+          this.nombre
+        )
+      ) {
+        this.errorMostrarMsjCategoria.push(
+          "El nombre de la casa farmacéutica no debe contener números"
+        );
+        if (this.errorMostrarMsjCategoria.length)
+          this.errorCategoria = 1;
+      } else if (!/^[A-Z]/.test(this.nombre)) {
+        this.errorMostrarMsjCategoria.push(
+          "El nombre de la casa farmacéutica debe iniciar con una letra mayúscula"
+        );
+        if (this.errorMostrarMsjCategoria.length)
+          this.errorCategoria = 1;
       }
-       else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
-                this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica no debe contener números");
-                if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
-      }
-      else if (!/^[A-Z]/.test(this.nombre)){
-                this.errorMostrarMsjCategoria.push("El nombre de la casa farmacéutica debe iniciar con una letra mayúscula");
-                if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
-      } 
-       return this.errorCategoria;
-        },
+      return this.errorCategoria;
+    },
     cerrarModal() {
       this.modal = 0;
       this.tituloModal = "";
@@ -460,12 +434,12 @@ export default {
           }
         }
       }
-    },
+    }
   },
 
   mounted() {
     this.listarCategoria(1, this.buscar, this.criterio);
-  },
+  }
 };
 </script>
 <style>

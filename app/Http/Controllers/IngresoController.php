@@ -10,24 +10,24 @@ use App\Kardex;
 use Carbon\Carbon;
 use Exception;
 
+
 class IngresoController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
 
+        if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        
         if ($buscar==''){
             $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
-            'ingresos.num_comprobante','ingresos.fecha_compra',
+            'ingresos.num_comprobante',('ingresos.fecha_compra'),
             'ingresos.total','ingresos.estado',
             'proveedores.nombre',
             'users.usuario')
-            ->orderBy('ingresos.id', 'desc')->paginate(10);
+            ->orderBy('ingresos.id', 'desc')->paginate(20);
         }
         else{
             $ingresos = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
@@ -37,10 +37,8 @@ class IngresoController extends Controller
             'ingresos.total','ingresos.estado','proveedores.nombre',
             'users.usuario')           
             ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('ingresos.id', 'desc')->paginate(10);
+            ->orderBy('ingresos.id', 'desc')->paginate(20);
         }
-        
-
         return [
             'pagination' => [
                 'total'        => $ingresos->total(),
@@ -54,10 +52,9 @@ class IngresoController extends Controller
         ];
     }
 
-    public function obtenerCabecera(Request $request){
-
+    public function obtenerCabecera(Request $request)
+    {
         if (!$request->ajax()) return redirect('/');
-
         $id = $request->id;
             $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
             ->join('users','ingresos.idusuario','=','users.id')
@@ -80,7 +77,6 @@ class IngresoController extends Controller
             ->orderBy('detalle_ingresos.id', 'desc')->get();
         return ['detalles' => $detalles ];
     }
-
 
     public function EditarCabecera(Request $request){
 
@@ -112,6 +108,7 @@ class IngresoController extends Controller
 
     public function pdfIngreso(Request $request, $id)
     {
+       
         $ingreso = Ingreso::join('proveedores','ingresos.idproveedor','=','proveedores.id')
         ->join('users','ingresos.idusuario','=','users.id')
         ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
@@ -120,6 +117,7 @@ class IngresoController extends Controller
         'proveedores.num_documento','proveedores.direccion','proveedores.email',
         'proveedores.telefono','users.usuario')
         ->where('ingresos.id', '=', $id)
+
         ->orderBy('ingresos.id', 'desc')->take(1)->get();
 
         $detalles = DetalleIngreso::join('inventarios','detalle_ingresos.idinventario','=','inventarios.id')
@@ -152,6 +150,7 @@ class IngresoController extends Controller
             $ingreso->num_comprobante = $request->num_comprobante;
             $ingreso->fecha_compra = $request->fecha_compra;
             $ingreso->total = $request->total;
+          
             $ingreso->estado = 'Registrado';
             $ingreso->save();
 
@@ -182,10 +181,6 @@ class IngresoController extends Controller
             DB::rollBack();
         }
     }
-
-
-    
-
 
     public function update(Request $request)
     {
@@ -233,24 +228,12 @@ class IngresoController extends Controller
         }
     }
 
-
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
         $ingreso = Ingreso::findOrFail($request->id);
         $ingreso->estado = 'Anulado';
-        $ingreso->save();
-
-      /*  $data = DetalleInventario::latest('id');
-        $datadetallle = DetalleIngreso::latest('id');
-      
-        $nueva=$data["antiguo_tableta"];
-        $nuevaa=$data["antiguo_blister"];
-        $nuevad=$datadetallle["cantidad"];
-        $nuevaad=$data["cantidad_blister"];
-
-        $kardes = new DetalleInventario();*/
-        
+        $ingreso->save(); 
     }
 
 

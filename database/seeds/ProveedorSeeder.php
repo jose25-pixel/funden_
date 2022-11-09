@@ -38,6 +38,17 @@ class ProveedorSeeder extends Seeder
             'telefono_contacto' => 78907654
             
         ]);
+        DB::table('proveedores')->insert([
+            'nombre' => 'Fardel',
+            'tipo_documento' => 'DNI',
+            'num_documento' => 34344,
+            'direccion' => 'San Salvador',
+            'telefono' => 22434567,
+            'email' => 'Fardel@gmail.com',
+            'contacto' => 'Karla',
+            'telefono_contacto' => 76907654
+            
+        ]);
         
     }
 }

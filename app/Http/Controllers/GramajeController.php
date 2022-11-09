@@ -7,25 +7,22 @@ use Illuminate\Http\Request;
 
 class GramajeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    //Función para mostrar todos los registros de gramaje.
     public function index( Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-
         $buscar = $request->buscar;
         $criterio = $request->criterio;
         if($buscar==''){
-                $gramajes = Gramaje::orderBy('id','desc')->paginate(10);
+                $gramajes = Gramaje::orderBy('id','desc')
+                ->paginate(12);
         }
             else{
-                $gramajes = Gramaje::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id','desc')->paginate(10);
+                $gramajes = Gramaje::where($criterio, 'like', '%'. $buscar . '%')
+                ->orderBy('id','desc')
+                ->paginate(12);
         }
-        //listar todos los registros
-       // $categorias = Categoria::paginate(3);
         return[
             'pagination' =>[
                 'total' => $gramajes->total(),
@@ -37,23 +34,9 @@ class GramajeController extends Controller
             ],
             'gramajes' => $gramajes
         ];
-
     }
- /*
-  
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
+    //Función para ingresar un registro.
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -66,6 +49,7 @@ class GramajeController extends Controller
         $gramaje->save();
     }
 
+    //Función para actualizar registro.
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -78,6 +62,7 @@ class GramajeController extends Controller
         $gramaje->save();
     }
 
+    //Función para desactivar un registro.
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -89,6 +74,7 @@ class GramajeController extends Controller
         $gramaje->save();
     }
 
+    //Función para activar un registro
     public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -100,14 +86,14 @@ class GramajeController extends Controller
           $gramaje->save();
     }
 
-     /* funcion para selecionar  gramaje al momento de selecionar medicamento */
+     /* Función para selecionar  gramaje al momento de selecionar medicamento */
     public function selectGramaje(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
         $gramajes = Gramaje::where('condicion', '=', '1')
-        ->select('id','gramaje')->orderBy('gramaje','asc')->get();
-
+        ->select('id','gramaje')
+        ->orderBy('gramaje','asc')
+        ->get();
         return ['gramajes' => $gramajes];
-    }
-    
+    } 
 }

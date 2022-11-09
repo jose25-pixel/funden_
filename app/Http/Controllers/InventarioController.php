@@ -25,8 +25,8 @@ class InventarioController extends Controller
                     'articulos.items',
                     'categorias.nombre as casa_farmaceutica',
                      'gramajes.gramaje as gramaje',
-                    'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',
-                )->orderBy('articulos.id', 'desc')->paginate(10);
+                    'inventarios.cantidad_blister','inventarios.cantidad_tableta','articulos.condicion',
+                )->orderBy('articulos.id', 'desc')->paginate(12);
         } else {
             $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id',)
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
@@ -36,8 +36,8 @@ class InventarioController extends Controller
                 'articulos.items',
                 'categorias.nombre as casa_farmaceutica',
                  'gramajes.gramaje as gramaje',
-                'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion',)
-                ->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(10);
+                'inventarios.cantidad_blister','inventarios.cantidad_tableta','articulos.condicion',)
+                ->where('inventarios.' . $criterio, 'like', '%' . $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(12);
         }
         return [
             'pagination' => [
@@ -85,7 +85,7 @@ class InventarioController extends Controller
         return['inventarios' => $inventarios]; 
     }
 
-    /*funcion para listar medicamentos del inventario para vender con stock mayor a cero */
+    /*Función para listar medicamentos del inventario para vender con stock mayor a cero */
     public function listarArticuloinventarioV(Request $request)
     {
          //if (!$request->ajax()) return redirect('/');
@@ -119,8 +119,7 @@ class InventarioController extends Controller
         return['inventarios' => $inventarios]; 
     }
     
-    /*funcion para buscar medicamentos en invetarios */
-
+    /*Función para buscar medicamentos en invetarios */
     public function buscarArticuloInventario(Request $request){
         $filtro = $request->filtro;
         $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
@@ -130,8 +129,7 @@ class InventarioController extends Controller
         return ['inventarios' => $inventarios];  
     }
 
-    /*funcion para buscar medicamentos en invetarios con stock mayor a cero para vender*/
-
+    /*Función para buscar medicamentos en invetarios con stock mayor a cero para vender*/
     public function buscarInventarioVenta(Request $request)
     {
 
@@ -147,7 +145,8 @@ class InventarioController extends Controller
 
        
     }
-/*funcion para actualizar inventario*/
+
+   /*Función para actualizar inventario*/
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -160,8 +159,8 @@ class InventarioController extends Controller
         $inventarios->save();
         
     }
-    /*funcion para ingresar inventario*/
 
+    /*funcion para ingresar inventario*/
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -173,10 +172,9 @@ class InventarioController extends Controller
         $inventarios->save();
     }
 
-    public function pdf(Request $request, $id) {
-      $buscar = $request->buscar;
-        $criterio = $request->criterio;
-        
+    //Función del reporte de todos los productos
+    public function inventarioPdf() 
+    {
             $inventarios = Inventario::join('articulos', 'inventarios.idproducto', '=', 'articulos.id')
             ->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
@@ -186,15 +184,14 @@ class InventarioController extends Controller
                     'categorias.nombre as casa_farmaceutica',
                      'gramajes.gramaje as gramaje',
                     'inventarios.cantidad_blister','inventarios.cantidad_tableta','inventarios.condicion')
-                    ->where('inventarios.id', '=', $id)
                     ->orderBy('articulos.id', 'desc')
-                    ->take(1)->get();
+                    ->get();
 
-        $nombre=Inventario::select('cantidad_tableta')->where('id',$id)->get();
-        $pdf = \PDF::loadView('pdf.medicamento_inventariopdf',['inventarios'=>$inventarios]);
+        $cont=Inventario::count();
+        $pdf = \PDF::loadView('pdf.inventariopdf',['inventarios'=>$inventarios, 'cont' => $cont]);
+
         return $pdf
-        ->stream('Inventario-'.$nombre.'.pdf');
-
-    
+        ->setPaper('carta', 'landscape')
+        ->stream('Inventario-'.now().'.pdf');
     }
 }
