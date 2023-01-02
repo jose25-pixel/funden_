@@ -9,7 +9,7 @@
     <meta name="keyword" content="Sistema ventas Laravel Vue Js, Sistema compras Laravel Vue Js">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="img/fundel.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js">
+   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js">-->
     <title>Sistema De Inventario Fundel</title>
     <!-- Icons -->
 

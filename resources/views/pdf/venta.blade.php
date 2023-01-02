@@ -161,8 +161,8 @@
                     <tr id="cm">
                         <th>Medicamento</th>
                         <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Blister</th>
+                        <th>Tratamient.</th><!-- Blister-->
+                        <th>Ítems X Tratamient.</th><!-- Pastillas-->
                         <th>Vencimiento</th>
                         <th>Lote</th>
                         <th>TOTAL</th>
@@ -173,8 +173,8 @@
                     <tr>
                         <td>{{ $det->articulo }}</td>
                         <td>{{ $det->precio }}</td>
-                        <td>{{ $det->cantidad }}</td>
                         <td>{{ $det->cantidad_blister }}</td>
+                        <td>{{ $det->cantidad }}</td>
                         <td>{{ \Carbon\Carbon::parse($det->fecha_vencimiento)->formatLocalized("%d/%B/%Y") }}</td>
                         <td>{{ $det->lote }}</td>
                         <td>{{ $det->precio * $det->cantidad }}</td>

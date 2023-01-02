@@ -40,8 +40,8 @@
                                 <th>Presentación</th>
                                 <th>Administración</th>
                                 <th>Items</th>
-                                <th>Stock Tableta</th>
-                                <th>Stock Blister</th>
+                                <th>Ítems X Tratamiento</th>
+                                <th>Tratamiento</th>
                                 <th>condicion</th>
                             </tr>
                         </thead>

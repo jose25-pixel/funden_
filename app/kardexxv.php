@@ -12,4 +12,5 @@ class kardexxv extends Model
         'iddetalleinventariov',
         'acciones'
     ];
+    public $timestamps = false;
 }

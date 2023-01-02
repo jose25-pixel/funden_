@@ -100,7 +100,7 @@ class ClienteController extends Controller
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        //buscar la categoria por el $id del request
+        //buscar la persona por el $id del request
         $persona =  Persona::findOrfail($request->id);
 
          //tomar los datos de request
@@ -114,4 +114,26 @@ class ClienteController extends Controller
          //guardar el objeto en la tabla
          $persona->save();
     }
+
+     //Función para desactivar el proveedor
+     public function desactivar(Request $request)
+     {
+         if (!$request->ajax()) return redirect('/');
+         $persona =  Persona::findOrfail($request->id);
+         //cambiar la condicion a 0
+         $persona->condicion = 0; //desactivo
+         //guardar el objeto en la tabla
+         $persona->save();
+     }
+ 
+     //Función para actviar el registro de proveedor
+     public function activar(Request $request)
+     {
+         if (!$request->ajax()) return redirect('/');
+           $persona = Persona::findOrfail($request->id);
+           //cambiar la condicion a 1
+           $persona->condicion = 1; //activo
+           //guardar el objeto en la tabla
+           $persona->save();
+     }
 }

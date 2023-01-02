@@ -56,6 +56,9 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
+        try{
+            DB::beginTransaction();
+       
             $proveedor = new Proveedor();
             $proveedor->nombre = $request->nombre;
             $proveedor->tipo_documento = $request->tipo_documento;
@@ -67,6 +70,12 @@ class ProveedorController extends Controller
             $proveedor->telefono_contacto = $request->telefono_contacto;
             $proveedor->condicion = 1; //activo
             $proveedor->save();
+
+            DB::commit();
+        } catch(Exception $e){
+
+            DB::rollBack();
+          }
     }
 
     //Función para actualizar el dato de proveedor
@@ -83,7 +92,7 @@ class ProveedorController extends Controller
             $proveedor->email = $request->email;
             $proveedor->contacto = $request->contacto;
             $proveedor->telefono_contacto = $request->telefono_contacto;
-            $proveedor->condicion = 1; //desactivo
+            $proveedor->condicion = 1; 
             $proveedor->save();
     }
 

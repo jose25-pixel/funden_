@@ -19,7 +19,7 @@ Route::group(['middleware' => ['guest']], function(){
     Route::get('/', 'Auth\LoginController@showLoginForm');
     Route::post('/login', 'Auth\LoginController@login')->name('login'); 
 });
-
+     //++++ rutas para el los usuarios con permisos para ingresar al sistema  ++++//
 Route::group(['middleware' => ['auth']], function(){
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
     Route::get('/dashboard', 'DashboardController');
@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function(){
         return view('contenido/contenido');
     })->name('main');
 
+      //++++ rutas que tiene abcceso el usuario  ++++//
     Route::group(['middleware' => ['Usuario']], function(){
 
        //RUTAS PARA LA TABLA DE CATEGORIA.
@@ -97,6 +98,8 @@ Route::group(['middleware' => ['auth']], function(){
        Route::put('/cliente/actualizar', 'ClienteController@update'); //insertar registros en la tabla
        Route::get('/cliente/selectCliente', 'ClienteController@selectCliente'); //seleccionar el cliente
        Route::get('/cliente/reporte_clientes/{id}/{desde}/{hasta}', 'ClienteController@reporteclientes')->name('reporte_clientes'); //reporte de cliente por fechas
+       Route::put('/cliente/activar', 'ClienteController@activar'); //Activar el cliente
+       Route::put('/cliente/desactivar', 'ClienteController@desactivar'); //Desactivar el cliente
 
        //rutas para users
         Route::get('/user', 'UserController@index'); //listar todos los datos de la tabla
@@ -106,7 +109,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('/user/activar', 'UserController@activar'); //activar registros en la tabla
     });
     
-
+       //++++ rutas para el usuario administrador  ++++//
     Route::group(['middleware' => ['Administrador']], function(){
 
          
@@ -130,9 +133,9 @@ Route::group(['middleware' => ['auth']], function(){
        
          /*+++++++++++++++++++++++++++Rutas del inventario++++++++++++++++++++++++++++++++++++*/
         //Rutas de listar medicamnetos desde el inventario para la compra
-        Route::get('/inventario/buscarArticuloin', 'InventarioController@listarArticuloinventario');
-        Route::get('/inventario/buscarArticuloInventario', 'InventarioController@buscarArticuloInventario'); //Rutas del inventario para venta de medicamento
-        Route::get('/inventario/buscarArticuloInventariov', 'InventarioController@buscarInventarioVenta');
+        Route::get('/inventario/buscarArticuloin', 'InventarioController@listarArticuloinventario');//
+        //Route::get('/inventario/buscarArticuloInventario', 'InventarioController@buscarArticuloInventario'); //Rutas del inventario para venta de medicamento
+        //Route::get('/inventario/buscarArticuloInventariov', 'InventarioController@buscarInventarioVenta');
         Route::get('/inventario/buscarArticuloInventarioventa', 'InventarioController@listarArticuloinventarioV'); //rutas para mostrar datos e ingresar datos a inventario
         Route::get('/inventario', 'InventarioController@index');
         Route::get('/inventario/inventarioPdf', 'InventarioController@inventarioPdf')->name('inventarios_pdf');

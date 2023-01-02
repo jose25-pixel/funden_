@@ -29,15 +29,19 @@
                                         <option value="presentacion">Presentación</option>
                                         <option value="items">Items</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarArticulo(1, buscar, criterio)" class="form-control"
-                                        placeholder="Texto a buscar"/>
-                                    <button type="submit" class="btn btn-cafe" @click=" listarArticulo(1, buscar, criterio) ">
+                                    <input type="text" v-model="buscar"
+                                        @keyup.enter="listarArticulo(1, buscar, criterio)" class="form-control"
+                                        placeholder="Texto a buscar" />
+                                    <button type="submit" class="btn btn-cafe"
+                                        @click="listarArticulo(1, buscar, criterio)">
                                         <i class="fa fa-search"></i> Buscar
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-responsive table-bordered table-striped table-sm">
+                        <table class="
+                table table-responsive table-bordered table-striped table-sm
+              ">
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
@@ -46,40 +50,45 @@
                                     <th>Concentración</th>
                                     <th>Presentación</th>
                                     <th>Administración</th>
-                                    <th>Items</th>
+                                    <th>Items X Tratamiento</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="articulo in arrayArticulo" :key="articulo.id" >
+                                <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                     <td>
-                                        <button type="button" @click="pdfArticulo(articulo.id)" class="btn btn-outline-danger btn-sm">
+                                        <button type="button" @click="pdfArticulo(articulo.id)"
+                                            class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         </button>
                                         &nbsp;
-                                         <button type="button" @click="abrirModalfecha('articulo','fecha',articulo)" class="btn btn-outline-dark btn-sm">
+                                        <button type="button" @click="abrirModalfecha('articulo', 'fecha', articulo)"
+                                            class="btn btn-outline-dark btn-sm">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
                                         </button>
 
-                                        <button type="button" @click="abrirModal('articulo','actualizar', articulo)"
-                                            class="btn btn-warning btn-sm"><i class="icon-pencil"></i>
+                                        <button type="button" @click="abrirModal('articulo', 'actualizar', articulo)"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="icon-pencil"></i>
                                         </button>
                                         &nbsp;
 
-                                        <template v-if="articulo.condicion ">
-                                            <button type="button" class="btn btn-danger btn-sm" @click=" desactivarArticulo(articulo.id)">
-                                             <i class="icon-trash"></i>
+                                        <template v-if="articulo.condicion">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                @click="desactivarArticulo(articulo.id)">
+                                                <i class="icon-trash"></i>
                                             </button>
                                         </template>
                                         <template v-else>
-                                            <button type="button" class="btn btn-info btn-sm" @click=" activarArticulo(articulo.id)">
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                @click="activarArticulo(articulo.id)">
                                                 <i class="icon-check"></i>
                                             </button>
                                         </template>
                                     </td>
                                     <td v-text="articulo.nombre"></td>
                                     <td v-text="articulo.nombre_categoria"></td>
-                                    <td v-text="articulo.concentracion + articulo.nombre_gramaje"> </td>
+                                    <td v-text="articulo.concentracion + articulo.nombre_gramaje"></td>
                                     <td v-text="articulo.presentacion"></td>
                                     <td v-text="articulo.administracion"></td>
                                     <td v-text="articulo.items"></td>
@@ -96,26 +105,28 @@
                         </table>
                         <nav>
                             <ul class="pagination">
-                                <li class="page-item " v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent=" cambiarPagina(pagination.current_page - 1,
-                                                buscar, criterio) ">Ant</a>
+                                <li class="page-item" v-if="pagination.current_page > 1">
+                                    <a class="page-link" href="#" @click.prevent="
+    cambiarPagina(
+        pagination.current_page - 1,
+        buscar,
+        criterio
+    )
+">Ant</a>
                                 </li>
-                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                    <a class="page-link" href="#" @click.prevent="  cambiarPagina(page,buscar, criterio)" v-text="page"></a>
+                                <li class="page-item" v-for="page in pagesNumber" :key="page"
+                                    :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page, buscar, criterio)"
+                                        v-text="page"></a>
                                 </li>
-                                <li class="page-item" v-if=" pagination.current_page <pagination.last_page ">
-                                    <a
-                                        class="page-link"
-                                        href="#"
-                                        @click.prevent="
-                                            cambiarPagina(
-                                                pagination.current_page + 1,
-                                                buscar,
-                                                criterio
-                                            )
-                                        "
-                                        >Sig</a
-                                    >
+                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="
+    cambiarPagina(
+        pagination.current_page + 1,
+        buscar,
+        criterio
+    )
+">Sig</a>
                                 </li>
                             </ul>
                         </nav>
@@ -125,69 +136,47 @@
             <!-- Fin ejemplo de tabla Listado -->
         </div>
 
-     
-
         <!--Inicio del modal agregar/actualizar-->
-        <div
-            class="modal fade"
-            tabindex="-1"
-            :class="{ 'mostrar': modal }"
-            role="dialog"
-            aria-labelledby="myModalLabel"
-            style="display: none"
-            aria-hidden="true"
-        >
+        <div class="modal fade" tabindex="-1" :class="{ mostrar: modal }" role="dialog" aria-labelledby="myModalLabel"
+            style="display: none" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header cafe">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
-                        <button
-                            type="button"
-                            class="close"
-                            @click="cerrarModal()"
-                            aria-label="Close"
-                        >
+                        <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body ">
-                        <form
-                            action=""
-                            method="post"
-                            enctype="multipart/form-data"
-                            class="form-horizontal"
-                        >
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input" >Casa Farmacéutica
-                                    <span style="color:red"  v-show="idcategoria==0" >(*Seleccione) </span>
+                                <label class="col-md-3 form-control-label" for="text-input">Casa Farmacéutica
+                                    <p style="color: red" v-show="idcategoria == 0">(*Seleccione)
+                                    </p>
                                 </label>
 
                                 <div class="col-md-9">
-                                    <select class="form-control"
-                                        v-model="idcategoria"
-                                    >
+                                    <select class="form-control" v-model="idcategoria">
                                         <option value="0" disabled>
                                             Seleccione una casa farmacéutica
                                         </option>
-                                        <option
-                                            v-for="categoria in arrayCategoria"
-                                            :key="categoria.id"
-                                            :value="categoria.id"
-                                            v-text="categoria.nombre"
-                                        ></option>
+                                        <option v-for="categoria in arrayCategoria" :key="categoria.id"
+                                            :value="categoria.id" v-text="categoria.nombre"></option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre
-                                    <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
+                                    <p style="color: red" v-show="nombre == 0">(*Ingrese)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre del medicamento"/>
+                                    <input type="text" v-model="nombre" class="form-control"
+                                        placeholder="Nombre del medicamento" />
                                 </div>
                             </div>
-                          <!--
+                            <!--
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Imagen
                                     <span style="color:red"  v-show="imagen==0" >(*Ingrese) </span>
@@ -198,37 +187,37 @@
                             </div>-->
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Concentración
-                                    <span style="color:red"  v-show="concentracion==0" >(*Ingrese) </span>
+                                    <p style="color: red" v-show="concentracion == 0">(*Ingrese)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="concentracion" class="form-control" placeholder="Ingrese concentración del medicamento"/>
+                                    <input type="text" v-model="concentracion" class="form-control"
+                                        placeholder="Ingrese concentración del medicamento" />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input" >Gramaje
-                                    <span style="color:red"  v-show="idgramaje==0" >(*Selecione) </span>
+                                <label class="col-md-3 form-control-label" for="text-input">Gramaje
+                                    <p style="color: red" v-show="idgramaje == 0">(*Selecione)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
                                     <select class="form-control" v-model="idgramaje">
                                         <option value="0" disabled>Seleccione un Gramaje</option>
-                                        <option
-                                            v-for="gramaje in arraygramaje"
-                                            :key="gramaje.id"
-                                            :value="gramaje.id"
-                                            v-text="gramaje.gramaje"
-                                        ></option>
+                                        <option v-for="gramaje in arraygramaje" :key="gramaje.id" :value="gramaje.id"
+                                            v-text="gramaje.gramaje"></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Tipo Administración
-                                    <span style="color:red"  v-show="administracion==0" >(*Seleccione) </span>
+                                    <p style="color: red" v-show="administracion == 0">(*Seleccione)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
-                                    <select class="form-control" v-model="administracion" >
+                                    <select class="form-control" v-model="administracion">
                                         <option value="0" disabled>Seleccione</option>
                                         <option value="Vía Oral">Oral</option>
-                                        <option value="Vía Inyectables" >Inyectables</option >
+                                        <option value="Vía Inyectables">Inyectables</option>
                                         <option value="Vía Ocular">Ocular</option>
                                         <option value="Vía Ótica">Ótica</option>
                                         <option value="Vía Tópica">Tópica</option>
@@ -239,54 +228,40 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Presentación
-                                    <span style="color:red"  v-show="presentacion==0" >(*Ingrese) </span>
+                                    <p style="color: red" v-show="presentacion == 0">(*Ingrese)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="presentacion" class="form-control" placeholder="Ingrese presentación del medicamento" />
+                                    <input type="text" v-model="presentacion" class="form-control"
+                                        placeholder="Ingrese presentación del medicamento" />
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="email-input">Items
-                                <span style="color:black"  v-show="items==0">(*Cantidad) </span>
+                                    <p style="color: black" v-show="items == 0">(*Cantidad)
+                                    </p>
                                 </label>
                                 <div class="col-md-9">
-                                    <input type="email" v-model="items" class="form-control" placeholder="Ingrese la cantidad de items"/>
+                                    <input type="email" v-model="items" class="form-control"
+                                        placeholder="Ingrese la cantidad de items" />
                                 </div>
                             </div>
                             <div v-show="errorArticulo" class="form-group row div-error">
                                 <div class="text-center text-error">
-                                    <div
-                                        v-for="error in errorMostrarMsjArticulo"
-                                        :key="error"
-                                        v-text="error"
-                                    ></div>
+                                    <div v-for="error in errorMostrarMsjArticulo" :key="error" v-text="error"></div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-dark"
-                            @click="cerrarModal()"
-                        >
+                        <button type="button" class="btn btn-dark" @click="cerrarModal()">
                             Cerrar
                         </button>
-                        <button
-                            type="button"
-                            v-if="tipoAccion == 1"
-                            class="btn btn-cafe"
-                            @click="registrarArticulo()"
-                        >
+                        <button type="button" v-if="tipoAccion == 1" class="btn btn-cafe" @click="registrarArticulo()">
                             Guardar
                         </button>
-                        <button
-                            type="button"
-                            v-if="tipoAccion == 2"
-                            class="btn btn-cafe"
-                            @click="actualizarArticulo()"
-                        >
+                        <button type="button" v-if="tipoAccion == 2" class="btn btn-cafe" @click="actualizarArticulo()">
                             Actualizar
                         </button>
                     </div>
@@ -298,111 +273,57 @@
         </div>
 
         <!--modal de rago de  fechas-->
-         <div
-            class="modal fade"
-            tabindex="-1"
-            :class="{ mostrar: modal1 }"
-            role="dialog"
-            aria-labelledby="myModalLabel"
-            style="display: none"
-            aria-hidden="true"
-        >
+        <div class="modal fade" tabindex="-1" :class="{ mostrar: modal1 }" role="dialog" aria-labelledby="myModalLabel"
+            style="display: none" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header cafe">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
-                        <button
-                            type="button"
-                            class="close"
-                            @click="cerrarModalfecha()"
-                            aria-label="Close"
-                        >
+                        <button type="button" class="close" @click="cerrarModalfecha()" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body ">
-                        <form
-                            action=""
-                            method="post"
-                            enctype="multipart/form-data"
-                            class="form-horizontal"
-                        >
-                        <div class="form-group row">
-                            <div class="col-md-9">
-                                <input
-                                    type="hidden"
-                                    v-model="articulo_id"
-                                    class="form-control"
-                                    placeholder="Ingrese presentación del medicamento"
-                                />
-                            </div>
-                        </div>
-                           
-                           
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="text-input"
-                                    >Desde
-                                </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="date"
-                                        v-model="desde"
-                                        class="form-control"
-                                    
-                                    />
+                                    <input type="hidden" v-model="articulo_id" class="form-control"
+                                        placeholder="Ingrese presentación del medicamento" />
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label
-                                    class="col-md-3 form-control-label"
-                                    for="email-input"
-                                >
-                                    <spam style="color: black">Hasta</spam>
+                                <label class="col-md-3 form-control-label" for="text-input">Desde
                                 </label>
                                 <div class="col-md-9">
-                                    <input
-                                        type="date"
-                                        v-model="hasta"
-                                        class="form-control"
-                                      
-                                    />
+                                    <input type="date" v-model="desde" class="form-control" />
                                 </div>
                             </div>
 
-                            <div
-                                v-show="errorArticulo"
-                                class="form-group row div-error"
-                            >
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="email-input">
+                                    <p style="color: black">Hasta</p>
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="date" v-model="hasta" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div v-show="errorArticulo" class="form-group row div-error">
                                 <div class="text-center text-error">
-                                    <div
-                                        v-for="error in errorMostrarMsjArticulo"
-                                        :key="error"
-                                        v-text="error"
-                                    ></div>
+                                    <div v-for="error in errorMostrarMsjArticulo" :key="error" v-text="error"></div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-dark"
-                            @click="cerrarModalfecha()"
-                        >
+                        <button type="button" class="btn btn-dark" @click="cerrarModalfecha()">
                             Cerrar
                         </button>
-                        <button
-                            type="button"
-                            v-if="tipoAccion1 == 1"
-                            class="btn btn-cafe"
-                            @click="listarArticulofeha(articulo_id,desde,hasta)"
-                        >
+                        <button type="button" v-if="tipoAccion1 == 1" class="btn btn-cafe"
+                            @click="listarArticulofeha(articulo_id, desde, hasta)">
                             ver fecha
                         </button>
-                    
                     </div>
                 </div>
 
@@ -410,8 +331,6 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-
-     
     </main>
 </template>
 
@@ -435,12 +354,12 @@ export default {
             arrayDetalle: [],
             listado: 1,
             modal: 0,
-            modal1:0,
-            imagen:'',
-            imagenminiatura:'',
+            modal1: 0,
+            imagen: "",
+            imagenminiatura: "",
             tituloModal: "",
             tipoAccion: 0,
-             tipoAccion1: 0,
+            tipoAccion1: 0,
             errorArticulo: 0,
             errorMostrarMsjArticulo: [],
             pagination: {
@@ -449,7 +368,7 @@ export default {
                 per_page: 0,
                 last_page: 0,
                 from: 0,
-                to: 0
+                to: 0,
             },
             offset: 3,
             criterio: "nombre",
@@ -458,18 +377,18 @@ export default {
             buscar: "",
             arrayCategoria: [],
             arraygramaje: [],
-            arrayArticulofecha:[]
+            arrayArticulofecha: [],
         };
     },
     components: {
-        barcode: VueBarcode
+        barcode: VueBarcode,
     },
     computed: {
-        isActived: function() {
+        isActived: function () {
             return this.pagination.current_page;
         },
         //Calcula los elementos de la paginación
-        pagesNumber: function() {
+        pagesNumber: function () {
             if (!this.pagination.to) {
                 return [];
             }
@@ -490,64 +409,65 @@ export default {
                 from++;
             }
             return pagesArray;
-        }
+        },
     },
     methods: {
 
-
-        ObtenerImagen(e){
-            let file=e.target.files[0];
-            console.log(file)
-            this.imagen=file;
-            this.cargarImagen(file);
-           
+        /*EN DESARRLLO
+        ObtenerImagen(e) {
+          let file = e.target.files[0];
+          console.log(file);
+          this.imagen = file;
+          this.cargarImagen(file);
         },
-
-        cargarImagen(file){
-            let reader=new FileReader();
-            reader.onload=(e) =>
-
-            {
-            this.imagenminiatura=e.target.result;
-        }
-            reader.readAsDataURL(file);  
-        },
+    
+        cargarImagen(file) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            this.imagenminiatura = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        },*/
         pdfArticulo(id) {
             window.open("/articulo/pdf/" + id + "," + "_blank");
         },
-      /*  listarArticulofehas(id,desde, hasta) {
-            //let me = this;
-            //var url =
-             window.open("/articulo/pdf/"+id+"/"+ desde + "/" +hasta); 
-            // window.open("/articulo/pdf/" + response.data.id + ','+ "_blank" );
+        
+
+        listarArticulofeha(id, desde, hasta) {
+            window.open(
+                "/articulo/reporte_resultados/" +
+                id +
+                "/" +
+                desde +
+                "/" +
+                hasta +
+                "," +
+                "__blank"
+            );
+            //console.log(desde + hasta);
+            //me.listarArticulo(1, "", "nombre");
         },
-Fecha(id) {
-
-window.open("/articulo/reporte_resultados/" + id + "," + "__blank");
-
-},*/
-
-listarArticulofeha(id, desde, hasta) {
-window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+"," + "__blank");
-//console.log(desde + hasta);
-//me.listarArticulo(1, "", "nombre");
-},
 
         listarArticulo(page, buscar, criterio) {
             let me = this;
-            var url ="/articulo?page=" +page + "&buscar=" +buscar +"&criterio=" +criterio;
+            var url =
+                "/articulo?page=" +
+                page +
+                "&buscar=" +
+                buscar +
+                "&criterio=" +
+                criterio;
             axios
                 .get(url)
-                .then(function(response) {
+                .then(function (response) {
                     var respuesta = response.data;
                     me.arrayArticulo = respuesta.articulos.data;
                     me.pagination = respuesta.pagination;
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 });
         },
-
 
         articulosTodos() {
             window.open("articulo/articulosTodos", "_blank");
@@ -557,12 +477,12 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
             var url = "/categoria/selectCategoria";
             axios
                 .get(url)
-                .then(function(response) {
+                .then(function (response) {
                     //console.log(response);
                     var respuesta = response.data;
                     me.arrayCategoria = respuesta.categorias;
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 });
         },
@@ -571,12 +491,12 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
             var url = "/gramaje/selectGramaje";
             axios
                 .get(url)
-                .then(function(response) {
+                .then(function (response) {
                     //console.log(response);
                     var respuesta = response.data;
                     me.arraygramaje = respuesta.gramajes;
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 });
         },
@@ -601,14 +521,14 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                     presentacion: this.presentacion,
                     administracion: this.administracion,
                     concentracion: this.concentracion,
-                    items: this.items
+                    items: this.items,
                     //imagen:this.imagen
                 })
-                .then(function(response) {
+                .then(function (response) {
                     me.cerrarModal();
                     me.listarArticulo(1, "", "nombre");
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 });
         },
@@ -626,19 +546,19 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                     administracion: this.administracion,
                     concentracion: this.concentracion,
                     items: this.items,
-                    id: this.articulo_id
+                    id: this.articulo_id,
                 })
-                .then(function(response) {
+                .then(function (response) {
                     me.cerrarModal();
                     me.listarArticulo(1, "", "nombre");
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 });
         },
         desactivarArticulo(id) {
             swal({
-            title: "Esta seguro de desactivar este medicamento?",
+                title: "Esta seguro de desactivar este medicamento?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -648,16 +568,16 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                 confirmButtonClass: "btn btn-success",
                 cancelButtonClass: "btn btn-danger",
                 buttonsStyling: false,
-                reverseButtons: true
-            }).then(result => {
+                reverseButtons: true,
+            }).then((result) => {
                 if (result.value) {
                     let me = this;
 
                     axios
                         .put("/articulo/desactivar", {
-                            id: id
+                            id: id,
                         })
-                        .then(function(response) {
+                        .then(function (response) {
                             me.listarArticulo(1, "", "nombre");
                             swal(
                                 "Desactivado!",
@@ -665,7 +585,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                                 "success"
                             );
                         })
-                        .catch(function(error) {
+                        .catch(function (error) {
                             console.log(error);
                         });
                 } else if (
@@ -687,16 +607,16 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                 confirmButtonClass: "btn btn-success",
                 cancelButtonClass: "btn btn-danger",
                 buttonsStyling: false,
-                reverseButtons: true
-            }).then(result => {
+                reverseButtons: true,
+            }).then((result) => {
                 if (result.value) {
                     let me = this;
 
                     axios
                         .put("/articulo/activar", {
-                            id: id
+                            id: id,
                         })
-                        .then(function(response) {
+                        .then(function (response) {
                             me.listarArticulo(1, "", "nombre");
                             swal(
                                 "Activado!",
@@ -704,7 +624,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                                 "success"
                             );
                         })
-                        .catch(function(error) {
+                        .catch(function (error) {
                             console.log(error);
                         });
                 } else if (
@@ -719,9 +639,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
             this.errorMostrarMsjArticulo = [];
 
             if (this.idcategoria == 0)
-                this.errorMostrarMsjArticulo.push(
-                    "Seleccione una casa farmacéutica."
-                );
+                this.errorMostrarMsjArticulo.push("Seleccione una casa farmacéutica.");
 
             if (this.nombre == "" || this.nombre == null) {
                 this.errorMostrarMsjArticulo.push(
@@ -755,10 +673,7 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
             } else if (this.idgramaje == 0) {
                 this.errorMostrarMsjArticulo.push("Seleccione un gramaje.");
                 if (this.errorMostrarMsjArticulo.length) this.errorArticulo = 1;
-            } else if (
-                this.administracion == "" ||
-                this.administracion == null
-            ) {
+            } else if (this.administracion == "" || this.administracion == null) {
                 this.errorMostrarMsjArticulo.push(
                     "La administración del medicamento no puede quedar vacio"
                 );
@@ -798,12 +713,12 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
             this.items = "";
             this.errorArticulo = 0;
         },
-            cerrarModalfecha() {
+        cerrarModalfecha() {
             this.modal1 = 0;
             this.tituloModal1 = "";
-             this.articulo_id ="";
-                            this.desde = "";
-                            this.hasta = "";
+            this.articulo_id = "";
+            this.desde = "";
+            this.hasta = "";
         },
         abrirModal(modelo, accion, data = []) {
             switch (modelo) {
@@ -838,20 +753,19 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                             this.items = data["items"];
                             break;
                         }
-            
                     }
                 }
             }
             this.selectCategoria();
             this.selectGramaje();
         },
-         //funcion en prueva
+        //funcion en prueva
         abrirModalfecha(modelo1, accion1, data = []) {
             switch (modelo1) {
                 case "articulo": {
                     switch (accion1) {
                         case "fecha": {
-                              console.log(data);
+                            console.log(data);
                             this.modal1 = 1;
                             this.tituloModal = "Rango por fechas de entradas y salidas";
                             this.articulo_id = data["id"];
@@ -864,19 +778,19 @@ window.open("/articulo/reporte_resultados/" + id + "/" + desde + "/" + hasta+","
                 }
             }
         },
-      
+
         ocultarDetalle() {
             this.listado = 1;
         },
         cerrarModal() {
             this.modal = 0;
             this.tituloModal = "";
-        }
+        },
     },
     mounted() {
         this.listarArticulo(1, this.buscar, this.criterio);
         //this.listarArticulofeha(articulo, this.desde, this.hasta);
-    }
+    },
 };
 </script>
 <style>

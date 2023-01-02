@@ -187,8 +187,8 @@
                         <th scope="col">Presentación </th>
                         <th scope="col">Administración</th>
                         <th scope="col">Items</th>
-                        <th scope="col"> Stock Tableta</th>
-                        <th scope="col">Stock Blister</th>
+                        <th scope="col"> Ítems X Tratamient.</th>
+                        <th scope="col">Tratamientos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -200,8 +200,8 @@
                         <td>{{ $inv->presentacion }}</td>
                         <td>{{ $inv->administracion}}</td>
                         <td>{{ $inv->items }}</td>
-                        <td>{{ $inv->cantidad_tableta }}</td>
                         <td>{{ $inv->cantidad_blister }}</td>
+                        <td>{{ $inv->cantidad_tableta }}</td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -51,7 +51,7 @@ class InventarioController extends Controller
             'inventarios' => $inventarios
         ];
     }
-    
+        /*funcion para mostrar datos del medicamento al momento de realizar nuevo ingreso*/
 
     public function listarArticuloinventario(Request $request)
     {
@@ -76,7 +76,7 @@ class InventarioController extends Controller
             ->join('gramajes', 'articulos.idgramaje', '=', 'gramajes.id')
             ->select('articulos.id','articulos.idcategoria','articulos.idgramaje', 'articulos.nombre', 
             'categorias.nombre as nombre_categoria','gramajes.gramaje as nombre_gramaje', 
-            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','inventarios.cantidad_tableta',
+            'articulos.concentracion','articulos.administracion', 'articulos.presentacion','articulos.items','inventarios.cantidad_tableta',
             'inventarios.cantidad_blister',  'articulos.condicion'
             )->where('articulos.'.$criterio,'like','%'.$buscar.'%')
             ->where('articulos.condicion','=','1')
@@ -119,59 +119,7 @@ class InventarioController extends Controller
         return['inventarios' => $inventarios]; 
     }
     
-    /*Función para buscar medicamentos en invetarios */
-    public function buscarArticuloInventario(Request $request){
-        $filtro = $request->filtro;
-        $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
-        ->where('articulos.nombre', '=', $filtro)
-        ->select('inventarios.id','articulos.nombre','articulos.presentacion')
-        ->where('cantidad_tableta', '>', '0')->take(1)->get();
-        return ['inventarios' => $inventarios];  
-    }
-
-    /*Función para buscar medicamentos en invetarios con stock mayor a cero para vender*/
-    public function buscarInventarioVenta(Request $request)
-    {
-
-        //if (!$request->ajax()) return redirect('/');
-
-        $filtro = $request->filtro;
-        $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
-        ->where('articulos.nombre', '=', $filtro)
-        ->select('inventarios.id','articulos.nombre','inventarios.cantidad_tableta')
-        ->where('cantidad_tableta', '>', '0')->take(1)->get();
-        
-        return ['inventarios' => $inventarios];  
-
-       
-    }
-
-   /*Función para actualizar inventario*/
-    public function update(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-        //buscar la categoria por el $id del request
-        $inventarios =  Inventario::findOrfail($request->id);
-        //tomar los datos de request
-        $inventarios->idarticulo = $request->idarticulo;
-        $inventarios->stock_b = $request->stock_b;
-        $inventarios->stock_t = $request->stock_t;
-        $inventarios->save();
-        
-    }
-
-    /*funcion para ingresar inventario*/
-    public function store(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-        $inventarios = new Inventario();
-        $inventarios->idproducto = $request->idproducto;
-        $inventarios->cantidad_tableta ='0'; //$request->cantidad_tableta;
-        $inventarios->cantidad_blister = '0';//$request->cantidad_blister;
-        $inventarios->condicion = '1';
-        $inventarios->save();
-    }
-
+ 
     //Función del reporte de todos los productos
     public function inventarioPdf() 
     {
@@ -194,4 +142,60 @@ class InventarioController extends Controller
         ->setPaper('carta', 'landscape')
         ->stream('Inventario-'.now().'.pdf');
     }
+
+
+
+       /* ++++ no se utiiza en el codigo ++++  Función para buscar medicamentos por nombre */
+       public function buscarArticuloInventario(Request $request){
+        $filtro = $request->filtro;
+        $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
+        ->where('articulos.nombre', '=', $filtro)
+        ->select('inventarios.id','articulos.nombre','articulos.presentacion')
+        ->where('cantidad_tableta', '>', '0')->take(1)->get();
+        return ['inventarios' => $inventarios];  
+    }
+
+    /*  ++++ no se utiiza en el codigo ++++  Función para buscar medicamentos en invetarios con stock mayor a cero para vender*/
+    public function buscarInventarioVenta(Request $request)
+    {
+
+        //if (!$request->ajax()) return redirect('/');
+
+        $filtro = $request->filtro;
+        $inventarios = Inventario::join('articulos','inventarios.idproducto','=','articulos.id')
+        ->where('articulos.nombre', '=', $filtro)
+        ->select('inventarios.id','articulos.nombre','inventarios.cantidad_tableta')
+        ->where('cantidad_tableta', '>', '0')->take(1)->get();
+        
+        return ['inventarios' => $inventarios];  
+
+       
+    }
+
+   /*Función para actualizar inventario ++++ no se utiiza en el codigo ++++*/
+    public function update(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        //buscar la categoria por el $id del request
+        $inventarios =  Inventario::findOrfail($request->id);
+        //tomar los datos de request
+        $inventarios->idarticulo = $request->idarticulo;
+        $inventarios->stock_b = $request->stock_b;
+        $inventarios->stock_t = $request->stock_t;
+        $inventarios->save();
+        
+    }
+
+    /* ++++ no se utiiza en el codigo ++++ funcion para ingresar inventario*/
+    public function store(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $inventarios = new Inventario();
+        $inventarios->idproducto = $request->idproducto;
+        $inventarios->cantidad_tableta ='0'; //$request->cantidad_tableta;
+        $inventarios->cantidad_blister = '0';//$request->cantidad_blister;
+        $inventarios->condicion = '1';
+        $inventarios->save();
+    }
+
 }

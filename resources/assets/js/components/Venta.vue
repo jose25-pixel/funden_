@@ -207,8 +207,8 @@
                                             <th>Opciones</th>
                                             <th>Medicamento</th>
                                             <th>Precio  </th>
-                                            <th>Cantidad </th>
-                                            <th>Cantidad_blister </th>
+                                            <th>Tratamientos</th><!-- Blister-->
+                                            <th>Ítems X Tratamientos</th><!-- Pastillas-->
                                             <th>Fecha_vencimiento  </th>
                                             <th>Lote </th>
                                             <th>Subtotal</th>
@@ -229,15 +229,6 @@
                                                 
                                             </td>
                                             <td>
-                                                <span style="color:red; font-size:18px"  v-show="detalle.cantidad==0" >(*Ingrese) </span>
-                                                <span style="color:blue; font-size:20px"  v-text="detalle.presentacionv"></span>
-                                                <span style="color:purple; font-size:20px"  v-text="detalle.stock"></span>
-                                                <span style="color: red; font-size:30px" v-show="detalle.cantidad > detalle.stock">
-                                                    Stock:{{ detalle.stock }}
-                                                </span>
-                                                <input type="number" v-model="detalle.cantidad" class="form-control" placeholder="Ingrese Pastillas"/>
-                                            </td>
-                                            <td>
                                                 <span style="color:red; font-size:18px"  v-show="detalle.cantidad_blister==''" >(*Ingrese) </span>
                                                
                                                 <span style="color:blue; font-size:20px"  v-text="detalle.itemsv"></span>
@@ -251,6 +242,16 @@
                                                 <input type="number" v-model="detalle.cantidad_blister"
                                                     class="form-control"  placeholder="Ingrese Blister"/>
                                             </td>
+                                            <td>
+                                                <span style="color:red; font-size:18px"  v-show="detalle.cantidad==0" >(*Ingrese) </span>
+                                                <span style="color:blue; font-size:20px"  v-text="detalle.presentacionv"></span>
+                                                <span style="color:purple; font-size:20px"  v-text="detalle.stock"></span>
+                                                <span style="color: red; font-size:30px" v-show="detalle.cantidad > detalle.stock">
+                                                    Stock:{{ detalle.stock }}
+                                                </span>
+                                                <input type="number" v-model="detalle.cantidad" class="form-control" placeholder="Ingrese Pastillas"/>
+                                            </td>
+                                         
                                             <td>
                                                 <span style="color:red"  v-show="detalle.fecha_vencimiento==0" >(*Seleccione) </span>
                                                 <input type="date" v-model="detalle.fecha_vencimiento"
@@ -335,8 +336,8 @@
                                         <tr>
                                             <th>Medicamento</th>
                                             <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Cantidad_blister</th>
+                                            <th>Tratamientos</th><!-- Blister-->
+                                            <th>Ítems X Tratamientos</th><!-- Pastillas-->
                                             <th>Fecha_vencimiento</th>
                                             <th>Lote</th>
                                             <th>Subtotal</th>
@@ -346,8 +347,8 @@
                                         <tr v-for="detalle in arrayDetalle" :key="detalle.id">
                                             <td v-text="detalle.articulo"></td>
                                             <td v-text="detalle.precio"></td>
-                                            <td v-text="detalle.cantidad"></td>
                                             <td v-text="detalle.cantidad_blister"></td>
+                                            <td v-text="detalle.cantidad"></td>
                                             <td v-text="detalle.fecha_vencimiento"></td>
                                             <td v-text="detalle.lote"></td>
                                             <td>
@@ -384,7 +385,7 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
-        <!--Inicio del modal agregar/actualizar-->
+        <!--Inicio del modal agregar/salidad-->
         <div class="modal fade" tabindex="-1" :class="{ mostrar: modal }" role="dialog" aria-labelledby="myModalLabel"
             style="display: none" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -423,11 +424,11 @@
                                         <th>Nombre</th>
                                         <th>Concentración</th>
                                         <th>C.Farmaceutica</th>
-                                        <th>Administración</th>
+                                        <th>Administració.</th>
                                         <th>Presentación</th>
                                         <th>Items</th>
-                                        <th>Stock pastillas</th>
-                                        <th>Stock superior</th>
+                                        <th>Tratamient.</th><!-- Blister-->
+                                        <th>Ítems X Tratamient.</th><!-- Pastillas-->
                                       
                                     </tr>
                                 </thead>
@@ -447,9 +448,8 @@
                                         <td v-text="inventario.administracion"></td>
                                         <td v-text="inventario.presentacion"></td>
                                         <td v-text="inventario.items"></td>
-                                        <td v-text="inventario.cantidad_tableta"></td>
                                         <td v-text="inventario.cantidad_blister"></td>
-                                        
+                                        <td v-text="inventario.cantidad_tableta"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -744,7 +744,7 @@ export default {
             }
         },
 
-        //listar articulo
+        //listar para selecionar el medicamento para la relizar la salidad 
         listarArticuloinventario(buscar, criterio) {
             let me = this;
             var url =

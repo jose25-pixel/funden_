@@ -263,7 +263,7 @@
                 <tbody>
                     @foreach ($detalle_ventas as $sal)
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($sal->fecha_salida)->formatLocalized("%d/%B/%Y")¨ }}</td>
+                        <td>{{ \Carbon\Carbon::parse($sal->fecha_salida)->formatLocalized("%d/%B/%Y") }}</td>
                         <td>{{ $sal->descripcion }}</td>
                         <td>{{ $sal->cliente }}</td>
                         <td>{{ $sal->tipo_comprobante }}</td>

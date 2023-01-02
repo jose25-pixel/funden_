@@ -1,6 +1,7 @@
 <template>
   <main class="main">
     <!-- Breadcrumb -->
+    <!-- categoria se refiere a casa farmaceutica -->
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
     </ol>
@@ -22,11 +23,11 @@
                   <option value="nombre">Nombre</option>
                 </select>
                 <input type="text" v-model="buscar" @keyup.enter="
-                  listarCategoria(1, buscar, criterio)
-                " class="form-control" placeholder="Texto a buscar" />
+  listarCategoria(1, buscar, criterio)
+" class="form-control" placeholder="Texto a buscar" />
                 <button type="submit" class="btn btn-cafe" @click="
-                  listarCategoria(1, buscar, criterio)
-                ">
+  listarCategoria(1, buscar, criterio)
+">
                   <i class="fa fa-search"></i> Buscar
                 </button>
               </div>
@@ -44,28 +45,28 @@
               <tr v-for="categoria in arrayCategoria" :key="categoria.id">
                 <td>
                   <button type="button" @click="
-                    abrirModal(
-                      'categoria',
-                      'actualizar',
-                      categoria
-                    )
-                  " class="btn btn-warning btn-sm">
+  abrirModal(
+    'categoria',
+    'actualizar',
+    categoria
+  )
+" class="btn btn-warning btn-sm">
                     <i class="icon-pencil"></i>
                   </button>
                   &nbsp;
                   <template v-if="categoria.condicion">
                     <button type="button" class="btn btn-danger btn-sm" @click="
-                      desactivarCategoria(
-                        categoria.id
-                      )
-                    ">
+  desactivarCategoria(
+    categoria.id
+  )
+">
                       <i class="icon-trash"></i>
                     </button>
                   </template>
                   <template v-else>
                     <button type="button" class="btn btn-primary btn-sm" @click="
-                      activarCategoria(categoria.id)
-                    ">
+  activarCategoria(categoria.id)
+">
                       <i class="icon-check"></i>
                     </button>
                   </template>
@@ -86,30 +87,30 @@
             <ul class="pagination">
               <li class="page-item" v-if="pagination.current_page > 1">
                 <a class="page-link" href="#" @click.prevent="
-                  cambiarPagina(
-                    pagination.current_page - 1,
-                    buscar,
-                    criterio
-                  )
-                ">Ant</a>
+  cambiarPagina(
+    pagination.current_page - 1,
+    buscar,
+    criterio
+  )
+">Ant</a>
               </li>
               <li class="page-item" v-for="page in pagesNumber" :key="page"
                 :class="[page == isActived ? 'active' : '']">
                 <a class="page-link" href="#" @click.prevent="
-                  cambiarPagina(page, buscar, criterio)
-                " v-text="page"></a>
+  cambiarPagina(page, buscar, criterio)
+" v-text="page"></a>
               </li>
               <li class="page-item" v-if="
-                pagination.current_page <
-                pagination.last_page
-              ">
+  pagination.current_page <
+  pagination.last_page
+">
                 <a class="page-link" href="#" @click.prevent="
-                  cambiarPagina(
-                    pagination.current_page + 1,
-                    buscar,
-                    criterio
-                  )
-                ">Sig</a>
+  cambiarPagina(
+    pagination.current_page + 1,
+    buscar,
+    criterio
+  )
+">Sig</a>
               </li>
             </ul>
           </nav>
@@ -164,9 +165,7 @@
       <!-- /.modal-dialog -->
     </div>
     <!--Fin del modal-->
-    <!-- Inicio del modal Eliminar -->
-
-    <!-- Fin del modal Eliminar -->
+   
   </main>
 </template>
 

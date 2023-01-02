@@ -239,7 +239,7 @@
                         <th scope="col-sm-4">Lote</th>
                         <th scope="col-sm-4">estado</th>
                         <th scope="col-sm-4">Vencimiento</th>
-                        <th scope="col-sm-4">Entradas</th>
+                        <th scope="col-sm-4">Trata./ÍtemX Tratamientos</th>
                         <th scope="col-sm-4">Saldo</th>
                     </tr>
                 </thead>
@@ -253,7 +253,7 @@
                         <td>{{ $ing->lote }}</td>
                         <td>{{ $ing->estado }}</td>
                         <td>{{\Carbon\Carbon::parse($ing->fecha_vencimiento)->formatLocalized("%d/%B/%Y") }}</td>
-                        <td>{{ $ing->cantidad . '/' . $ing->cantidad_blister }}</td>
+                        <td>{{  $ing->cantidad_blister. '/' .$ing->cantidad  }}</td>
                         <td>{{ $ing->antiguo_tableta . '/' . $ing->antiguo_blister }}
                         </td>
                     </tr>
@@ -274,7 +274,7 @@
                         <th scope="col-sm-4">Número</th>
                         <th scope="col-sm-4">Lote</th>
                         <th scope="col-sm-4">Vencimiento</th>
-                        <th scope="col-sm-4">Salidas</th>
+                        <th scope="col-sm-4">Trata./ÍtemX Tratamientos</th>   
                         <th scope="col-sm-4">saldo</th>
                     </tr>
                 </thead>
@@ -288,7 +288,7 @@
                         <td>{{ $sal->num_comprobante }}</td>
                         <td>{{ $sal->lote }}</td>
                         <td>{{\Carbon\Carbon::parse($sal->fecha_vencimiento)->formatLocalized("%d/%B/%Y") }}</td>
-                        <td>{{ $sal->cantidad . '/' . $sal->cantidad_blister }}</td>
+                        <td>{{  $sal->cantidad_blister . '/' . $sal->cantidad }}</td>
                         <td>{{ $sal->antiguo_tableta . '/' . $sal->antiguo_blister }} </td>
                     </tr>
                     @endforeach
@@ -302,8 +302,8 @@
             <table class="table table-responsive table-borderless table-sm">
                 <thead>
                     <tr>
-                        <th scope="col" style="text-align: center">Cantidad de Tabletas</th>
-                        <th scope="col" style="text-align: center">Cantidad de blister</th>
+                        <th scope="col" style="text-align: center">Unidad</th>
+                        <th scope="col" style="text-align: center">Total de item.</th>
 
                     </tr>
                 </thead>

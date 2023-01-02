@@ -1,486 +1,633 @@
 <template>
-     <main class="main">
-            <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
-            </ol>
-            <div class="container-fluid">
-                <!-- Ejemplo de tabla Listado -->
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Clientes
-                        <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-cafe">
-                            <i class="icon-plus"></i>&nbsp;Nuevo
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="nombre">Nombre</option>
-                                      <option value="tipo_documento">Documento</option>
-                                      <option value="num_documento">Num_Documento</option>
-                                      <option value="email">Email</option>
-                                      <option value="telefono">Teléfono</option>
-                                    </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-cafe" @click="listarPersona(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <table class="table table-responsive table-bordered table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Opciones</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo Documento</th>
-                                    <th>Número</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="persona in arrayPersona" :key="persona.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('persona','actualizar', persona)" class="btn btn-warning btn-sm">
-                                        <i class="icon-pencil"></i>
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" @click="abrirModalfechaC('persona','fecha',persona)" class="btn btn-success btn-sm">
-                                           <i class="fa fa-calendar" aria-hidden="true"></i>
-                                       </button>
-                                    </td>
-                                     
-                                    <td v-text="persona.nombre"> </td>
-                                    <td v-text="persona.tipo_documento"> </td>
-                                    <td v-text="persona.num_documento"> </td>
-                                    <td v-text="persona.direccion"> </td>
-                                    <td v-text="persona.telefono"> </td>
-                                    <td v-text="persona.email"> </td>
-                               </tr>
-                            </tbody>
-                        </table>
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item" v-if="pagination.current_page >1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
-                                </li>
-                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
-                                </li>
-                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link " href="#" @click.prevent="cambiarPagina(pagination.current_page  + 1,buscar,criterio)">Sig</a>
-                                </li>
-                            </ul>
-                          
-                        </nav>
-                    </div>
-                </div>
-                <!-- Fin ejemplo de tabla Listado -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
+    </ol>
+    <div class="container-fluid">
+      <!-- Ejemplo de tabla Listado -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Clientes
+          <button
+            type="button"
+            @click="abrirModal('persona', 'registrar')"
+            class="btn btn-cafe"
+          >
+            <i class="icon-plus"></i>&nbsp;Nuevo
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="form-group row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <select class="form-control col-md-3" v-model="criterio">
+                  <option value="nombre">Nombre</option>
+                  <option value="tipo_documento">Documento</option>
+                  <option value="num_documento">Num_Documento</option>
+                  <option value="email">Email</option>
+                  <option value="telefono">Teléfono</option>
+                </select>
+                <input
+                  type="text"
+                  v-model="buscar"
+                  @keyup.enter="listarPersona(1, buscar, criterio)"
+                  class="form-control"
+                  placeholder="Texto a buscar"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-cafe"
+                  @click="listarPersona(1, buscar, criterio)"
+                >
+                  <i class="fa fa-search"></i> Buscar
+                </button>
+              </div>
             </div>
-            <!--Inicio del modal agregar/actualizar-->
-            <div class="modal fade"  tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header cafe">
-                            <h4 class="modal-title" v-text="tituloModal"></h4>
-                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre
-                                        <span style="color:red"  v-show="nombre==0" >(*Ingrese) </span>
-                                    </label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Ingrese el nombre del cliente">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
-                                    <div class="col-md-9">
-                                        <select v-model="tipo_documento" class="form-control">
-                                            <option value="">Seleccione un documento</option>
-                                            <option value="DNI">DNI</option>
-                                            <option value="DNI">NIT</option>
-                                            <option value="PASS">PASAPORTE</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Número</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Ej.000000xx">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección
-                                        <span style="color:red"  v-show="direccion==0" >(*Ingrese) </span>
-                                    </label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Ej. San Salvador, San Jacinto">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono
-                                    </label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" maxlength="16" placeholder="Ej.22202222 ó 77896543">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Email</label>
-                                    <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Ej.nombre@gmail.com">
-                                    </div>
-                                </div>
+          </div>
+          <table
+            class="table table-responsive table-bordered table-striped table-sm"
+          >
+            <thead>
+              <tr>
+                <th>Opciones</th>
+                <th>Nombre</th>
+                <th>Tipo Documento</th>
+                <th>Número</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="persona in arrayPersona" :key="persona.id">
+               
+                <td>
+                  <button
+                    type="button"
+                    @click="abrirModal('persona', 'actualizar', persona)"
+                    class="btn btn-warning btn-sm"
+                  >
+                    <i class="icon-pencil"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    type="button"
+                    @click="abrirModalfechaC('persona', 'fecha', persona)"
+                    class="btn btn-success btn-sm"
+                  >
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button> &nbsp;
+                  <template v-if="persona.condicion==1">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      @click="desactivarPersona(persona.id)"
+                    >
 
-                                <div v-show="errorPersona" class="form-group row div-error">
-                                 <div class="text-center text-error">
-                                 <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
-                                 </div>
-                                 </div>
-                                </div>
+                  <i class="icon-trash"></i>
+                    </button>
+                    
+                  </template>
+                  <template v-else>
+                    <button type="button" class="btn btn-info btn-sm" @click="activarPersona(persona.id)">
+                        <i class="icon-check"></i>
+                    </button>
+                </template>
+                </td>
 
-
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <p>Si seleciona tipo de documento, es obligatorio que ingrese el Número de Documento.</p>                            <button type="button" class="btn btn-dark" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-cafe" @click="registrarPersona()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-cafe" @click="actualizarPersona()">Actualizar</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
+                <td v-text="persona.nombre"></td>
+                <td v-text="persona.tipo_documento"></td>
+                <td v-text="persona.num_documento"></td>
+                <td v-text="persona.direccion"></td>
+                <td v-text="persona.telefono"></td>
+                <td v-text="persona.email"></td>
+                <td> 
+                  <div v-if="persona.condicion">
+                  <span class="badge badge-success">Activo</span>
+                  </div>
+                  <div v-else><span class="badge badge-danger">Inactivo</span>
+                  </div>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item" v-if="pagination.current_page > 1">
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="
+                    cambiarPagina(pagination.current_page - 1, buscar, criterio)
+                  "
+                  >Ant</a
+                >
+              </li>
+              <li
+                class="page-item"
+                v-for="page in pagesNumber"
+                :key="page"
+                :class="[page == isActived ? 'active' : '']"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="cambiarPagina(page, buscar, criterio)"
+                  v-text="page"
+                ></a>
+              </li>
+              <li
+                class="page-item"
+                v-if="pagination.current_page < pagination.last_page"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="
+                    cambiarPagina(pagination.current_page + 1, buscar, criterio)
+                  "
+                  >Sig</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- Fin ejemplo de tabla Listado -->
+    </div>
+    <!--Inicio del modal agregar/actualizar-->
+    <div
+      class="modal fade"
+      tabindex="-1"
+      :class="{ mostrar: modal }"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header cafe">
+            <h4 class="modal-title" v-text="tituloModal"></h4>
+            <button
+              type="button"
+              class="close"
+              @click="cerrarModal()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              class="form-horizontal"
+            >
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="text-input"
+                  >Nombre
+                  <span style="color: red" v-show="nombre == 0"
+                    >(*Ingrese)
+                  </span>
+                </label>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    v-model="nombre"
+                    class="form-control"
+                    placeholder="Ingrese el nombre del cliente"
+                  />
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!--Fin del modal-->
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="text-input"
+                  >Tipo Documento</label
+                >
+                <div class="col-md-9">
+                  <select v-model="tipo_documento" class="form-control">
+                    <option value="">Seleccione un documento</option>
+                    <option value="DNI">DNI</option>
+                    <option value="DNI">NIT</option>
+                    <option value="PASS">PASAPORTE</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="text-input"
+                  >Número</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    v-model="num_documento"
+                    class="form-control"
+                    placeholder="Ej.000000xx"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="email-input"
+                  >Dirección
+                  <span style="color: red" v-show="direccion == 0"
+                    >(*Ingrese)
+                  </span>
+                </label>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    v-model="direccion"
+                    class="form-control"
+                    placeholder="Ej. San Salvador, San Jacinto"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="email-input"
+                  >Teléfono
+                </label>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    v-model="telefono"
+                    class="form-control"
+                    maxlength="16"
+                    placeholder="Ej.22202222 ó 77896543"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="email-input"
+                  >Email</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="email"
+                    v-model="email"
+                    class="form-control"
+                    placeholder="Ej.nombre@gmail.com"
+                  />
+                </div>
+              </div>
 
-             <!--modal de rago de  fechas-->
-         <div
-         class="modal fade"
-         tabindex="-1"
-         :class="{ mostrar: modal1 }"
-         role="dialog"
-         aria-labelledby="myModalLabel"
-         style="display: none"
-         aria-hidden="true"
-     >
-         <div class="modal-dialog modal-primary modal-lg" role="document">
-             <div class="modal-content">
-                 <div class="modal-header cafe">
-                     <h4 class="modal-title" v-text="tituloModalC"></h4>
-                     <button
-                         type="button"
-                         class="close"
-                         @click="cerrarModalfechaC()"
-                         aria-label="Close"
-                     >
-                         <span aria-hidden="true">×</span>
-                     </button>
-                 </div>
-                 <div class="modal-body ">
-                     <form
-                         action=""
-                         method="post"
-                         enctype="multipart/form-data"
-                         class="form-horizontal"
-                     >
-                     <div class="form-group row">
-                         <div class="col-md-9">
-                             <input
-                                 type="hidden"
-                                 v-model="persona_id"
-                                 class="form-control"
-                                 placeholder="Ingrese presentación del medicamento"
-                             />
-                         </div>
-                     </div>
-                        
-                        
-                         <div class="form-group row">
-                             <label
-                                 class="col-md-3 form-control-label"
-                                 for="text-input"
-                                 >Desde
-                             </label>
-                             <div class="col-md-9">
-                                 <input
-                                     type="date"
-                                     v-model="desde"
-                                     class="form-control"
-                                 
-                                 />
-                             </div>
-                         </div>
+              <div v-show="errorPersona" class="form-group row div-error">
+                <div class="text-center text-error">
+                  <div
+                    v-for="error in errorMostrarMsjPersona"
+                    :key="error"
+                    v-text="error"
+                  ></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <p>
+              Si seleciona tipo de documento, es obligatorio que ingrese el
+              Número de Documento.
+            </p>
+            <button type="button" class="btn btn-dark" @click="cerrarModal()">
+              Cerrar
+            </button>
+            <button
+              type="button"
+              v-if="tipoAccion == 1"
+              class="btn btn-cafe"
+              @click="registrarPersona()"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              v-if="tipoAccion == 2"
+              class="btn btn-cafe"
+              @click="actualizarPersona()"
+            >
+              Actualizar
+            </button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!--Fin del modal-->
 
-                         <div class="form-group row">
-                             <label
-                                 class="col-md-3 form-control-label"
-                                 for="email-input"
-                             >
-                                 <spam style="color: black">Hasta</spam>
-                             </label>
-                             <div class="col-md-9">
-                                 <input
-                                     type="date"
-                                     v-model="hasta"
-                                     class="form-control"
-                                   
-                                 />
-                             </div>
-                         </div>
+    <!--modal de rago de  fechas-->
+    <div
+      class="modal fade"
+      tabindex="-1"
+      :class="{ mostrar: modal1 }"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header cafe">
+            <h4 class="modal-title" v-text="tituloModalC"></h4>
+            <button
+              type="button"
+              class="close"
+              @click="cerrarModalfechaC()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              class="form-horizontal"
+            >
+              <div class="form-group row">
+                <div class="col-md-9">
+                  <input
+                    type="hidden"
+                    v-model="persona_id"
+                    class="form-control"
+                    placeholder="Ingrese presentación del medicamento"
+                  />
+                </div>
+              </div>
 
-                         <div
-                             v-show="errorPersona"
-                             class="form-group row div-error"
-                         >
-                             <div class="text-center text-error">
-                                 <div
-                                     v-for="error in errorMostrarMsjPersona"
-                                     :key="error"
-                                     v-text="error"
-                                 ></div>
-                             </div>
-                         </div>
-                     </form>
-                 </div>
-                 <div class="modal-footer">
-                     <button
-                         type="button"
-                         class="btn btn-dark"
-                         @click="cerrarModalfechaC()"
-                     >
-                         Cerrar
-                     </button>
-                     <button
-                         type="button"
-                         v-if="tipoAccionC == 1"
-                         class="btn btn-cafe"
-                         @click="listarClientefeha(persona_id,desde,hasta)"
-                     >
-                        Ver Ventas
-                     </button>
-                 
-                 </div>
-             </div>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="text-input"
+                  >Desde
+                </label>
+                <div class="col-md-9">
+                  <input type="date" v-model="desde" class="form-control" />
+                </div>
+              </div>
 
-             <!-- /.modal-content -->
-         </div>
-         <!-- /.modal-dialog -->
-     </div>
-            
-        </main>
+              <div class="form-group row">
+                <label class="col-md-3 form-control-label" for="email-input">
+                  <spam style="color: black">Hasta</spam>
+                </label>
+                <div class="col-md-9">
+                  <input type="date" v-model="hasta" class="form-control" />
+                </div>
+              </div>
+
+              <div v-show="errorPersona" class="form-group row div-error">
+                <div class="text-center text-error">
+                  <div
+                    v-for="error in errorMostrarMsjPersona"
+                    :key="error"
+                    v-text="error"
+                  ></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-dark"
+              @click="cerrarModalfechaC()"
+            >
+              Cerrar
+            </button>
+            <button
+              type="button"
+              v-if="tipoAccionC == 1"
+              class="btn btn-cafe"
+              @click="listarClientefeha(persona_id, desde, hasta)"
+            >
+              Ver Ventas
+            </button>
+          </div>
+        </div>
+
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+  </main>
 </template>
 
 <script>
-    export default {
-        data(){
-            return{
-                persona_id: 0,
-                nombre: '',
-                tipo_documento: '',
-                num_documento: '',
-                direccion: '',
-                telefono: '',
-                email: '',
-                arrayPersona:[],
-                modal: 0,
-                modal1:0,
-                tituloModal: '',
-                tituloModalC: '',
-                tipoAccion: 0,
-                tipoAccionC: 0,
-                errorPersona: 0,
-                errorMostrarMsjPersona: [],
-                pagination : {
-                    'total' : 0,
-                    'current_page': 0,
-                     'per_page': 0,
-                      'last_page': 0,
-                       'from': 0,
-                        'to': 0,
-                },
-                offset:3,
-                criterio: 'nombre',
-                buscar: '',
-                desde:'',
-                hasta:''
-            }
-        },
-        computed:{
-            isActived: function(){
-                return this.pagination.current_page;
-            },
-            pagesNumber: function(){
-                if(!this.pagination.to){
-                    return[];
-                }
-                var from = this.pagination.current_page - this.offset;
-                if(from < 1){
-                    from =1;
-                }
-                var to = from +(this.offset * 2);
-                if(to >= this.pagination.last_page){
-                    to = this.pagination.last_page;
-                }
-                var pagesArray = [];
-                while(from <= to){
-                    pagesArray.push(from);
-                    from++;
-                }
-                return pagesArray;
-            }
-        },
+export default {
+  data() {
+    return {
+      persona_id: 0,
+      nombre: "",
+      tipo_documento: "",
+      num_documento: "",
+      direccion: "",
+      telefono: "",
+      email: "",
+      arrayPersona: [],
+      modal: 0,
+      modal1: 0,
+      tituloModal: "",
+      tituloModalC: "",
+      tipoAccion: 0,
+      tipoAccionC: 0,
+      errorPersona: 0,
+      errorMostrarMsjPersona: [],
+      pagination: {
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0,
+      },
+      offset: 3,
+      criterio: "nombre",
+      buscar: "",
+      desde: "",
+      hasta: "",
+    };
+  },
+  computed: {
+    isActived: function () {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function () {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    },
+  },
 
-        methods: {
+  methods: {
+    listarClientefeha(id, desde, hasta) {
+      window.open(
+        "/cliente/reporte_clientes/" +
+          id +
+          "/" +
+          desde +
+          "/" +
+          hasta +
+          "," +
+          "__blank"
+      );
+      //console.log(desde + hasta);
+      //me.listarArticulo(1, "", "nombre");
+    },
+    //listar clientes
+    listarPersona(page, buscar, criterio) {
+      let me = this;
+      var url =
+        "/cliente?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
+      axios
+        .get(url)
+        .then(function (response) {
+          var respuesta = response.data;
+          //handle sucess
+          me.arrayPersona = respuesta.personas.data;
+          me.pagination = respuesta.pagination;
+        })
+        .catch(function (error) {
+          //handle error
+          console.log(error);
+        });
+    },
+    cambiarPagina(page, buscar, criterio) {
+      let me = this;
 
+      me.pagination.current_page = page;
+      me.listarPersona(page, buscar, criterio);
+    },
+    registrarPersona() {
+      if (this.validarPersona()) {
+        return;
+      }
+      let me = this;
 
+      axios
+        .post("/cliente/registrar", {
+          nombre: this.nombre,
+          tipo_documento: this.tipo_documento,
+          num_documento: this.num_documento,
+          direccion: this.direccion,
+          telefono: this.telefono,
+          email: this.email,
+        })
+        .then(function (response) {
+          me.cerrarModal();
+          me.listarPersona(1, "", "nombre");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    actualizarPersona() {
+      if (this.validarPersona()) {
+        return;
+      }
+      let me = this;
 
+      axios
+        .put("/cliente/actualizar", {
+          nombre: this.nombre,
+          tipo_documento: this.tipo_documento,
+          num_documento: this.num_documento,
+          direccion: this.direccion,
+          telefono: this.telefono,
+          email: this.email,
+          id: this.persona_id,
+        })
+        .then(function (response) {
+          me.cerrarModal();
+          me.listarPersona(1, "", "nombre");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    validarPersona() {
+      (this.errorPersona = 0), (this.errorMostrarMsjPersona = []);
 
-            listarClientefeha(id, desde, hasta) {
-window.open("/cliente/reporte_clientes/" + id + "/" + desde + "/" + hasta+"," + "__blank");
-//console.log(desde + hasta);
-//me.listarArticulo(1, "", "nombre");
-},
-            //listar clientes
-            listarPersona(page, buscar, criterio){
-                
-                let me=this;
-                var url = '/cliente?page=' + page + '&buscar=' + buscar + '&criterio='+ criterio;
-                axios.get(url).then(function (response){
-                    var respuesta = response.data;
-                    //handle sucess
-                    me.arrayPersona = respuesta.personas.data;
-                    me.pagination = respuesta.pagination;
-                })
-                .catch(function (error){
-                    //handle error
-                    console.log(error);
-                });
-            },
-            cambiarPagina(page, buscar, criterio){
-                let me = this;
+      if (this.nombre == "" || this.nombre == null) {
+        this.errorMostrarMsjPersona.push(
+          "El nombre del cliente no puede quedar vacío."
+        );
+      } else if (
+        !/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
+          this.nombre
+        )
+      ) {
+        this.errorMostrarMsjPersona.push(
+          "El nombre del cliente no puede contener números"
+        );
+      } else if (!/^[A-Z]/.test(this.nombre)) {
+        this.errorMostrarMsjPersona.push(
+          "El nombre del cliente debe iniciar con una letra mayúscula"
+        );
+      } else if (this.direccion == "" || this.direccion == null) {
+        this.errorMostrarMsjPersona.push(
+          "La dirección del cliente no puede estar vacía."
+        );
+      }
 
-                me.pagination.current_page = page;
-                me.listarPersona(page, buscar, criterio);
-            },
-            registrarPersona(){
-                if (this.validarPersona()){
-                    return;
+      /*Validación del número de telefono*/
 
-                }
-                let me = this;
+      /*Validación del email*/
+      if (!this.validEmail(this.email)) {
+        this.errorMostrarMsjPersona.push(
+          "El correo electrónico debe ser válido."
+        );
+      } else if (!this.tipo_documento == "") {
 
-                axios.post('/cliente/registrar',{
-                  'nombre': this.nombre,
-                  'tipo_documento': this.tipo_documento,
-                  'num_documento': this.num_documento,
-                  'direccion': this.direccion,
-                  'telefono': this.telefono,
-                  'email': this.email
-                }).then(function(response){
-                    me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
-                }).catch(function(error){
-                    console.log(error);
-                });
+      /*Validación del tipo de documento*/
+        if (this.num_documento == "") {
+          this.errorMostrarMsjPersona.push(
+            "El número de documento del cliente no puede estar vacío."
+          );
+        } else if (this.num_documento.length <= 7) {
+          this.errorMostrarMsjPersona.push(
+            "El número de documento del cliente  no es valido, debe ser mas de 7 caracteres."
+          );
+        }
+      } else if (!this.num_documento == "") {
+        if (this.tipo_documento == "") {
+          this.errorMostrarMsjPersona.push("Seleccione un tipo de documento.");
+        }
+      }
+      if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
+      return this.errorPersona;
+    },
 
-        },
-        actualizarPersona(){
-            if (this.validarPersona()){
-                    return;
+    validEmail(email) {
+      if (!this.email == "") {
+        var re =
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      } else {
+        return true;
+      }
+    },
 
-                }
-                let me = this;
-
-                axios.put('/cliente/actualizar',{
-                  'nombre': this.nombre,
-                  'tipo_documento': this.tipo_documento,
-                  'num_documento': this.num_documento,
-                  'direccion': this.direccion,
-                  'telefono': this.telefono,
-                  'email': this.email,
-                  'id': this.persona_id
-                }).then(function(response){
-                    me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
-                }).catch(function(error){
-                    console.log(error);
-                });
-
-        },
-        validarPersona(){
-            this.errorPersona=0,
-            this.errorMostrarMsjPersona =[];
-
-            if (this.nombre == '' || this.nombre == null)
-                {
-                    this.errorMostrarMsjPersona.push("El nombre del cliente no puede quedar vacío.");
-                } 
-                else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(this.nombre)){
-                    this.errorMostrarMsjPersona.push("El nombre del cliente no puede contener números");
-                }
-                else if( !/^[A-Z]/.test(this.nombre)){
-                    this.errorMostrarMsjPersona.push("El nombre del cliente debe iniciar con una letra mayúscula");
-                }
-
-            else if (this.direccion == '' || this.direccion == null) 
-            {
-                this.errorMostrarMsjPersona.push("La dirección del cliente no puede estar vacía.");
-            }
-
-            /*Validación del número de telefono*/
-            
-
-            /*Validación del email*/
-            if (!this.validEmail(this.email)) {
-                this.errorMostrarMsjPersona.push('El correo electrónico debe ser válido.');
-            }
-
-             /*Validación del tipo de documento*/
-                else if (!this.tipo_documento == '' ){
-                    if(this.num_documento == ''){
-                      this.errorMostrarMsjPersona.push("El número de documento del cliente no puede estar vacío.");
-                    }
-                    
-                    else if(this.num_documento.length<=7){
-                      this.errorMostrarMsjPersona.push("El número de documento del cliente  no es valido, debe ser mas de 7 caracteres.");
-                    }
-                }
-                    else if(!this.num_documento == ''){
-                       if(this.tipo_documento == ''){
-                         this.errorMostrarMsjPersona.push("Seleccione un tipo de documento.");
-                        }
-                    }
-            if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-            return this.errorPersona;
-        },
-
-         validEmail (email) {
-            if (!this.email == ''){
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-   
-            }else{
-                return true;
-            }
-       
-        },
-       
-
-        cerrarModalfechaC() {
-            this.modal1 = 0;
-            this.tituloModalC = "";
-             this.persona_id ="";
-             this.desde = "";
-            this.hasta = "";
-        },
+    cerrarModalfechaC() {
+      this.modal1 = 0;
+      this.tituloModalC = "";
+      this.persona_id = "";
+      this.desde = "";
+      this.hasta = "";
+    },
 
 
         cerrarModal(){
@@ -494,92 +641,159 @@ window.open("/cliente/reporte_clientes/" + id + "/" + desde + "/" + hasta+"," + 
             this.email='';
             this.errorPersona=0;
         },
-
-
-
-        abrirModalfechaC(modelo1, accion1, data = []) {
-            switch (modelo1) {
-                case "persona": {
-                    switch (accion1) {
-                        case "fecha": {
-                              console.log(data);
-                            this.modal1 = 1;
-                            this.tituloModalC = "Rango de fecha de ventas por clientes";
-                            this.persona_id = data["id"];
-                            this.desde = "";
-                            this.hasta = "";
-                            this.tipoAccionC = 1;
-                            break;
-                        }
-                    }
+        // funcion para desactivar el cliente
+        desactivarPersona(id){
+               swal({
+                title: 'Esta seguro de desactivar este cliente?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+                    axios.put('/cliente/desactivar',{
+                        'id': id
+                    }).then(function (response) {
+                        me.listarPersona(1,'','nombre');
+                        swal(
+                        'Desactivado!',
+                        'El cliente ha sido desactivado con éxito.',
+                        'success'
+                        )
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
                 }
-            }
-        },
-
-        abrirModal(modelo, accion, data = []){
-            switch (modelo){
-                case "persona":
-                {
-                    switch(accion){
-                        case 'registrar':
-                        {
-                            this.modal = 1;
-                            this.tituloModal = 'Registrar Ciente';
-                            this.nombre='';
-                            this.tipo_documento='';
-                            this.num_documento='';
-                            this.direccion='';
-                            this.telefono='';
-                            this.email='';
-                            this.tipoAccion = 1;
-                            break;
-                            
-                        }
-                        case 'actualizar':
-                        {
-                            //console.log(data);
-                            this.modal=1;
-                            this.tituloModal='Actualizar Cliente';
-                            this.tipoAccion=2;
-                            this.persona_id=data['id'];
-                            this.nombre = data['nombre'];
-                            this.tipo_documento = data['tipo_documento'];
-                            this.num_documento = data['num_documento'];
-                            this.direccion = data['direccion'];
-                            this.telefono = data['telefono'];
-                            this.email = data['email'];
-                            break;
-
-                        }
-                    }
+                }) 
+            },
+            activarPersona(id){
+               swal({
+                title: 'Esta seguro de activar este cliente?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+                    axios.put('/cliente/activar',{
+                        'id': id
+                    }).then(function (response) {
+                        me.listarPersona(1,'','nombre');
+                        swal(
+                        'Activado!',
+                        'El cliente ha sido activado con éxito.',
+                        'success'
+                        )
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    
+                    
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                    
                 }
+                }) 
+            },
+ //codigo del modal para seecionara rango de fechas
+    abrirModalfechaC(modelo1, accion1, data = []) {
+      switch (modelo1) {
+        case "persona": {
+          switch (accion1) {
+            case "fecha": {
+              console.log(data);
+              this.modal1 = 1;
+              this.tituloModalC = "Rango de fecha de ventas por clientes";
+              this.persona_id = data["id"];
+              this.desde = "";
+              this.hasta = "";
+              this.tipoAccionC = 1;
+              break;
             }
+          }
         }
-
+      }
     },
 
-        mounted() {
-            this.listarPersona(1,this.buscar, this.criterio);
+     //codigo para ingresar y actualizaar el cliente
+    abrirModal(modelo, accion, data = []) {
+      switch (modelo) {
+        case "persona": {
+          switch (accion) {
+            case "registrar": {
+              this.modal = 1;
+              this.tituloModal = "Registrar Ciente";
+              this.nombre = "";
+              this.tipo_documento = "";
+              this.num_documento = "";
+              this.direccion = "";
+              this.telefono = "";
+              this.email = "";
+              this.tipoAccion = 1;
+              break;
+            }
+            case "actualizar": {
+              //console.log(data);
+              this.modal = 1;
+              this.tituloModal = "Actualizar Cliente";
+              this.tipoAccion = 2;
+              this.persona_id = data["id"];
+              this.nombre = data["nombre"];
+              this.tipo_documento = data["tipo_documento"];
+              this.num_documento = data["num_documento"];
+              this.direccion = data["direccion"];
+              this.telefono = data["telefono"];
+              this.email = data["email"];
+              break;
+            }
+          }
         }
-    }
+      }
+    },
+  },
+
+  mounted() {
+    this.listarPersona(1, this.buscar, this.criterio);
+  },
+};
 </script>
 <style>
-    .modal-content{
-        width: 100% !important;
-        position: absolute !important;
-    }
-    .mostrar{
-        display: list-item !important;
-        opacity: 1 !important;
-        position: absolute !important;
-        background-color: #3c29297a !important;
-    }
-    .div-error{
-        display: flex;
-        justify-content: center;
-    }
-    .text-error{
-        color: red !important;
-        font-weight: bold;
-    }
+.modal-content {
+  width: 100% !important;
+  position: absolute !important;
+}
+.mostrar {
+  display: list-item !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  background-color: #3c29297a !important;
+}
+.div-error {
+  display: flex;
+  justify-content: center;
+}
+.text-error {
+  color: red !important;
+  font-weight: bold;
+}
 </style>

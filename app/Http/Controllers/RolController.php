@@ -34,6 +34,7 @@ class RolController extends Controller
             'roles' => $roles
         ];
     }
+    //fucion para poder selecionar el rol al mometo de ingresar un nuevo usuario
     public function selectRol(Request $request)
     {
         $roles = Rol::where('condicion', '=', '1')

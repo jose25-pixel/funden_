@@ -13,5 +13,5 @@ class kardex extends Model
         'acciones'
         ];
 
-        public $timestamps = false;
+       // public $timestamps = false;
 }

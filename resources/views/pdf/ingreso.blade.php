@@ -117,17 +117,16 @@
         <div class="proveedor">
             <h4 style="text-align:center">REPORTE DE DETALLE DE COMPRA</h4>
             @foreach ($ingreso as $ing)
-            <H4>PROVEEDOR</H4>
-            <b>Proveedor:</b><label>{{ $ing->nombre }} </label><br>
-            <b>Tipo de documento:</b> <label>{{ $ing->tipo_documento }}</label><br>
-            <b>Número de documento:</b> <label>{{ $ing->num_documento }}</label><br>
-            <b>Dirección:</b><label> {{ $ing->direccion }}<label><br>
-                    <b>Teléfono:</b><label> {{ $ing->telefono }}<label><br>
-                            <b>Email:</b><label> {{ $ing->email }}<label>
-                                    @endforeach
+                <H4>PROVEEDOR</H4>
+                <b>Proveedor:</b><label>{{ $ing->nombre }} </label><br>
+                <b>Tipo de documento:</b> <label>{{ $ing->tipo_documento }}</label><br>
+                <b>Número de documento:</b> <label>{{ $ing->num_documento }}</label><br>
+                <b>Dirección:</b><label> {{ $ing->direccion }}<label><br>
+                        <b>Teléfono:</b><label> {{ $ing->telefono }}<label><br>
+                                <b>Email:</b><label> {{ $ing->email }}<label>
+            @endforeach
         </div>
     </section>
-
 
     <section>
         <div>
@@ -145,7 +144,7 @@
                         <td>{{ $ing->tipo_comprobante }}</td>
                         <td>{{ $ing->serie_comprobante }} núm.{{ $ing->num_comprobante }}</td>
                         <td>{{ $ing->usuario }}</td>
-                        <td>{{ \Carbon\Carbon::parse($ing->fecha_compra)->formatLocalized("%d/%B/%Y")}}</td>
+                        <td>{{ \Carbon\Carbon::parse($ing->fecha_compra)->formatLocalized('%d/%B/%Y') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -159,8 +158,8 @@
                     <tr id="cm">
                         <th>Medicamento</th>
                         <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Blister</th>
+                        <th>Tratamientos</th><!-- Blister-->
+                        <th>Ítems X Tratamientos</th><!-- Pastillas-->
                         <th>Vencimiento</th>
                         <th>Lote</th>
                         <th>TOTAL</th>
@@ -168,28 +167,28 @@
                 </thead>
                 <tbody>
                     @foreach ($detalles as $det)
-                    <tr>
-                        <td>{{ $det->articulo }}</td>
-                        <td>{{ $det->precio }}</td>
-                        <td>{{ $det->cantidad }}</td>
-                        <td>{{ $det->cantidad_blister }}</td>
-                        <td>{{  \Carbon\Carbon::parse($det->fecha_vencimiento)->formatLocalized("%d  %B %Y") }}</td>
-                        <td>{{ $det->lote }}</td>
-                        <td>{{ $det->precio * $det->cantidad }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $det->articulo }}</td>
+                            <td>{{ $det->precio }}</td>
+                            <td>{{ $det->cantidad_blister }}</td>
+                            <td>{{ $det->cantidad }}</td>
+                            <td>{{ \Carbon\Carbon::parse($det->fecha_vencimiento)->formatLocalized('%d  %B %Y') }}</td>
+                            <td>{{ $det->lote }}</td>
+                            <td>{{ $det->precio * $det->cantidad }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     @foreach ($ingreso as $ing)
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th style="background-color: #bdb795">TOTAL DE LA</th>
-                        <th style="background-color: #bdb795"> COMPRA</th>
-                        <td style="background-color: #bdb795">$ {{ $ing->total }}</td>
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="background-color: #bdb795">TOTAL DE LA</th>
+                            <th style="background-color: #bdb795"> COMPRA</th>
+                            <td style="background-color: #bdb795">$ {{ $ing->total }}</td>
+                        </tr>
                     @endforeach
                 </tfoot>
             </table>
@@ -198,7 +197,7 @@
 
     <footer>
         <p class="pag">REPORTE DE DETALLE DE COMPRA
-            <?php echo date("d-m-Y"  );?>
+            <?php echo date('d-m-Y'); ?>
             Pagína
         </p>
     </footer>
