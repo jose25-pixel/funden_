@@ -35995,6 +35995,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -48326,7 +48327,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.validarIngreso()) {
         return;
-      }
+      };
       swal({
         title: "Esta seguro de registrar el medicamento?  Verifique los datos ingresados!",
         type: "warning",
@@ -54774,13 +54775,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -56123,6 +56117,18 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
+                                        _c("span", {
+                                          staticStyle: {
+                                            color: "blue",
+                                            "font-size": "20px"
+                                          },
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              detalle.presentacionv
+                                            )
+                                          }
+                                        }),
+                                        _vm._v(" "),
                                         _c(
                                           "span",
                                           {
@@ -56204,18 +56210,6 @@ var render = function() {
                                           },
                                           [_vm._v("(*Ingrese) ")]
                                         ),
-                                        _vm._v(" "),
-                                        _c("span", {
-                                          staticStyle: {
-                                            color: "blue",
-                                            "font-size": "20px"
-                                          },
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              detalle.presentacionv
-                                            )
-                                          }
-                                        }),
                                         _vm._v(" "),
                                         _c("span", {
                                           staticStyle: {
@@ -56903,47 +56897,7 @@ var render = function() {
                       "\n                        Cerrar\n                    "
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _vm.tipoAccion == 1
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.registrarPersona()
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        Guardar\n                    "
-                        )
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.tipoAccion == 2
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.actualizarPersona()
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        Actualizar\n                    "
-                        )
-                      ]
-                    )
-                  : _vm._e()
+                )
               ])
             ])
           ]
@@ -64977,13 +64931,13 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", {
                       domProps: {
-                        textContent: _vm._s(inventarios.cantidad_tableta)
+                        textContent: _vm._s(inventarios.cantidad_blister)
                       }
                     }),
                     _vm._v(" "),
                     _c("td", {
                       domProps: {
-                        textContent: _vm._s(inventarios.cantidad_blister)
+                        textContent: _vm._s(inventarios.cantidad_tableta)
                       }
                     }),
                     _vm._v(" "),
@@ -65134,9 +65088,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Items")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Ítems X Tratamiento")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Tratamiento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ítems X Tratamiento")]),
         _vm._v(" "),
         _c("th", [_vm._v("condicion")])
       ])

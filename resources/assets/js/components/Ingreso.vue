@@ -840,7 +840,7 @@ export default {
     registrarIngreso() {
       if (this.validarIngreso()) {
         return;
-      }
+      };
       swal({
         title:
           "Esta seguro de registrar el medicamento?  Verifique los datos ingresados!",
@@ -853,7 +853,7 @@ export default {
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
         buttonsStyling: false,
-        reverseButtons: true,
+        reverseButtons: true
       }).then((result) => {
         if (result.value) {
           let me = this;
@@ -898,7 +898,9 @@ export default {
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
-          swal("Cancelled", "Your imaginary file is safe :)", "error");
+          swal("Cancelled",
+           "Your imaginary file is safe :)",
+            "error");
         }
       });
     },

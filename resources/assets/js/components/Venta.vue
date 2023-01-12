@@ -230,9 +230,9 @@
                                             </td>
                                             <td>
                                                 <span style="color:red; font-size:18px"  v-show="detalle.cantidad_blister==''" >(*Ingrese) </span>
-                                               
                                                 <span style="color:blue; font-size:20px"  v-text="detalle.itemsv"></span>
                                                 <span style="color:purple; font-size:20px"  v-text="detalle.stockk"></span>
+                                                <span style="color:blue; font-size:20px"  v-text="detalle.presentacionv"></span>
                                                 <span style="color: red; font-size:30px"
                                                     v-show="detalle.cantidad_blister > detalle.stockk">Stock:{{
                                                             detalle.stockk
@@ -244,7 +244,7 @@
                                             </td>
                                             <td>
                                                 <span style="color:red; font-size:18px"  v-show="detalle.cantidad==0" >(*Ingrese) </span>
-                                                <span style="color:blue; font-size:20px"  v-text="detalle.presentacionv"></span>
+                                               
                                                 <span style="color:purple; font-size:20px"  v-text="detalle.stock"></span>
                                                 <span style="color: red; font-size:30px" v-show="detalle.cantidad > detalle.stock">
                                                     Stock:{{ detalle.stock }}
@@ -459,14 +459,7 @@
                         <button type="button" class="btn btn-cafe" @click="cerrarModal()">
                             Cerrar
                         </button>
-                        <button type="button" v-if="tipoAccion == 1" class="btn btn-primary"
-                            @click="registrarPersona()">
-                            Guardar
-                        </button>
-                        <button type="button" v-if="tipoAccion == 2" class="btn btn-primary"
-                            @click="actualizarPersona()">
-                            Actualizar
-                        </button>
+                     
                     </div>
                 </div>
                 <!-- /.modal-content -->

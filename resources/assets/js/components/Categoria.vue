@@ -170,7 +170,9 @@
 </template>
 
 <script>
+
 export default {
+
   data() {
     return {
       categoria_id: 0,

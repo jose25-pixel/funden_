@@ -40,8 +40,8 @@
                                 <th>Presentación</th>
                                 <th>Administración</th>
                                 <th>Items</th>
-                                <th>Ítems X Tratamiento</th>
                                 <th>Tratamiento</th>
+                                <th>Ítems X Tratamiento</th>
                                 <th>condicion</th>
                             </tr>
                         </thead>
@@ -55,8 +55,8 @@
                                 <td v-text="inventarios.presentacion"></td>
                                 <td v-text="inventarios.administracion"></td>
                                 <td v-text="inventarios.items"></td>
-                                <td v-text="inventarios.cantidad_tableta"></td>
                                 <td v-text="inventarios.cantidad_blister"></td>
+                                <td v-text="inventarios.cantidad_tableta"></td>
                                <td>
                                 <div v-if="inventarios.condicion">
                                 <span class="badge badge-success">Activo</span>
